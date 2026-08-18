@@ -1,0 +1,36 @@
+# Core DL stack
+# IMPORTANT: plain `pip install -r requirements.txt` installs CPU-only torch.
+# Install torch/torchvision FIRST, separately, from the CUDA wheel index, e.g.:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu124
+# (check `nvidia-smi` for your driver's max CUDA version, pick the matching/nearest
+# index: cu121, cu124, etc. -- see https://pytorch.org/get-started/locally/)
+# Then run this file as normal; pip will see torch/torchvision already satisfied
+# and skip them.
+torch>=2.2
+torchvision>=0.17
+timm>=0.9.16
+
+# Data + augmentation
+albumentations>=1.4
+opencv-python-headless>=4.9
+pandas>=2.2
+numpy>=1.26
+scikit-learn>=1.4
+Pillow>=10.2
+
+# Explainability
+grad-cam>=1.5.0
+
+# Viz
+matplotlib>=3.8
+
+# Config
+PyYAML>=6.0
+
+# Serving (Week 4)
+fastapi>=0.110
+uvicorn[standard]>=0.27
+python-multipart>=0.0.9
+
+# Utility
+tqdm>=4.66

@@ -1,0 +1,47 @@
+seed: 42
+
+data:
+  raw_dir: data/raw            # folder of 38 class subfolders (PlantVillage)
+  splits_dir: data/splits      # where train.csv / val.csv / test.csv are written
+  train_frac: 0.8
+  val_frac: 0.1
+  test_frac: 0.1
+  image_size: 224              # EfficientNet-B0 default; bump to 256/320 if VRAM allows
+
+augmentation:
+  h_flip_p: 0.5
+  v_flip_p: 0.2
+  rotate_limit: 25
+  rotate_p: 0.5
+  brightness_contrast_p: 0.4
+  blur_p: 0.15
+  mean: [0.485, 0.456, 0.406]  # ImageNet stats (pretrained backbone)
+  std: [0.229, 0.224, 0.225]
+
+train:
+  batch_size: 32               # RTX 4050 (6GB) — reduce to 16 if you OOM on Stage 2
+  num_workers: 4
+  mixed_precision: true
+  epochs_stage1: 10            # binary — converges fast
+  epochs_stage2: 25            # 38-class — needs more
+  lr: 0.0003
+  weight_decay: 0.0001
+  backbone: efficientnet_b0    # swap to resnet50 to compare
+
+severity:
+  mild_max_pct: 15             # <15% affected area -> Mild
+  moderate_max_pct: 40         # 15-40% -> Moderate, >40% -> Severe
+
+checks_dir: checks
+checkpoints_dir: checkpoints
+logs_dir: logs
+
+stage1:
+  label_col: binary_label
+  class_map: data/splits/class_map_binary.json
+  checkpoint_name: stage1_binary_best.pth
+
+stage2:
+  label_col: fine_label
+  class_map: data/splits/class_map_fine.json
+  checkpoint_name: stage2_fine_best.pth
