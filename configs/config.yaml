@@ -35,6 +35,7 @@ severity:
 checks_dir: checks
 checkpoints_dir: checkpoints
 logs_dir: logs
+reports_dir: reports
 
 stage1:
   label_col: binary_label
