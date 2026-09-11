@@ -1,15 +1,16 @@
 """
-Run the trained Stage 1 (or Stage 2) model on single images, web URLs, or folders of images.
+Run the trained Stage 1, Stage 2, or full End-to-End Diagnostic Pipeline on single images,
+web URLs, or entire folders of images.
 
 Usage:
-    # Single local image
+    # Full End-to-End Pipeline (Diagnosis + Grad-CAM + Severity + Treatment)
+    python -m src.inference.predict --config configs/config.yaml --stage pipeline --image path/to/leaf.jpg
+
+    # Single Stage 2 prediction
     python -m src.inference.predict --config configs/config.yaml --stage stage2 --image path/to/leaf.jpg
 
-    # Direct Web URL
-    python -m src.inference.predict --config configs/config.yaml --stage stage2 --image https://example.com/leaf.jpg
-
-    # Entire folder of images
-    python -m src.inference.predict --config configs/config.yaml --stage stage2 --image ../test_online/
+    # Direct Web URL with full pipeline
+    python -m src.inference.predict --config configs/config.yaml --stage pipeline --image https://example.com/leaf.jpg
 """
 import argparse
 from pathlib import Path
@@ -86,18 +87,53 @@ def run_prediction(model, transforms, tensor_device, idx_to_class, image_rgb, di
 def main():
     parser = argparse.ArgumentParser(description="Predict plant disease from image file, URL, or folder.")
     parser.add_argument("--config", type=str, default="configs/config.yaml")
-    parser.add_argument("--stage", type=str, required=True, choices=["stage1", "stage2"])
+    parser.add_argument("--stage", type=str, default="pipeline", choices=["stage1", "stage2", "pipeline"])
     parser.add_argument(
         "--image",
         type=str,
         required=True,
         help="Path to a leaf image, a directory of images, or an http(s) URL",
     )
+    parser.add_argument("--output-dir", type=str, default="reports/pipeline_outputs", help="Directory to save visual reports")
     args = parser.parse_args()
 
+    # Check if target is a web URL, a directory, or a single file
+    is_url = args.image.startswith(("http://", "https://"))
+    target_path = Path(args.image) if not is_url else None
+
+    if not is_url and target_path.is_dir():
+        image_sources = sorted([str(p) for p in target_path.iterdir() if p.suffix.lower() in IMAGE_EXTENSIONS])
+        if not image_sources:
+            print(f"No images found in directory: {target_path}")
+            return
+    else:
+        image_sources = [args.image]
+
+    if args.stage == "pipeline":
+        from src.inference.pipeline import LeafDocPipeline
+
+        pipeline = LeafDocPipeline(config_path=args.config)
+        out_dir = Path(args.output_dir)
+        out_dir.mkdir(parents=True, exist_ok=True)
+
+        print(f"Running Full LeafDoc Diagnostic Pipeline on {len(image_sources)} image(s)...")
+        for src in image_sources:
+            try:
+                diag = pipeline.diagnose(src, generate_visualization=True)
+                pipeline.print_diagnosis_report(diag)
+
+                if diag["visualizations"]["composite_panel"] is not None:
+                    out_name = f"diag_{Path(diag['image_name']).stem}.png"
+                    out_path = out_dir / out_name
+                    cv2.imwrite(str(out_path), cv2.cvtColor(diag["visualizations"]["composite_panel"], cv2.COLOR_RGB2BGR))
+                    print(f"  Saved visual dashboard -> {out_path}\n")
+            except Exception as err:
+                print(f"Error processing {src}: {err}")
+        return
+
+    # Single stage inference
     cfg = load_config(args.config)
     stage_cfg = cfg[args.stage]
-
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     ckpt_path = Path(cfg["checkpoints_dir"]) / stage_cfg["checkpoint_name"]
@@ -114,28 +150,16 @@ def main():
 
     transforms = get_val_transforms(cfg)
 
-    # Check if target is a web URL, a directory, or a single file
-    is_url = args.image.startswith(("http://", "https://"))
-    target_path = Path(args.image) if not is_url else None
-
-    if not is_url and target_path.is_dir():
-        image_files = sorted([p for p in target_path.iterdir() if p.suffix.lower() in IMAGE_EXTENSIONS])
-        if not image_files:
-            print(f"No images found in directory: {target_path}")
-            return
-
-        print(f"Found {len(image_files)} images in {target_path}:")
-        for img_p in image_files:
-            try:
-                img_rgb, name = load_image_from_source(str(img_p))
-                run_prediction(model, transforms, device, idx_to_class, img_rgb, name)
-                print("-" * 50)
-            except Exception as err:
-                print(f"Error processing {img_p.name}: {err}")
-    else:
-        img_rgb, name = load_image_from_source(args.image)
-        run_prediction(model, transforms, device, idx_to_class, img_rgb, name)
+    print(f"Running {args.stage} inference on {len(image_sources)} image(s)...")
+    for src in image_sources:
+        try:
+            img_rgb, name = load_image_from_source(src)
+            run_prediction(model, transforms, device, idx_to_class, img_rgb, name)
+            print("-" * 50)
+        except Exception as err:
+            print(f"Error processing {src}: {err}")
 
 
 if __name__ == "__main__":
     main()
+

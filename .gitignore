@@ -2,10 +2,11 @@ venv/
 __pycache__/
 *.pyc
 data/raw/
-data/splits/
+data/splits/*.csv
 checks/
 *.pth
 *.pt
 .ipynb_checkpoints/
 .DS_Store
 .pytest_cache/
+history.txt

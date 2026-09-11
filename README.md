@@ -1,130 +1,225 @@
-# LeafDoc — Plant Disease Diagnosis Pipeline
+# LeafDoc — Explainable Agronomic AI & Plant Disease Diagnosis
 
-Two-stage deep learning pipeline for plant leaf disease diagnosis on the
-PlantVillage dataset (38 classes), with Grad-CAM severity estimation and a
-treatment recommendation lookup, served via FastAPI.
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688.svg)](https://fastapi.tiangolo.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-```
-Upload leaf image
-  -> Stage 1: Binary classifier (Healthy vs Diseased, any plant)
-  -> Stage 2 (if diseased): Fine-grained classifier (38-class species + disease)
-  -> Stage 3: Grad-CAM heatmap on Stage 2 prediction -> % leaf area affected -> Mild/Moderate/Severe
-  -> Stage 4: Treatment recommendation lookup table -> advice text
-  -> Output: annotated image + diagnosis + severity + recommendation
-```
-
-## Stack
-PyTorch (EfficientNet-B0 / ResNet-50, pretrained + fine-tuned) · Albumentations ·
-pytorch-grad-cam · FastAPI · plain HTML/JS frontend · Docker.
-Trained on an RTX 4050 — mixed precision (`torch.cuda.amp`) is on by default in the configs.
+**LeafDoc** is an end-to-end agronomic AI plant health and disease diagnosis system. Trained on 54,304 images across 38 PlantVillage classes (14 crop species), it pairs dual-stage deep learning with Grad-CAM visual explainability, quantitative lesion severity calculation, and customized agronomic prescriptions.
 
 ---
 
-## Week 1 — you are here
+## System Architecture
 
-### 1. Environment setup
+```
+                       [ Leaf Photo / Mobile Capture / Web URL ]
+                                          │
+                                          ▼
+                      ┌───────────────────────────────────────┐
+                      │    Smart Leaf Saliency Preprocessor   │
+                      │  • Automated Leaf ROI Extraction      │
+                      │  • Aspect-Ratio Preserving Letterbox  │
+                      └───────────────────┬───────────────────┘
+                                          │
+                                          ▼
+                      ┌───────────────────────────────────────┐
+                      │   Stage 1: Binary Health Classifier   │
+                      │      (Healthy vs Diseased Leaf)       │
+                      │      EfficientNet-B0 [99.95% F1]      │
+                      └───────────────────┬───────────────────┘
+                                          │
+                                          ▼
+                      ┌───────────────────────────────────────┐
+                      │  Stage 2: Fine-Grained Identification │
+                      │      (38 Classes across 14 Crops)     │
+                      │   Optional: Plant Species Filter      │
+                      │     EfficientNet-B0 [99.90% Acc]      │
+                      └───────────────────┬───────────────────┘
+                                          │
+                                          ▼
+                      ┌───────────────────────────────────────┐
+                      │   Stage 3: Explainability & Severity  │
+                      │  • Grad-CAM Heatmap Localization      │
+                      │  • Leaf Mask Morphological Extraction │
+                      │  • % Affected Surface Area & Category │
+                      │    (Healthy, Mild, Moderate, Severe)  │
+                      └───────────────────┬───────────────────┘
+                                          │
+                                          ▼
+                      ┌───────────────────────────────────────┐
+                      │   Stage 4: Agronomic Prescriptions    │
+                      │  • Immediate Severity Action Plan     │
+                      │  • Cultural Sanitation Measures       │
+                      │  • Chemical & Biological Fungicides   │
+                      │  • Long-Term Preventative Protocols   │
+                      └───────────────────┬───────────────────┘
+                                          │
+                                          ▼
+                      ┌───────────────────────────────────────┐
+                      │    FastAPI REST Engine & UI Client    │
+                      │  • Botanical Glassmorphic Dashboard   │
+                      │  • Live Webcam & Drag-and-Drop        │
+                      │  • 1-Click Interactive Demo Samples   │
+                      │  • Printable Diagnostic PDF Reports   │
+                      └───────────────────────────────────────┘
+```
+
+---
+
+## Key Features
+
+- **Dual-Stage Deep Learning**: Binary screening followed by 38-class fine identification eliminates false positives on vigorous foliage.
+- **Smart Leaf Saliency Isolation**: Downsampled GrabCut & vegetation chrominance isolates the leaf blade and crops out surrounding branches, soil, and lawns.
+- **Aspect-Ratio Preserving Letterboxing**: Prevents spatial distortion of leaf serrations and vein patterns.
+- **Crop Filter Option**: Option to lock diagnosis to specific crops (Potato, Tomato, Apple, Grape, Corn, Peach, Pepper, etc.), re-normalizing probabilities to eliminate cross-crop confusion.
+- **Explainable AI (Grad-CAM)**: Backpropagates gradients into `conv_head` to highlight exact lesion biomarkers.
+- **Quantitative Severity Meter**: Computes exact percentage of affected leaf tissue with automated categorization (<15% Mild, 15–40% Moderate, >40% Severe).
+- **Comprehensive Treatment Encyclopedia**: Curated agronomic database providing chemical, biological, and cultural recommendations for all 38 conditions.
+
+---
+
+## 14 Supported Crop Species (38 Classes)
+
+1. **Apple**: Apple Scab, Black Rot, Cedar Apple Rust, Healthy
+2. **Blueberry**: Healthy
+3. **Cherry**: Powdery Mildew, Healthy
+4. **Corn (Maize)**: Cercospora Leaf Spot (Gray Leaf Spot), Common Rust, Northern Leaf Blight, Healthy
+5. **Grape**: Black Rot, Esca (Black Measles), Leaf Blight (Isariopsis Leaf Spot), Healthy
+6. **Orange**: Huanglongbing (Citrus Greening)
+7. **Peach**: Bacterial Spot, Healthy
+8. **Pepper (Bell)**: Bacterial Spot, Healthy
+9. **Potato**: Early Blight, Late Blight, Healthy
+10. **Raspberry**: Healthy
+11. **Soybean**: Healthy
+12. **Squash**: Powdery Mildew
+13. **Strawberry**: Leaf Scorch, Healthy
+14. **Tomato**: Bacterial Spot, Early Blight, Late Blight, Leaf Mold, Septoria Leaf Spot, Spider Mites (Two-Spotted Spider Mite), Target Spot, Tomato Yellow Leaf Curl Virus, Tomato Mosaic Virus, Healthy
+
+---
+
+## Quick Start
+
+### 1. Local Environment Setup
 
 ```bash
+# Clone the repository
+git clone https://github.com/Abiram289/leafdoc.git
 cd leafdoc
-python3 -m venv venv
-source venv/bin/activate          # Windows: venv\Scripts\activate
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate       # On Windows: venv\Scripts\activate
+
+# Install dependencies
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-Verify CUDA is visible:
+### 2. Run the Serving Web Application
 
 ```bash
-python -c "import torch; print(torch.__version__, torch.cuda.is_available(), torch.cuda.get_device_name(0))"
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-If `torch.cuda.is_available()` is `False`, your `requirements.txt` pulled a CPU-only
-wheel — reinstall PyTorch from https://pytorch.org/get-started/locally/ with the
-CUDA build matching your driver (RTX 4050 → CUDA 12.1+ is fine).
+Open your browser at **`http://localhost:8000`** to access the interactive web dashboard.
+Interactive OpenAPI Swagger docs are available at **`http://localhost:8000/docs`**.
 
-### 2. Get the dataset
-
-Download the PlantVillage dataset (color images, 38 classes) — the most common
-mirror is on Kaggle:
+### 3. Command-Line Inference
 
 ```bash
-# requires kaggle CLI + API token in ~/.kaggle/kaggle.json
-kaggle datasets download -d abdallahalidev/plantvillage-dataset -p data/raw --unzip
-```
+# Full 4-stage diagnosis on a local image
+python -m src.inference.predict --config configs/config.yaml --stage pipeline --image path/to/leaf.jpg
 
-If you use a different mirror, just make sure the end result is one folder per
-class, each full of images, e.g.:
-
-```
-data/raw/
-  Apple___Black_rot/
-  Apple___healthy/
-  Tomato___Late_blight/
-  Tomato___healthy/
-  ...
-```
-
-Update `configs/config.yaml` -> `data.raw_dir` to point at wherever that lands.
-
-### 3. Derive labels + stratified split
-
-```bash
-python -m src.data.prepare_dataset --config configs/config.yaml
-```
-
-This scans the class folders, derives:
-- `fine_label` — the 38-class folder name itself (e.g. `Tomato___Late_blight`)
-- `binary_label` — `healthy` / `diseased`, from whether the folder name ends in `healthy`
-- `species` — the part before `___`
-
-...then does one **stratified 80/10/10 split by `fine_label`**, so the same
-split is automatically consistent for the binary task too (every fine class is
-proportionally represented in train/val/test, and since binary is just a
-regrouping of fine labels, it inherits the same stratification). Writes
-`data/splits/{train,val,test}.csv` with columns `filepath, species, disease,
-binary_label, fine_label`.
-
-### 4. Sanity-check with a visualization grid
-
-```bash
-python -m src.data.visualize_grid --config configs/config.yaml --split train --n 32
-```
-
-Saves `checks/train_grid.png` — a labeled grid of random samples. Actually look
-at it before moving on; this is the cheapest bug catch in the whole project
-(mislabeled folders, corrupt images, wrong color channels all show up here).
-
-### 5. Augmentation pipeline
-
-`src/data/augmentations.py` defines the Albumentations train/val pipelines
-(flip, rotate, brightness/contrast, blur, normalize). Preview it on real images:
-
-```bash
-python -m src.data.visualize_grid --config configs/config.yaml --split train --n 32 --augmented
+# Full 4-stage diagnosis directly on a remote web URL
+python -m src.inference.predict --config configs/config.yaml --stage pipeline --image https://example.com/plant-leaf.jpg
 ```
 
 ---
 
-## What's next (Week 2+)
-- `src/models/` — Stage 1 (binary) and Stage 2 (38-class) training scripts, per-class F1 + confusion matrix (not built yet — Week 2)
-- `src/inference/gradcam.py` — Grad-CAM severity thresholding (Week 3)
-- `app/` — FastAPI backend + HTML/JS frontend + Dockerfile (Week 4)
+## Docker Deployment
 
-## Project layout
+### Run with Docker Compose:
+
+```bash
+docker-compose up --build
+```
+
+### Run with Docker:
+
+```bash
+docker build -t leafdoc-ai .
+docker run -p 8000:8000 leafdoc-ai
+```
+
+---
+
+## REST API Reference
+
+| Endpoint | Method | Description |
+| :--- | :---: | :--- |
+| `/api/v1/diagnose` | `POST` | Complete 4-stage diagnosis with Grad-CAM overlays and treatments |
+| `/api/v1/health` | `GET` | Hardware acceleration and checkpoint readiness health check |
+| `/api/v1/classes` | `GET` | List all 38 fine-grained plant species and disease classes |
+| `/api/v1/treatments` | `GET` | Agronomic treatment encyclopedia, optionally filtered by species |
+| `/api/v1/samples` | `GET` | Curated sample images for instant 1-click UI diagnosis |
+
+---
+
+## Testing & Verification
+
+```bash
+python run_tests.py
+```
+
+Runs the complete 37-test suite covering:
+- Binary and Fine-Grained Model Factories
+- Data Augmentation and Stratification Pipelines
+- Grad-CAM Heatmap Extraction and Saliency Thresholds
+- Saliency ROI Preprocessor and Aspect-Ratio Letterboxer
+- Plant Species Filtering and Re-normalization
+- Agronomic Treatments Encyclopedia Integrity
+- FastAPI REST Endpoints & HTML Dashboard
+
+---
+
+## Repository Layout
 
 ```
 leafdoc/
-  configs/config.yaml       # all paths, hyperparams, thresholds in one place
-  src/
-    data/
-      prepare_dataset.py    # label derivation + stratified split
-      augmentations.py      # Albumentations train/val pipelines
-      visualize_grid.py     # sanity-check grid
-      dataset.py            # PyTorch Dataset classes (binary + fine)
-    utils/
-      seed.py               # reproducibility helper
-  data/
-    raw/                    # PlantVillage class folders (you populate this)
-    splits/                 # generated CSVs
-  checks/                   # sanity-check images land here
+├── app/
+│   ├── api/routes.py            # FastAPI REST routes
+│   ├── static/                  # Glassmorphic CSS, JS client, demo samples
+│   ├── templates/index.html     # Web application dashboard
+│   ├── main.py                  # ASGI server entry point
+│   └── schemas.py               # Pydantic request/response schemas
+├── checkpoints/                 # Trained PyTorch model weights (.pth)
+├── configs/
+│   └── config.yaml              # Hyperparameters, architecture, and thresholds
+├── data/
+│   ├── splits/                  # Stratified class mappings
+│   └── treatments.json          # 38-class agronomic treatments database
+├── notebooks/
+│   └── leafdoc_demonstration.ipynb # End-to-end interactive demo
+├── src/
+│   ├── data/                    # Dataset parsing, augmentations, and loaders
+│   ├── inference/
+│   │   ├── gradcam.py           # Grad-CAM explainability & severity engine
+│   │   ├── pipeline.py          # Unified 4-stage inference pipeline
+│   │   ├── predict.py           # CLI inference runner
+│   │   ├── preprocessor.py      # Smart Leaf ROI & Letterboxing
+│   │   └── treatments.py        # Agronomic recommendation lookup
+│   ├── models/                  # PyTorch model factory & classifier heads
+│   ├── training/                # Dual-stage training engine with AMP
+│   └── utils/                   # Config and seed utilities
+├── tests/                       # Complete unit and integration test suite
+├── Dockerfile                   # Container build definition
+├── docker-compose.yml           # Compose orchestration
+├── requirements.txt             # Python dependencies
+└── run_tests.py                 # Automated test runner
 ```
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

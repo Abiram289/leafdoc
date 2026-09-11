@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="LeafDoc - Explainable AI Plant Disease Diagnosis, Quantitative Severity Estimation, and Agronomic Treatment Prescriptions.">
+  <meta name="theme-color" content="#0a0f18">
+  <title>LeafDoc | AI Plant Health &amp; Agronomic Prescription System</title>
+  
+  <!-- Modern Typography: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons for crisp visual cues -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- LeafDoc Styling -->
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <!-- Ambient background glow elements -->
+  <div class="glow-orb glow-orb-1" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb-2" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb-3" aria-hidden="true"></div>
+
+  <!-- Navigation Bar -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-logo">
+          <i class="fa-solid fa-seedling"></i>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">Leaf<span class="highlight">Doc</span></span>
+          <span class="brand-subtitle">Explainable Agronomic AI</span>
+        </div>
+      </div>
+
+      <nav class="header-nav">
+        <div class="system-badge" id="system-status-badge">
+          <span class="status-indicator"></span>
+          <span class="status-text" id="system-status-text">Connecting to Engine...</span>
+        </div>
+        <button id="btn-open-classes" class="btn-ghost" title="View 38 Supported Crops &amp; Diseases">
+          <i class="fa-solid fa-list-check"></i> Supported Crops (38)
+        </button>
+        <button id="btn-print-report" class="btn-ghost d-none" title="Print or Save Diagnostic Summary as PDF">
+          <i class="fa-solid fa-print"></i> Export Report
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Application Container -->
+  <main class="main-container">
+
+    <!-- Hero / Headline Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <div class="hero-tag">
+          <i class="fa-solid fa-microscope"></i> Dual-Stage Deep Learning &bull; Grad-CAM &bull; Agronomic Prescriptions
+        </div>
+        <h1 class="hero-heading">Instant Plant Disease Diagnosis <span class="gradient-text">&amp; Severity Assessment</span></h1>
+        <p class="hero-description">
+          Upload or capture a leaf photo. LeafDoc pinpoints pathogens with 99.9% accuracy, calculates leaf lesion severity surface area, and outputs tailored agronomic treatment plans.
+        </p>
+      </div>
+    </section>
+
+    <!-- Scanner / Input Zone -->
+    <section class="scanner-section">
+      <div class="scanner-card glass-panel">
+        
+        <!-- Input Tabs -->
+        <div class="input-tabs">
+          <button class="tab-btn active" id="tab-btn-upload" data-tab="upload-panel">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Upload Leaf Image
+          </button>
+          <button class="tab-btn" id="tab-btn-camera" data-tab="camera-panel">
+            <i class="fa-solid fa-camera"></i> Live Leaf Scanner
+          </button>
+          <button class="tab-btn" id="tab-btn-url" data-tab="url-panel">
+            <i class="fa-solid fa-link"></i> Remote Image URL
+          </button>
+        </div>
+
+        <!-- Tab 1: File Drag & Drop -->
+        <div class="tab-panel active" id="upload-panel">
+          <div class="dropzone" id="dropzone">
+            <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp,image/jpg" class="file-input-hidden">
+            <div class="dropzone-content">
+              <div class="upload-icon-circle">
+                <i class="fa-solid fa-leaf"></i>
+              </div>
+              <h3 class="dropzone-title">Drag &amp; Drop leaf photo here</h3>
+              <p class="dropzone-subtitle">or <span class="browse-link">browse files</span> from your computer</p>
+              <div class="dropzone-hint">Supports JPEG, PNG, WebP up to 15MB</div>
+            </div>
+            <!-- Upload Preview Overlay -->
+            <div class="dropzone-preview d-none" id="dropzone-preview">
+              <img id="preview-image" src="" alt="Uploaded Leaf Preview">
+              <button class="btn-clear-preview" id="btn-clear-file" title="Remove image">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Live Camera Stream -->
+        <div class="tab-panel d-none" id="camera-panel">
+          <div class="webcam-container">
+            <div class="camera-stream-wrapper">
+              <video id="webcam-video" autoplay playsinline muted></video>
+              <canvas id="webcam-canvas" class="d-none"></canvas>
+              <div class="camera-target-crosshair" aria-hidden="true">
+                <div class="crosshair-corner top-left"></div>
+                <div class="crosshair-corner top-right"></div>
+                <div class="crosshair-corner bottom-left"></div>
+                <div class="crosshair-corner bottom-right"></div>
+                <span class="target-label">Align Leaf within Frame</span>
+              </div>
+            </div>
+            <div class="camera-controls">
+              <button id="btn-start-camera" class="btn-secondary">
+                <i class="fa-solid fa-video"></i> Activate Camera
+              </button>
+              <button id="btn-snap-photo" class="btn-primary d-none">
+                <i class="fa-solid fa-camera-retro"></i> Capture &amp; Diagnose
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Remote Image URL -->
+        <div class="tab-panel d-none" id="url-panel">
+          <div class="url-input-container">
+            <div class="url-input-group">
+              <i class="fa-solid fa-globe url-icon"></i>
+              <input type="url" id="image-url-input" placeholder="https://example.com/plant-leaf-photo.jpg">
+              <button id="btn-diagnose-url" class="btn-primary">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Diagnose URL
+              </button>
+            </div>
+            <p class="url-hint">Provide a direct link to any JPG, PNG or WebP leaf image.</p>
+          </div>
+        </div>
+
+        <!-- Action Row & Preprocessor Options -->
+        <div class="scanner-actions" id="scanner-actions">
+          <button id="btn-diagnose-file" class="btn-primary btn-large d-none">
+            <i class="fa-solid fa-bolt"></i> Run AI Diagnosis
+          </button>
+        </div>
+
+        <!-- Preprocessor & Crop Filter Controls Bar -->
+        <div class="scanner-options-bar">
+          <div class="crop-select-wrapper">
+            <label for="crop-selector" class="crop-select-label">
+              <i class="fa-solid fa-wheat-awn text-emerald"></i>
+              <span>Crop / Plant:</span>
+            </label>
+            <div class="select-box-wrapper">
+              <select id="crop-selector" class="crop-select" title="Filter diagnosis to a specific plant species to prevent cross-crop false positives">
+                <option value="">🌱 Auto-Detect (All 38 Classes)</option>
+                <option value="Apple">🍎 Apple (4 diseases / healthy)</option>
+                <option value="Blueberry">🫐 Blueberry (healthy)</option>
+                <option value="Cherry">🍒 Cherry (Powdery mildew / healthy)</option>
+                <option value="Corn">🌽 Corn / Maize (Blights, rust / healthy)</option>
+                <option value="Grape">🍇 Grape (Black rot, Esca, blight / healthy)</option>
+                <option value="Orange">🍊 Orange (Citrus greening)</option>
+                <option value="Peach">🍑 Peach (Bacterial spot / healthy)</option>
+                <option value="Pepper">🫑 Pepper Bell (Bacterial spot / healthy)</option>
+                <option value="Potato">🥔 Potato (Early/Late blight / healthy)</option>
+                <option value="Raspberry">🍇 Raspberry (healthy)</option>
+                <option value="Soybean">🌱 Soybean (healthy)</option>
+                <option value="Squash">🎃 Squash (Powdery mildew)</option>
+                <option value="Strawberry">🍓 Strawberry (Leaf scorch / healthy)</option>
+                <option value="Tomato">🍅 Tomato (10 diseases / healthy)</option>
+              </select>
+              <i class="fa-solid fa-chevron-down select-chevron" aria-hidden="true"></i>
+            </div>
+          </div>
+
+          <div class="autocrop-toggle-wrapper">
+            <label class="toggle-switch">
+              <input type="checkbox" id="chk-auto-crop" checked>
+              <span class="toggle-slider"></span>
+            </label>
+            <span class="toggle-label">
+              <i class="fa-solid fa-crop-simple text-emerald"></i>
+              <strong>Smart Leaf Isolation</strong>
+            </span>
+          </div>
+        </div>
+
+        <!-- 1-Click Demonstration Gallery -->
+        <div class="sample-gallery-container">
+          <div class="sample-gallery-header">
+            <span class="gallery-title"><i class="fa-solid fa-flask-vial"></i> Or Test with Instant 1-Click Samples:</span>
+          </div>
+          <div class="sample-pills" id="sample-pills">
+            <!-- Dynamically populated or static fallbacks -->
+            <button class="sample-pill" data-src="/static/samples/apple_scab.jpg" data-title="Apple Scab">
+              <img src="/static/samples/apple_scab.jpg" alt="Apple Scab">
+              <span>Apple Scab</span>
+            </button>
+            <button class="sample-pill" data-src="/static/samples/peach_healthy.jpg" data-title="Peach Healthy">
+              <img src="/static/samples/peach_healthy.jpg" alt="Peach Healthy">
+              <span class="text-healthy">Peach Healthy</span>
+            </button>
+            <button class="sample-pill" data-src="/static/samples/tomato_leaf_mold.jpg" data-title="Tomato Leaf Mold">
+              <img src="/static/samples/tomato_leaf_mold.jpg" alt="Tomato Leaf Mold">
+              <span>Tomato Mold</span>
+            </button>
+            <button class="sample-pill" data-src="/static/samples/tomato_yellow_leaf_curl.jpg" data-title="Tomato Curl">
+              <img src="/static/samples/tomato_yellow_leaf_curl.jpg" alt="Tomato Curl">
+              <span>Tomato Curl</span>
+            </button>
+            <button class="sample-pill" data-src="/static/samples/corn_northern_leaf_blight.jpg" data-title="Corn Blight">
+              <img src="/static/samples/corn_northern_leaf_blight.jpg" alt="Corn Blight">
+              <span>Corn Blight</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Loading State Indicator -->
+    <section class="loading-section d-none" id="loading-section">
+      <div class="glass-panel loading-card">
+        <div class="loader-spinner">
+          <div class="spinner-ring"></div>
+          <i class="fa-solid fa-microchip spinner-center-icon"></i>
+        </div>
+        <h3 class="loading-title">Analyzing Plant Biomarkers...</h3>
+        <p class="loading-subtitle" id="loading-progress-text">Executing Dual-Stage Neural Inference &amp; Grad-CAM explainability hooks...</p>
+        <div class="pipeline-steps-indicator">
+          <span class="step-badge active"><i class="fa-solid fa-check"></i> Stage 1: Health Filter</span>
+          <span class="step-badge active"><i class="fa-solid fa-check"></i> Stage 2: 38-Class Identification</span>
+          <span class="step-badge active"><i class="fa-solid fa-check"></i> Stage 3: Grad-CAM Severity</span>
+          <span class="step-badge active"><i class="fa-solid fa-check"></i> Stage 4: Agronomic Prescription</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Error State Indicator -->
+    <section class="error-section d-none" id="error-section">
+      <div class="glass-panel error-card">
+        <div class="error-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <h3 class="error-title" id="error-title">Diagnosis Failed</h3>
+        <p class="error-message" id="error-message">Unable to process the image. Please try again.</p>
+        <button id="btn-dismiss-error" class="btn-secondary">Dismiss</button>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section d-none" id="results-section">
+      
+      <!-- Diagnosis Header Banner -->
+      <div class="glass-panel result-hero-card" id="result-hero-card">
+        <div class="result-hero-left">
+          <div class="status-chip-wrapper">
+            <span class="badge" id="res-overall-status-badge">Healthy</span>
+            <span class="badge-sub" id="res-species-badge">Apple</span>
+            <span class="badge-sub text-emerald d-none" id="res-autocrop-badge"><i class="fa-solid fa-crop-simple"></i> Leaf Auto-Framed</span>
+            <span class="badge-sub text-cyan d-none" id="res-crop-filter-badge"><i class="fa-solid fa-filter"></i> <span id="res-crop-filter-name">Filtered</span></span>
+          </div>
+          <h2 class="result-disease-name" id="res-disease-name">Apple Scab</h2>
+          <p class="result-pathogen-meta" id="res-pathogen-meta">
+            <i class="fa-solid fa-bacterium"></i> Pathogen: <span id="res-pathogen-name">Venturia inaequalis</span>
+          </p>
+        </div>
+
+        <div class="result-hero-right">
+          <!-- Confidence Gauge -->
+          <div class="stat-box">
+            <div class="stat-value" id="res-confidence-val">99.9%</div>
+            <div class="stat-label">Model Confidence</div>
+            <div class="confidence-bar-wrapper">
+              <div class="confidence-bar-fill" id="res-confidence-bar"></div>
+            </div>
+          </div>
+          <!-- Severity Rating Box -->
+          <div class="stat-box severity-stat-box" id="res-severity-box">
+            <div class="stat-value" id="res-severity-rating">Moderate</div>
+            <div class="stat-label">Severity Level</div>
+            <div class="stat-sublabel" id="res-affected-pct">24.5% Surface Affected</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Urgent Immediate Action Banner -->
+      <div class="urgent-action-banner glass-panel" id="res-urgent-banner">
+        <div class="urgent-icon-col">
+          <i class="fa-solid fa-bell urgent-bell-icon"></i>
+        </div>
+        <div class="urgent-text-col">
+          <span class="urgent-title">Urgent Recommended Action</span>
+          <p class="urgent-action-text" id="res-immediate-action-text">Apply targeted fungicide immediately...</p>
+        </div>
+      </div>
+
+      <!-- Two-Column Grid: Visual Explainability on Left, Prescription & Stats on Right -->
+      <div class="results-grid">
+
+        <!-- Column 1: Explainable AI & Grad-CAM Visualizer -->
+        <div class="grid-col glass-panel visualizer-card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fa-solid fa-eye text-emerald"></i> Visual Explainability (Grad-CAM)
+            </div>
+            <div class="viewer-tabs" id="viewer-tabs">
+              <button class="vtab-btn active" data-view="composite_panel">Full Dashboard</button>
+              <button class="vtab-btn d-none" id="vtab-btn-crop" data-view="cropped_leaf"><i class="fa-solid fa-crop-simple"></i> Isolated Leaf</button>
+              <button class="vtab-btn" data-view="cam_overlay">Heatmap Overlay</button>
+              <button class="vtab-btn" data-view="cam_heatmap">Raw Activation</button>
+              <button class="vtab-btn" data-view="disease_mask">Lesion Mask</button>
+            </div>
+          </div>
+
+          <div class="visualizer-display">
+            <div class="visualizer-img-wrapper" id="vis-img-wrapper">
+              <img id="vis-main-image" src="" alt="Grad-CAM Visualization">
+            </div>
+            <div class="visualizer-legend">
+              <div class="legend-item">
+                <span class="legend-color-dot" style="background: #ef4444;"></span>
+                <span>High Attention (Pathogen Lesion)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color-dot" style="background: #eab308;"></span>
+                <span>Moderate Activation</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color-dot" style="background: #10b981;"></span>
+                <span>Healthy Green Leaf Tissue</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quantitative Severity Gauge Row -->
+          <div class="severity-meter-panel">
+            <div class="meter-header">
+              <span class="meter-title"><i class="fa-solid fa-chart-pie"></i> Leaf Surface Infection Analysis</span>
+              <span class="meter-val-badge" id="meter-affected-pct-badge">24.5%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-bar" id="meter-progress-bar"></div>
+            </div>
+            <div class="meter-scale-markers">
+              <span class="marker"><small>Healthy (0%)</small></span>
+              <span class="marker"><small>Mild (&lt;15%)</small></span>
+              <span class="marker"><small>Moderate (15-40%)</small></span>
+              <span class="marker"><small>Severe (&gt;40%)</small></span>
+            </div>
+          </div>
+
+          <!-- Alternative Candidate Predictions List -->
+          <div class="topk-panel">
+            <div class="topk-header"><i class="fa-solid fa-ranking-star"></i> Top-5 Model Candidate Probabilities</div>
+            <div class="topk-list" id="res-topk-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2: Agronomic Prescription & Action Plan -->
+        <div class="grid-col glass-panel prescription-card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fa-solid fa-prescription-bottle-medical text-emerald"></i> Agronomic Treatment Prescription
+            </div>
+          </div>
+
+          <!-- Disease Description -->
+          <div class="description-box" id="res-description-box">
+            <p id="res-disease-description">Produces olive-green to black velvety spots on leaves...</p>
+          </div>
+
+          <!-- Treatment Section Tabs -->
+          <div class="treatment-tabs-bar">
+            <button class="ttab-btn active" data-treatment-tab="tab-cultural">
+              <i class="fa-solid fa-scissors"></i> Cultural
+            </button>
+            <button class="ttab-btn" data-treatment-tab="tab-chemical">
+              <i class="fa-solid fa-spray-can"></i> Chemical Sprays
+            </button>
+            <button class="ttab-btn" data-treatment-tab="tab-biological">
+              <i class="fa-solid fa-bug"></i> Bio-Controls
+            </button>
+            <button class="ttab-btn" data-treatment-tab="tab-preventive">
+              <i class="fa-solid fa-shield-halved"></i> Prevention
+            </button>
+          </div>
+
+          <!-- Tab Content Panels -->
+          <div class="treatment-tab-contents">
+            <!-- Cultural Controls -->
+            <div class="treatment-panel active" id="tab-cultural">
+              <h4 class="tpanel-title"><i class="fa-solid fa-trowel text-emerald"></i> Sanitation &amp; Cultural Field Practices</h4>
+              <ul class="treatment-list" id="res-cultural-list">
+                <!-- Dynamically generated -->
+              </ul>
+            </div>
+
+            <!-- Chemical Controls -->
+            <div class="treatment-panel d-none" id="tab-chemical">
+              <h4 class="tpanel-title"><i class="fa-solid fa-flask text-emerald"></i> Approved Fungicides &amp; Chemical Treatments</h4>
+              <ul class="treatment-list" id="res-chemical-list">
+                <!-- Dynamically generated -->
+              </ul>
+            </div>
+
+            <!-- Biological Controls -->
+            <div class="treatment-panel d-none" id="tab-biological">
+              <h4 class="tpanel-title"><i class="fa-solid fa-leaf text-emerald"></i> Organic &amp; Biological Remedies</h4>
+              <ul class="treatment-list" id="res-biological-list">
+                <!-- Dynamically generated -->
+              </ul>
+            </div>
+
+            <!-- Preventive Measures -->
+            <div class="treatment-panel d-none" id="tab-preventive">
+              <h4 class="tpanel-title"><i class="fa-solid fa-shield-virus text-emerald"></i> Long-Term Crop Protection &amp; Cultivar Selection</h4>
+              <ul class="treatment-list" id="res-preventive-list">
+                <!-- Dynamically generated -->
+              </ul>
+            </div>
+          </div>
+
+          <!-- Download / Action Button -->
+          <div class="prescription-actions">
+            <button id="btn-print-action" class="btn-primary w-full">
+              <i class="fa-solid fa-file-arrow-down"></i> Print / Save Diagnostic Report
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Modal: Supported Classes (38 Plant & Disease Classes) -->
+  <div class="modal-backdrop d-none" id="classes-modal">
+    <div class="modal-content glass-panel">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-list-check text-emerald"></i> Supported Crop Species &amp; Pathogens (38 Classes)</h3>
+        <button class="modal-close" id="btn-close-classes" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="classes-search-bar">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="classes-search-input" placeholder="Filter by plant species or disease (e.g. Tomato, Scab, Blight)...">
+        </div>
+        <div class="classes-grid" id="classes-grid-container">
+          <!-- Populated dynamically via /api/v1/classes -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <span class="footer-brand"><i class="fa-solid fa-seedling text-emerald"></i> LeafDoc AI</span>
+        <span class="footer-sep">&bull;</span>
+        <span>Dual-Stage Classifier + Grad-CAM Explainability</span>
+      </div>
+      <div class="footer-right">
+        <span>Powered by EfficientNet-B0 &bull; PyTorch &bull; FastAPI</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- LeafDoc Application Logic -->
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

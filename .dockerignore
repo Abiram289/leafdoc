@@ -1,0 +1,17 @@
+.git
+.gitignore
+.pytest_cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.env
+venv
+env
+data/raw
+checks
+reports/*.png
+tests
+notebooks
+history.txt
+*.log
