@@ -16,10 +16,14 @@
                                           │
                                           ▼
                       ┌───────────────────────────────────────┐
-                      │    Smart Leaf Saliency Preprocessor   │
-                      │  • Automated Leaf ROI Extraction      │
+                      │    Stage 0: YOLOv8 Neural Detector    │
+                      │  • Specialized 21.5 MB Leaf Model     │
+                      │  • Multi-Leaf Candidate Ranking       │
                       │  • Aspect-Ratio Preserving Letterbox  │
+                      │  • Fallback to Saliency Preprocessor  │
                       └───────────────────┬───────────────────┘
+                                          │
+                               (Selected Leaf ROI)
                                           │
                                           ▼
                       ┌───────────────────────────────────────┐
@@ -58,6 +62,7 @@
                       ┌───────────────────────────────────────┐
                       │    FastAPI REST Engine & UI Client    │
                       │  • Botanical Glassmorphic Dashboard   │
+                      │  • Interactive Multi-Leaf Tray (YOLO) │
                       │  • Live Webcam & Drag-and-Drop        │
                       │  • 1-Click Interactive Demo Samples   │
                       │  • Printable Diagnostic PDF Reports   │
@@ -68,8 +73,9 @@
 
 ## Key Features
 
-- **Dual-Stage Deep Learning**: Binary screening followed by 38-class fine identification eliminates false positives on vigorous foliage.
-- **Smart Leaf Saliency Isolation**: Downsampled GrabCut & vegetation chrominance isolates the leaf blade and crops out surrounding branches, soil, and lawns.
+- **Two-Stage Deep Learning Detection (YOLOv8)**: Stage 0 neural object detector isolates individual leaf contours in complex outdoor and orchard environments, with multi-leaf ranking and interactive candidate leaf selection.
+- **Dual-Stage Deep Learning Classification**: Binary screening followed by 38-class fine identification eliminates false positives on vigorous foliage.
+- **Smart Saliency Fallback**: Automatic GrabCut & vegetation chrominance fallback for macro close-ups where whole leaf boundaries are absent.
 - **Aspect-Ratio Preserving Letterboxing**: Prevents spatial distortion of leaf serrations and vein patterns.
 - **Crop Filter Option**: Option to lock diagnosis to specific crops (Potato, Tomato, Apple, Grape, Corn, Peach, Pepper, etc.), re-normalizing probabilities to eliminate cross-crop confusion.
 - **Explainable AI (Grad-CAM)**: Backpropagates gradients into `conv_head` to highlight exact lesion biomarkers.

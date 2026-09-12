@@ -17,6 +17,7 @@
 
   <!-- LeafDoc Styling -->
   <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
 </head>
 <body>
   <!-- Ambient background glow elements -->
@@ -93,9 +94,9 @@
               <div class="upload-icon-circle">
                 <i class="fa-solid fa-leaf"></i>
               </div>
-              <h3 class="dropzone-title">Drag &amp; Drop leaf photo here</h3>
-              <p class="dropzone-subtitle">or <span class="browse-link">browse files</span> from your computer</p>
-              <div class="dropzone-hint">Supports JPEG, PNG, WebP up to 15MB</div>
+              <h3 class="dropzone-title">Drag &amp; Drop leaf photo anywhere</h3>
+              <p class="dropzone-subtitle">or <span class="browse-link">browse files</span> &bull; paste with <kbd class="kbd-badge"><i class="fa-solid fa-paste"></i> Ctrl + V</kbd></p>
+              <div class="dropzone-hint">Supports JPEG, PNG, WebP up to 15MB &bull; Instant drop &amp; clipboard paste enabled</div>
             </div>
             <!-- Upload Preview Overlay -->
             <div class="dropzone-preview d-none" id="dropzone-preview">
@@ -182,6 +183,17 @@
             </div>
           </div>
 
+          <div class="detector-toggle-wrapper">
+            <label class="toggle-switch">
+              <input type="checkbox" id="chk-yolo-detector" checked>
+              <span class="toggle-slider"></span>
+            </label>
+            <span class="toggle-label">
+              <i class="fa-solid fa-bullseye text-purple"></i>
+              <strong>YOLOv8 Leaf Detector</strong>
+            </span>
+          </div>
+
           <div class="autocrop-toggle-wrapper">
             <label class="toggle-switch">
               <input type="checkbox" id="chk-auto-crop" checked>
@@ -264,6 +276,7 @@
           <div class="status-chip-wrapper">
             <span class="badge" id="res-overall-status-badge">Healthy</span>
             <span class="badge-sub" id="res-species-badge">Apple</span>
+            <span class="badge-sub text-purple d-none" id="res-detector-badge"><i class="fa-solid fa-bullseye"></i> YOLOv8 Detected</span>
             <span class="badge-sub text-emerald d-none" id="res-autocrop-badge"><i class="fa-solid fa-crop-simple"></i> Leaf Auto-Framed</span>
             <span class="badge-sub text-cyan d-none" id="res-crop-filter-badge"><i class="fa-solid fa-filter"></i> <span id="res-crop-filter-name">Filtered</span></span>
           </div>
@@ -313,6 +326,7 @@
             </div>
             <div class="viewer-tabs" id="viewer-tabs">
               <button class="vtab-btn active" data-view="composite_panel">Full Dashboard</button>
+              <button class="vtab-btn d-none" id="vtab-btn-yolo" data-view="detection_overlay"><i class="fa-solid fa-bullseye"></i> Detected Leaves</button>
               <button class="vtab-btn d-none" id="vtab-btn-crop" data-view="cropped_leaf"><i class="fa-solid fa-crop-simple"></i> Isolated Leaf</button>
               <button class="vtab-btn" data-view="cam_overlay">Heatmap Overlay</button>
               <button class="vtab-btn" data-view="cam_heatmap">Raw Activation</button>
@@ -337,6 +351,19 @@
                 <span class="legend-color-dot" style="background: #10b981;"></span>
                 <span>Healthy Green Leaf Tissue</span>
               </div>
+            </div>
+          </div>
+
+          <!-- Multi-Leaf Candidate Selection Tray (Appears when YOLO detects multiple leaves) -->
+          <div class="multi-leaf-tray d-none" id="multi-leaf-tray">
+            <div class="tray-header">
+              <span class="tray-title">
+                <i class="fa-solid fa-layer-group text-purple"></i> Multiple Leaves Detected in Scene
+              </span>
+              <span class="tray-subtitle">Click a candidate leaf below to diagnose that specific blade:</span>
+            </div>
+            <div class="candidate-leaves-grid" id="candidate-leaves-grid">
+              <!-- Dynamically populated candidate cards -->
             </div>
           </div>
 
@@ -477,6 +504,9 @@
       </div>
     </div>
   </footer>
+
+  <!-- Toast Notification -->
+  <div id="leafdoc-toast" class="leafdoc-toast" aria-live="polite"></div>
 
   <!-- LeafDoc Application Logic -->
   <script src="/static/js/app.js"></script>

@@ -9,6 +9,7 @@
 torch>=2.2
 torchvision>=0.17
 timm>=0.9.16
+ultralytics>=8.0
 
 # Data + augmentation
 albumentations>=1.4

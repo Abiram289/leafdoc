@@ -17,6 +17,7 @@ import torch
 import torch.nn.functional as F
 
 from src.data.augmentations import get_val_transforms
+from src.inference.detector import LeafDetector
 from src.inference.gradcam import (
     GradCAMExplainer,
     compute_severity,
@@ -25,7 +26,7 @@ from src.inference.gradcam import (
     segment_leaf_mask,
 )
 from src.inference.predict import load_image_from_source
-from src.inference.preprocessor import preprocess_leaf
+from src.inference.preprocessor import letterbox_image, preprocess_leaf
 from src.inference.treatments import TreatmentRecommender
 from src.models.factory import build_model
 from src.utils.config import load_config
@@ -91,6 +92,9 @@ class LeafDocPipeline:
         self.transforms = get_val_transforms(self.cfg)
         self.mild_max_pct = float(self.cfg.get("severity", {}).get("mild_max_pct", 15.0))
         self.moderate_max_pct = float(self.cfg.get("severity", {}).get("moderate_max_pct", 40.0))
+
+        # 6. Neural Leaf Detector (Stage 0: YOLOv8)
+        self.detector = LeafDetector(device=self.device)
 
     def _prepare_image(self, image_input: Union[str, Path, np.ndarray, Image.Image]) -> Tuple[np.ndarray, str]:
         """Converts diverse image input formats into an RGB NumPy array."""
@@ -171,30 +175,78 @@ class LeafDocPipeline:
         top_k: int = 5,
         auto_crop: bool = True,
         target_species: Optional[str] = None,
+        use_neural_detector: bool = True,
+        selected_box_idx: Optional[int] = None,
     ) -> Dict[str, Any]:
         """
-        Runs the full 4-stage diagnosis on an input leaf image.
+        Runs the full multi-stage diagnosis on an input leaf image:
+          - Stage 0: Neural Leaf Detection (YOLOv8) or Heuristic Saliency (GrabCut)
+          - Stage 1: Binary Health Classifier (Healthy vs Diseased)
+          - Stage 2: 38-Class Disease Classifier (with optional Crop Filter)
+          - Stage 3: Grad-CAM Explainability & Surface Severity Assessment
+          - Stage 4: Agronomic Treatment Recommender
         
         Args:
             image_input: File path, URL, PIL image, or RGB numpy array.
-            generate_visualization: If True, computes Grad-CAM overlay and 4-panel dashboard.
+            generate_visualization: If True, computes Grad-CAM overlay, detection overlay, and dashboard.
             top_k: Number of top fine-grained predictions to return.
             auto_crop: If True, automatically detects primary leaf ROI and crops out outdoor clutter.
             target_species: Optional plant species constraint (e.g. 'Potato', 'Tomato', 'Apple').
-                            When provided, locks Stage 2 inference to diseases of that plant species.
+            use_neural_detector: If True, uses YOLOv8 to detect candidate leaves.
+            selected_box_idx: Optional 0-indexed candidate leaf index to diagnose.
             
         Returns:
-            Structured dictionary with outputs from all 4 stages.
+            Structured dictionary with outputs from all stages.
         """
         img_rgb, display_name = self._prepare_image(image_input)
-
-        # Smart Leaf ROI detection and aspect-ratio preserving letterboxing
         target_dim = self.cfg["data"].get("image_size", 224)
-        letterboxed_rgb, cropped_leaf_rgb, roi_bbox, is_cropped = preprocess_leaf(
-            image_rgb=img_rgb,
-            auto_crop=auto_crop,
-            target_size=target_dim,
-        )
+
+        # Stage 0: Neural Leaf Detection (YOLOv8) or Fallback Preprocessor
+        detected_leaves = []
+        detection_overlay = None
+        detector_used = "none"
+        is_cropped = False
+        roi_bbox = (0, 0, img_rgb.shape[1], img_rgb.shape[0])
+        cropped_leaf_rgb = img_rgb
+
+        if use_neural_detector and self.detector is not None and self.detector.is_available():
+            detected_leaves = self.detector.detect(img_rgb)
+            if detected_leaves:
+                primary = self.detector.select_primary_leaf(
+                    detected_leaves,
+                    image_shape=img_rgb.shape[:2],
+                    target_species=target_species,
+                    selected_box_idx=selected_box_idx,
+                )
+                if primary:
+                    cropped_leaf_rgb, roi_tuple = self.detector.crop_leaf_roi(img_rgb, primary["bbox"])
+                    roi_bbox = roi_tuple
+                    is_cropped = True
+                    detector_used = "yolov8"
+                    letterboxed_rgb = letterbox_image(cropped_leaf_rgb, target_size=target_dim)
+
+                    if generate_visualization:
+                        detection_overlay = self.detector.draw_detection_boxes(
+                            img_rgb,
+                            detected_leaves,
+                            selected_idx=primary["index"],
+                        )
+            else:
+                # 0 leaves detected by YOLO (e.g. macro close-up of a lesion) -> fallback to GrabCut
+                letterboxed_rgb, cropped_leaf_rgb, roi_bbox, is_cropped = preprocess_leaf(
+                    image_rgb=img_rgb,
+                    auto_crop=auto_crop,
+                    target_size=target_dim,
+                )
+                detector_used = "grabcut_fallback" if is_cropped else "fallback_full"
+        else:
+            # Neural detector disabled -> standard GrabCut preprocessor
+            letterboxed_rgb, cropped_leaf_rgb, roi_bbox, is_cropped = preprocess_leaf(
+                image_rgb=img_rgb,
+                auto_crop=auto_crop,
+                target_size=target_dim,
+            )
+            detector_used = "grabcut" if is_cropped else "none"
 
         # Build normalized tensor from aspect-preserving letterboxed image
         tensor = self.transforms(image=letterboxed_rgb)["image"].unsqueeze(0).to(self.device)
@@ -320,6 +372,8 @@ class LeafDocPipeline:
             "image_name": display_name,
             "is_cropped": is_cropped,
             "roi_bbox": list(roi_bbox),
+            "detector_used": detector_used,
+            "detected_leaves": detected_leaves,
             "target_species": applied_species,
             "is_healthy": is_overall_healthy,
             "overall_status": "Healthy" if is_overall_healthy else "Diseased",
@@ -348,6 +402,7 @@ class LeafDocPipeline:
             "treatment_summary_text": treatment_summary_text,
             "visualizations": {
                 "original_rgb": img_rgb if generate_visualization else None,
+                "detection_overlay": detection_overlay if generate_visualization else None,
                 "cropped_leaf": cropped_leaf_rgb if (generate_visualization and is_cropped) else None,
                 "cam_heatmap": cam_heatmap if generate_visualization else None,
                 "cam_overlay": cam_overlay,

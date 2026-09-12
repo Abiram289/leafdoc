@@ -47,7 +47,20 @@ class Stage4Result(BaseModel):
     immediate_action: str = Field(..., description="Urgent immediate action for current severity rating")
 
 
+class DetectedLeafItem(BaseModel):
+    index: int = Field(..., description="0-indexed candidate leaf ranking")
+    bbox: List[int] = Field(..., description="[x1, y1, x2, y2] bounding box coordinates")
+    confidence: float = Field(..., description="YOLO detection confidence score (0.0 to 1.0)")
+    class_id: int = Field(..., description="Detector class ID")
+    label: str = Field(..., description="Detected plant species/leaf label")
+    area: int = Field(..., description="Bounding box area in pixels")
+    width: int = Field(..., description="Bounding box width")
+    height: int = Field(..., description="Bounding box height")
+    is_primary: bool = Field(False, description="True if this candidate leaf was diagnosed")
+
+
 class VisualizationsResult(BaseModel):
+    detection_overlay: Optional[str] = Field(None, description="Base64 encoded JPEG of image with YOLO detection bounding boxes")
     cropped_leaf: Optional[str] = Field(None, description="Base64 encoded JPEG of isolated leaf ROI")
     cam_overlay: Optional[str] = Field(None, description="Base64 encoded JPEG of Grad-CAM overlay on leaf image")
     cam_heatmap: Optional[str] = Field(None, description="Base64 encoded JPEG of raw Grad-CAM activation heatmap")
@@ -60,6 +73,8 @@ class DiagnosisResponse(BaseModel):
     image_name: str = Field(..., description="Source image filename or URL")
     is_cropped: bool = Field(False, description="True if smart leaf ROI detection cropped the image")
     roi_bbox: Optional[List[int]] = Field(None, description="Bounding box [x, y, w, h] of cropped leaf")
+    detector_used: Optional[str] = Field(None, description="Detection mechanism ('yolov8', 'grabcut', 'grabcut_fallback', or 'none')")
+    detected_leaves: List[DetectedLeafItem] = Field(default_factory=list, description="Candidate leaves detected in image")
     target_species: Optional[str] = Field(None, description="Applied target plant species constraint if any")
     is_healthy: bool = Field(..., description="Overall consensus health status flag")
     overall_status: str = Field(..., description="'Healthy' or 'Diseased'")

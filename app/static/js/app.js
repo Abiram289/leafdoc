@@ -16,8 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const previewImage = document.getElementById("preview-image");
   const btnClearFile = document.getElementById("btn-clear-file");
   const btnDiagnoseFile = document.getElementById("btn-diagnose-file");
-  const chkAutoCrop = document.getElementById("chk-auto-crop");
-  const cropSelector = document.getElementById("crop-selector");
 
   // Webcam
   const webcamVideo = document.getElementById("webcam-video");
@@ -57,13 +55,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const resUrgentBanner = document.getElementById("res-urgent-banner");
   const resDescription = document.getElementById("res-disease-description");
 
+  // Preprocessor & Detector Controls
+  const chkAutoCrop = document.getElementById("chk-auto-crop");
+  const chkYoloDetector = document.getElementById("chk-yolo-detector");
+  const cropSelector = document.getElementById("crop-selector");
+
   // Visualizer
   const visMainImage = document.getElementById("vis-main-image");
   const vtabBtnCrop = document.getElementById("vtab-btn-crop");
+  const vtabBtnYolo = document.getElementById("vtab-btn-yolo");
   const viewerTabs = document.querySelectorAll(".vtab-btn");
   const meterProgressBar = document.getElementById("meter-progress-bar");
   const meterAffectedPctBadge = document.getElementById("meter-affected-pct-badge");
   const resTopkList = document.getElementById("res-topk-list");
+
+  // Multi-Leaf Candidate Selection Tray
+  const multiLeafTray = document.getElementById("multi-leaf-tray");
+  const candidateLeavesGrid = document.getElementById("candidate-leaves-grid");
+  const resDetectorBadge = document.getElementById("res-detector-badge");
 
   // Treatment Tabs
   const treatmentTabBtns = document.querySelectorAll(".ttab-btn");
@@ -88,6 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // State
   let currentVisualizations = null;
   let selectedFile = null;
+  let lastDiagnosedSource = null;
 
   // =========================================================================
   // 1. Initial Health Check
@@ -99,11 +109,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await resp.json();
 
       const devName = data.device_name ? data.device_name : data.device.toUpperCase();
-      systemStatusText.innerHTML = `Ready &bull; <strong>${devName}</strong> (${data.total_classes} Classes)`;
-      systemStatusBadge.title = `PyTorch compute device: ${data.device}, Models verified.`;
+      if (systemStatusText) {
+        systemStatusText.innerHTML = `Ready &bull; <strong>${devName}</strong> (${data.total_classes} Classes)`;
+      }
+      if (systemStatusBadge) {
+        systemStatusBadge.title = `PyTorch compute device: ${data.device}, Models verified.`;
+      }
     } catch (err) {
       console.warn("Backend not yet responding:", err);
-      systemStatusText.innerText = "Engine Initializing...";
+      if (systemStatusText) systemStatusText.innerText = "Engine Initializing...";
     }
   }
   checkSystemHealth();
@@ -128,129 +142,311 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // =========================================================================
-  // 3. File Drag & Drop + Browse
-  // =========================================================================
-  dropzone.addEventListener("click", (e) => {
-    if (e.target !== btnClearFile && !btnClearFile.contains(e.target)) {
-      fileInput.click();
-    }
-  });
+  // Helpers for tab switching
+  function switchToFileTab() {
+    tabBtns.forEach((b) => b.classList.remove("active"));
+    tabPanels.forEach((p) => p.classList.add("d-none"));
+    const uploadBtn = document.getElementById("tab-btn-upload");
+    const uploadPanel = document.getElementById("upload-panel");
+    if (uploadBtn) uploadBtn.classList.add("active");
+    if (uploadPanel) uploadPanel.classList.remove("d-none");
+    if (mediaStream) stopCamera();
+  }
 
-  fileInput.addEventListener("change", (e) => {
-    if (e.target.files && e.target.files[0]) {
-      handleFileSelected(e.target.files[0]);
-    }
-  });
+  function switchToCameraTab() {
+    tabBtns.forEach((b) => b.classList.remove("active"));
+    tabPanels.forEach((p) => p.classList.add("d-none"));
+    const cameraBtn = document.getElementById("tab-btn-camera");
+    const cameraPanel = document.getElementById("camera-panel");
+    if (cameraBtn) cameraBtn.classList.add("active");
+    if (cameraPanel) cameraPanel.classList.remove("d-none");
+  }
 
-  ["dragenter", "dragover"].forEach((eventName) => {
-    dropzone.addEventListener(eventName, (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      dropzone.classList.add("dragover");
+  function switchToUrlTab(url) {
+    tabBtns.forEach((b) => b.classList.remove("active"));
+    tabPanels.forEach((p) => p.classList.add("d-none"));
+    const urlBtn = document.getElementById("tab-btn-url");
+    const urlPanel = document.getElementById("url-panel");
+    if (urlBtn) urlBtn.classList.add("active");
+    if (urlPanel) urlPanel.classList.remove("d-none");
+    if (imageUrlInput && url) imageUrlInput.value = url;
+    if (mediaStream) stopCamera();
+  }
+
+  // Botanical Toast Notification
+  function showToastNotification(message, icon = "fa-leaf") {
+    let toast = document.getElementById("leafdoc-toast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "leafdoc-toast";
+      toast.className = "leafdoc-toast";
+      document.body.appendChild(toast);
+    }
+    toast.innerHTML = `<i class="fa-solid ${icon} text-emerald"></i> <span>${message}</span>`;
+    toast.classList.add("show");
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(() => {
+      toast.classList.remove("show");
+    }, 3200);
+  }
+
+  // =========================================================================
+  // 3. File Drag & Drop + Browse + Clipboard Paste
+  // =========================================================================
+  if (dropzone) {
+    dropzone.addEventListener("click", (e) => {
+      if (e.target !== btnClearFile && (!btnClearFile || !btnClearFile.contains(e.target))) {
+        if (fileInput) fileInput.click();
+      }
     });
-  });
+  }
 
-  ["dragleave", "drop"].forEach((eventName) => {
-    dropzone.addEventListener(eventName, (e) => {
+  if (fileInput) {
+    fileInput.addEventListener("change", (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handleFileSelected(e.target.files[0]);
+      }
+    });
+  }
+
+  // PREVENT BROWSER DEFAULT: Prevent opening dragged files in a new tab
+  ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
+    window.addEventListener(eventName, (e) => {
       e.preventDefault();
       e.stopPropagation();
+    }, false);
+    document.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    }, false);
+  });
+
+  // Visual dragover feedback on dropzone
+  let dragDepthCounter = 0;
+  window.addEventListener("dragenter", (e) => {
+    dragDepthCounter++;
+    dropzone.classList.add("dragover");
+  });
+
+  window.addEventListener("dragleave", (e) => {
+    dragDepthCounter--;
+    if (dragDepthCounter <= 0) {
+      dragDepthCounter = 0;
       dropzone.classList.remove("dragover");
-    });
-  });
-
-  dropzone.addEventListener("drop", (e) => {
-    if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleFileSelected(e.dataTransfer.files[0]);
     }
   });
 
-  function handleFileSelected(file) {
-    if (!file.type.startsWith("image/")) {
+  // Handle drop ANYWHERE on page or directly on dropzone
+  window.addEventListener("drop", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragDepthCounter = 0;
+    dropzone.classList.remove("dragover");
+
+    const dt = e.dataTransfer;
+    if (!dt) return;
+
+    // 1. Dropped files from local system
+    if (dt.files && dt.files.length > 0) {
+      const file = dt.files[0];
+      if (file.type && file.type.startsWith("image/")) {
+        switchToFileTab();
+        handleFileSelected(file);
+        showToastNotification(`Loaded: ${file.name}`);
+        return;
+      } else {
+        showError("Please drop an image file (JPEG, PNG, or WebP).");
+        return;
+      }
+    }
+
+    // 2. Dropped items (alternative dataTransfer item API)
+    if (dt.items && dt.items.length > 0) {
+      for (let i = 0; i < dt.items.length; i++) {
+        if (dt.items[i].kind === "file") {
+          const file = dt.items[i].getAsFile();
+          if (file && file.type && file.type.startsWith("image/")) {
+            switchToFileTab();
+            handleFileSelected(file);
+            showToastNotification(`Loaded: ${file.name}`);
+            return;
+          }
+        }
+      }
+    }
+
+    // 3. Dropped image URL from web browser tab or Google Images
+    const urlData = dt.getData("text/uri-list") || dt.getData("URL") || dt.getData("text/plain");
+    if (urlData && (urlData.startsWith("http://") || urlData.startsWith("https://") || urlData.startsWith("data:image/"))) {
+      switchToUrlTab(urlData.trim());
+      showToastNotification("Remote image URL loaded! Ready to diagnose.");
+    }
+  });
+
+  // =========================================================================
+  // Clipboard Paste (Ctrl + V)
+  // =========================================================================
+  window.addEventListener("paste", (e) => {
+    const activeEl = document.activeElement;
+    const activeTag = activeEl ? activeEl.tagName.toLowerCase() : "";
+    const isTextInput = (activeTag === "input" && activeEl.type === "text") || activeTag === "textarea";
+
+    const clipboardData = e.clipboardData || window.clipboardData;
+    if (!clipboardData) return;
+
+    // 1. Check for image items (Snipping Tool, PrintScreen, Copy Image)
+    const items = clipboardData.items;
+    if (items) {
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type && items[i].type.startsWith("image/")) {
+          e.preventDefault();
+          const blob = items[i].getAsFile();
+          if (blob) {
+            const ext = blob.type.split("/")[1] || "png";
+            const file = new File([blob], `pasted_leaf_${Date.now()}.${ext}`, { type: blob.type });
+            switchToFileTab();
+            handleFileSelected(file);
+            showToastNotification("Leaf image pasted from clipboard! Ready to diagnose.", "fa-paste");
+            return;
+          }
+        }
+      }
+    }
+
+    // 2. Check for image files in clipboardData.files
+    if (clipboardData.files && clipboardData.files.length > 0) {
+      const file = clipboardData.files[0];
+      if (file.type && file.type.startsWith("image/")) {
+        e.preventDefault();
+        switchToFileTab();
+        handleFileSelected(file);
+        showToastNotification(`Pasted: ${file.name}`, "fa-paste");
+        return;
+      }
+    }
+
+    // 3. If user copied an image URL and presses Ctrl+V anywhere outside a text input
+    if (!isTextInput) {
+      const pastedText = clipboardData.getData("text").trim();
+      if (pastedText && (pastedText.startsWith("http://") || pastedText.startsWith("https://"))) {
+        const hasImgExt = /\.(jpg|jpeg|png|webp|bmp|gif)(\?.*)?$/i.test(pastedText);
+        if (hasImgExt) {
+          e.preventDefault();
+          switchToUrlTab(pastedText);
+          showToastNotification("Pasted image URL ready to diagnose!", "fa-paste");
+        }
+      }
+    }
+  });
+
+  function handleFileSelected(file, autoScroll = true) {
+    if (!file.type || !file.type.startsWith("image/")) {
       showError("Please select a valid image file (JPEG, PNG, WebP).");
       return;
     }
     selectedFile = file;
     const reader = new FileReader();
     reader.onload = (ev) => {
-      previewImage.src = ev.target.result;
-      dropzonePreview.classList.remove("d-none");
-      btnDiagnoseFile.classList.remove("d-none");
-      // Scroll smoothly to button
-      btnDiagnoseFile.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      if (previewImage) previewImage.src = ev.target.result;
+      if (dropzonePreview) dropzonePreview.classList.remove("d-none");
+      if (btnDiagnoseFile) btnDiagnoseFile.classList.remove("d-none");
+      // Scroll smoothly to button only if autoScroll is enabled and results are not active
+      if (autoScroll && resultsSection && resultsSection.classList.contains("d-none")) {
+        btnDiagnoseFile.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
     };
     reader.readAsDataURL(file);
   }
 
-  btnClearFile.addEventListener("click", (e) => {
-    e.stopPropagation();
-    selectedFile = null;
-    fileInput.value = "";
-    previewImage.src = "";
-    dropzonePreview.classList.add("d-none");
-    btnDiagnoseFile.classList.add("d-none");
-  });
+  if (btnClearFile) {
+    btnClearFile.addEventListener("click", (e) => {
+      e.stopPropagation();
+      selectedFile = null;
+      if (fileInput) fileInput.value = "";
+      if (previewImage) previewImage.src = "";
+      if (dropzonePreview) dropzonePreview.classList.add("d-none");
+      if (btnDiagnoseFile) btnDiagnoseFile.classList.add("d-none");
+    });
+  }
 
-  btnDiagnoseFile.addEventListener("click", () => {
-    if (selectedFile) {
-      runDiagnosisWithFile(selectedFile);
-    }
-  });
+  if (btnDiagnoseFile) {
+    btnDiagnoseFile.addEventListener("click", () => {
+      if (selectedFile) {
+        runDiagnosisWithFile(selectedFile);
+      }
+    });
+  }
 
   // =========================================================================
   // 4. Live Webcam Scanner
   // =========================================================================
-  btnStartCamera.addEventListener("click", async () => {
-    try {
-      mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 } },
-      });
-      webcamVideo.srcObject = mediaStream;
-      btnStartCamera.classList.add("d-none");
-      btnSnapPhoto.classList.remove("d-none");
-    } catch (err) {
-      showError("Unable to access camera. Please allow camera permissions or upload an image file.");
-      console.error(err);
-    }
-  });
+  if (btnStartCamera) {
+    btnStartCamera.addEventListener("click", async () => {
+      try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 } },
+        });
+        if (webcamVideo) webcamVideo.srcObject = mediaStream;
+        btnStartCamera.classList.add("d-none");
+        if (btnSnapPhoto) btnSnapPhoto.classList.remove("d-none");
+      } catch (err) {
+        showError("Unable to access camera. Please allow camera permissions or upload an image file.");
+        console.error(err);
+      }
+    });
+  }
 
   function stopCamera() {
     if (mediaStream) {
       mediaStream.getTracks().forEach((track) => track.stop());
       mediaStream = null;
-      webcamVideo.srcObject = null;
-      btnStartCamera.classList.remove("d-none");
-      btnSnapPhoto.classList.add("d-none");
+      if (webcamVideo) webcamVideo.srcObject = null;
+      if (btnStartCamera) btnStartCamera.classList.remove("d-none");
+      if (btnSnapPhoto) btnSnapPhoto.classList.add("d-none");
     }
   }
 
-  btnSnapPhoto.addEventListener("click", () => {
-    if (!webcamVideo.videoWidth) return;
-    webcamCanvas.width = webcamVideo.videoWidth;
-    webcamCanvas.height = webcamVideo.videoHeight;
-    const ctx = webcamCanvas.getContext("2d");
-    ctx.drawImage(webcamVideo, 0, 0, webcamCanvas.width, webcamCanvas.height);
+  if (btnSnapPhoto) {
+    btnSnapPhoto.addEventListener("click", () => {
+      if (!webcamVideo || !webcamVideo.videoWidth || !webcamCanvas) return;
+      webcamCanvas.width = webcamVideo.videoWidth;
+      webcamCanvas.height = webcamVideo.videoHeight;
+      const ctx = webcamCanvas.getContext("2d");
+      ctx.drawImage(webcamVideo, 0, 0, webcamCanvas.width, webcamCanvas.height);
 
-    webcamCanvas.toBlob((blob) => {
-      if (blob) {
-        const file = new File([blob], "camera_capture.jpg", { type: "image/jpeg" });
-        stopCamera();
-        runDiagnosisWithFile(file);
-      }
-    }, "image/jpeg", 0.95);
-  });
+      webcamCanvas.toBlob((blob) => {
+        if (blob) {
+          const file = new File([blob], "camera_capture.jpg", { type: "image/jpeg" });
+          stopCamera();
+          runDiagnosisWithFile(file);
+        }
+      }, "image/jpeg", 0.95);
+    });
+  }
 
   // =========================================================================
   // 5. Remote Image URL
   // =========================================================================
-  btnDiagnoseUrl.addEventListener("click", () => {
-    const url = imageUrlInput.value.trim();
-    if (!url) {
-      showError("Please enter a valid image URL.");
-      return;
-    }
-    runDiagnosisWithUrl(url);
-  });
+  if (btnDiagnoseUrl) {
+    btnDiagnoseUrl.addEventListener("click", () => {
+      if (!imageUrlInput) return;
+      const url = imageUrlInput.value.trim();
+      if (!url) {
+        showError("Please enter a valid image URL.");
+        return;
+      }
+      runDiagnosisWithUrl(url);
+    });
+  }
+
+  if (imageUrlInput) {
+    imageUrlInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (btnDiagnoseUrl) btnDiagnoseUrl.click();
+      }
+    });
+  }
 
   // =========================================================================
   // 6. Instant 1-Click Samples
@@ -260,7 +456,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const src = pill.getAttribute("data-src");
       if (!src) return;
 
-      showLoading(`Loading sample leaf: ${pill.getAttribute("data-title")}...`);
+      switchToFileTab();
+      const title = pill.getAttribute("data-title") || "sample leaf";
+      showLoading(`Loading sample leaf: ${title}...`);
       try {
         const response = await fetch(src);
         if (!response.ok) throw new Error("Could not fetch sample leaf file");
@@ -268,8 +466,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const filename = src.split("/").pop();
         const file = new File([blob], filename, { type: blob.type || "image/jpeg" });
 
-        // Update preview in dropzone
-        handleFileSelected(file);
+        // Update preview in dropzone without auto-scrolling
+        handleFileSelected(file, false);
         // Run diagnosis directly
         await runDiagnosisWithFile(file);
       } catch (err) {
@@ -281,13 +479,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================================================================
   // 7. Diagnosis Execution & API Request
   // =========================================================================
-  async function runDiagnosisWithFile(file) {
-    showLoading("Running Dual-Stage Deep Learning & Grad-CAM Analysis...");
+  async function runDiagnosisWithFile(file, selectedBoxIdx = null) {
+    lastDiagnosedSource = { type: "file", data: file };
+    const actionText = selectedBoxIdx !== null
+      ? `Re-diagnosing Candidate Leaf #${selectedBoxIdx + 1} with Dual-Stage AI...`
+      : "Running Dual-Stage Deep Learning & Grad-CAM Analysis...";
+    showLoading(actionText);
+
     const formData = new FormData();
     formData.append("file", file);
     formData.append("include_visualizations", "true");
     formData.append("top_k", "5");
     formData.append("auto_crop", chkAutoCrop ? chkAutoCrop.checked.toString() : "true");
+    formData.append("use_neural_detector", chkYoloDetector ? chkYoloDetector.checked.toString() : "true");
+    if (selectedBoxIdx !== null) {
+      formData.append("selected_box_idx", selectedBoxIdx.toString());
+    }
     if (cropSelector && cropSelector.value) {
       formData.append("target_species", cropSelector.value);
     }
@@ -310,13 +517,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  async function runDiagnosisWithUrl(url) {
-    showLoading("Fetching remote leaf image and running neural inference...");
+  async function runDiagnosisWithUrl(url, selectedBoxIdx = null) {
+    lastDiagnosedSource = { type: "url", data: url };
+    const actionText = selectedBoxIdx !== null
+      ? `Re-diagnosing Candidate Leaf #${selectedBoxIdx + 1} from remote image...`
+      : "Fetching remote leaf image and running neural inference...";
+    showLoading(actionText);
+
     const formData = new FormData();
     formData.append("image_url", url);
     formData.append("include_visualizations", "true");
     formData.append("top_k", "5");
     formData.append("auto_crop", chkAutoCrop ? chkAutoCrop.checked.toString() : "true");
+    formData.append("use_neural_detector", chkYoloDetector ? chkYoloDetector.checked.toString() : "true");
+    if (selectedBoxIdx !== null) {
+      formData.append("selected_box_idx", selectedBoxIdx.toString());
+    }
     if (cropSelector && cropSelector.value) {
       formData.append("target_species", cropSelector.value);
     }
@@ -361,6 +577,58 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       if (resAutocropBadge) resAutocropBadge.classList.add("d-none");
       if (vtabBtnCrop) vtabBtnCrop.classList.add("d-none");
+    }
+
+    // YOLO Detector Badge & Detected Leaves Tab
+    if (data.detector_used === "yolov8" && resDetectorBadge) {
+      resDetectorBadge.classList.remove("d-none");
+    } else if (resDetectorBadge) {
+      resDetectorBadge.classList.add("d-none");
+    }
+
+    if (currentVisualizations.detection_overlay && vtabBtnYolo) {
+      vtabBtnYolo.classList.remove("d-none");
+    } else if (vtabBtnYolo) {
+      vtabBtnYolo.classList.add("d-none");
+    }
+
+    // Multi-Leaf Candidate Selection Tray
+    if (data.detected_leaves && data.detected_leaves.length > 1 && multiLeafTray && candidateLeavesGrid) {
+      multiLeafTray.classList.remove("d-none");
+      candidateLeavesGrid.innerHTML = "";
+      data.detected_leaves.forEach((leaf) => {
+        const card = document.createElement("div");
+        card.className = `candidate-leaf-card ${leaf.is_primary ? "active" : ""}`;
+        card.title = `Diagnose Leaf Blade #${leaf.index + 1} (${leaf.width}×${leaf.height}px)`;
+        card.innerHTML = `
+          <div class="candidate-leaf-top">
+            <span class="candidate-leaf-rank"><i class="fa-solid fa-leaf text-purple"></i> Blade #${leaf.index + 1}</span>
+            ${leaf.is_primary ? '<span class="candidate-primary-pill">Active</span>' : ''}
+          </div>
+          <div class="candidate-leaf-label">Leaf Blade #${leaf.index + 1}</div>
+          <div class="candidate-leaf-meta">
+            <span>Box Detection: ${Math.round(leaf.confidence * 100)}%</span>
+            <span>${leaf.width}×${leaf.height}px</span>
+          </div>
+          <button class="candidate-btn-diagnose" type="button">
+            ${leaf.is_primary ? '<i class="fa-solid fa-check"></i> Diagnosed' : '<i class="fa-solid fa-magnifying-glass"></i> Diagnose Leaf'}
+          </button>
+        `;
+
+        card.addEventListener("click", () => {
+          if (!leaf.is_primary && lastDiagnosedSource) {
+            if (lastDiagnosedSource.type === "file") {
+              runDiagnosisWithFile(lastDiagnosedSource.data, leaf.index);
+            } else if (lastDiagnosedSource.type === "url") {
+              runDiagnosisWithUrl(lastDiagnosedSource.data, leaf.index);
+            }
+          }
+        });
+
+        candidateLeavesGrid.appendChild(card);
+      });
+    } else if (multiLeafTray) {
+      multiLeafTray.classList.add("d-none");
     }
 
     // Crop Filter Badge
@@ -429,6 +697,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Top-5 Candidates
     resTopkList.innerHTML = "";
+    if (data.target_species) {
+      const lockNote = document.createElement("div");
+      lockNote.className = "topk-lock-note";
+      lockNote.style.cssText = "font-size: 12px; color: var(--teal-accent); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; background: rgba(20, 184, 166, 0.1); border-radius: var(--radius-sm); border: 1px solid rgba(20, 184, 166, 0.2);";
+      lockNote.innerHTML = `
+        <span><i class="fa-solid fa-filter"></i> Filter locked to <strong>${data.target_species}</strong></span>
+        <button type="button" id="btn-reset-crop-filter" style="background: none; border: none; color: var(--mint-light); cursor: pointer; text-decoration: underline; font-size: 11px; font-weight: 600;">Clear Lock</button>
+      `;
+      resTopkList.appendChild(lockNote);
+
+      const btnReset = lockNote.querySelector("#btn-reset-crop-filter");
+      if (btnReset) {
+        btnReset.addEventListener("click", () => {
+          if (cropSelector) cropSelector.value = "";
+          showToastNotification("Crop filter cleared to Auto-Detect (All 38 Classes)");
+          if (lastDiagnosedSource) {
+            if (lastDiagnosedSource.type === "file") {
+              runDiagnosisWithFile(lastDiagnosedSource.data);
+            } else if (lastDiagnosedSource.type === "url") {
+              runDiagnosisWithUrl(lastDiagnosedSource.data);
+            }
+          }
+        });
+      }
+    }
+
     if (s2.top_predictions && s2.top_predictions.length > 0) {
       s2.top_predictions.forEach((cand) => {
         const item = document.createElement("div");
@@ -504,57 +798,86 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================================================================
   // 9. Supported Classes Modal
   // =========================================================================
-  btnOpenClasses.addEventListener("click", async () => {
-    classesModal.classList.remove("d-none");
-    if (!cachedClassesData) {
-      classesGridContainer.innerHTML = `<div style="padding: 20px; color: var(--text-muted);"><i class="fa-solid fa-spinner fa-spin"></i> Loading 38 classes...</div>`;
-      try {
-        const resp = await fetch("/api/v1/classes");
-        if (resp.ok) {
-          cachedClassesData = await resp.json();
-          renderClassesGrid(cachedClassesData.classes);
+  if (btnOpenClasses) {
+    btnOpenClasses.addEventListener("click", async () => {
+      if (classesModal) classesModal.classList.remove("d-none");
+      if (!cachedClassesData) {
+        if (classesGridContainer) {
+          classesGridContainer.innerHTML = `<div style="padding: 20px; color: var(--text-muted);"><i class="fa-solid fa-spinner fa-spin"></i> Loading 38 classes...</div>`;
         }
-      } catch (err) {
-        classesGridContainer.innerHTML = `<div style="color: var(--crimson-danger);">Failed to load class directory.</div>`;
+        try {
+          const resp = await fetch("/api/v1/classes");
+          if (resp.ok) {
+            cachedClassesData = await resp.json();
+            renderClassesGrid(cachedClassesData.classes);
+          }
+        } catch (err) {
+          if (classesGridContainer) {
+            classesGridContainer.innerHTML = `<div style="color: var(--crimson-danger);">Failed to load class directory.</div>`;
+          }
+        }
+      } else {
+        renderClassesGrid(cachedClassesData.classes);
       }
-    } else {
-      renderClassesGrid(cachedClassesData.classes);
-    }
-  });
+    });
+  }
 
-  btnCloseClasses.addEventListener("click", () => {
-    classesModal.classList.add("d-none");
-  });
+  if (btnCloseClasses) {
+    btnCloseClasses.addEventListener("click", () => {
+      if (classesModal) classesModal.classList.add("d-none");
+    });
+  }
 
-  classesModal.addEventListener("click", (e) => {
-    if (e.target === classesModal) {
+  if (classesModal) {
+    classesModal.addEventListener("click", (e) => {
+      if (e.target === classesModal) {
+        classesModal.classList.add("d-none");
+      }
+    });
+  }
+
+  // Close modal on Escape key
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && classesModal && !classesModal.classList.contains("d-none")) {
       classesModal.classList.add("d-none");
     }
   });
 
-  classesSearchInput.addEventListener("input", (e) => {
-    if (!cachedClassesData) return;
-    const q = e.target.value.toLowerCase().trim();
-    const filtered = cachedClassesData.classes.filter((c) => {
-      return c.species.toLowerCase().includes(q) || c.condition.toLowerCase().includes(q);
+  if (classesSearchInput) {
+    classesSearchInput.addEventListener("input", (e) => {
+      if (!cachedClassesData) return;
+      const q = e.target.value.toLowerCase().trim();
+      const filtered = cachedClassesData.classes.filter((c) => {
+        return c.species.toLowerCase().includes(q) || c.condition.toLowerCase().includes(q);
+      });
+      renderClassesGrid(filtered);
     });
-    renderClassesGrid(filtered);
-  });
+  }
 
   function renderClassesGrid(classes) {
+    if (!classesGridContainer) return;
     classesGridContainer.innerHTML = "";
-    if (classes.length === 0) {
-      classesGridContainer.innerHTML = `<div style="padding: 20px; color: var(--text-muted);">No matching crop or pathogen found.</div>`;
+    if (!classes || classes.length === 0) {
+      classesGridContainer.innerHTML = `<div style="padding: 20px; color: var(--text-muted);"><i class="fa-solid fa-circle-info"></i> No matching crop or pathogen found.</div>`;
       return;
     }
     classes.forEach((c) => {
       const card = document.createElement("div");
       card.className = "class-card";
+      card.style.cursor = "pointer";
+      card.title = `Click to filter and diagnose ${c.species}`;
       card.innerHTML = `
         <span class="class-card-species">${c.species}</span>
         <span class="class-card-condition">${c.condition}</span>
         <span class="class-card-status">${c.is_healthy ? "<span class='text-healthy'>● Healthy</span>" : "<span class='text-amber'>● Diseased</span>"}</span>
       `;
+      card.addEventListener("click", () => {
+        if (cropSelector) {
+          cropSelector.value = c.species;
+          showToastNotification(`Crop lock set to: ${c.species}`);
+        }
+        if (classesModal) classesModal.classList.add("d-none");
+      });
       classesGridContainer.appendChild(card);
     });
   }
@@ -565,31 +888,35 @@ document.addEventListener("DOMContentLoaded", () => {
   const triggerPrint = () => {
     window.print();
   };
-  btnPrintReport.addEventListener("click", triggerPrint);
-  btnPrintAction.addEventListener("click", triggerPrint);
+  if (btnPrintReport) btnPrintReport.addEventListener("click", triggerPrint);
+  if (btnPrintAction) btnPrintAction.addEventListener("click", triggerPrint);
 
   // =========================================================================
   // 11. Loading & Error Helpers
   // =========================================================================
   function showLoading(msg) {
-    loadingProgressText.innerText = msg;
-    loadingSection.classList.remove("d-none");
-    errorSection.classList.add("d-none");
-    resultsSection.classList.add("d-none");
+    if (loadingProgressText) loadingProgressText.innerText = msg;
+    if (loadingSection) loadingSection.classList.remove("d-none");
+    if (errorSection) errorSection.classList.add("d-none");
+    if (resultsSection) resultsSection.classList.add("d-none");
   }
 
   function hideLoading() {
-    loadingSection.classList.add("d-none");
+    if (loadingSection) loadingSection.classList.add("d-none");
   }
 
   function showError(msg) {
     hideLoading();
-    errorMessage.innerText = msg;
-    errorSection.classList.remove("d-none");
-    errorSection.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    if (errorMessage) errorMessage.innerText = msg;
+    if (errorSection) {
+      errorSection.classList.remove("d-none");
+      errorSection.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
   }
 
-  btnDismissError.addEventListener("click", () => {
-    errorSection.classList.add("d-none");
-  });
+  if (btnDismissError) {
+    btnDismissError.addEventListener("click", () => {
+      if (errorSection) errorSection.classList.add("d-none");
+    });
+  }
 });

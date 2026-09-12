@@ -13,6 +13,7 @@ from fastapi import APIRouter, File, Form, HTTPException, Query, Request, Upload
 
 from app.schemas import (
     ClassesResponse,
+    DetectedLeafItem,
     DiagnosisResponse,
     HealthResponse,
     SampleImageItem,
@@ -228,12 +229,15 @@ async def diagnose_leaf(
     auto_crop: bool = Form(True),
     include_visualizations: bool = Form(True),
     target_species: Optional[str] = Form(None),
+    use_neural_detector: bool = Form(True),
+    selected_box_idx: Optional[int] = Form(None),
 ):
     """
-    End-to-end 4-stage plant leaf diagnosis with smart leaf ROI detection.
-    Accepts an uploaded image file OR a remote image URL.
+    End-to-end multi-stage plant leaf diagnosis with two-stage neural detection (YOLOv8)
+    and smart leaf ROI isolation. Accepts an uploaded image file OR a remote image URL.
     Optionally accepts a target_species constraint (e.g. Potato, Tomato, Apple) to eliminate cross-crop false positives.
-    Returns complete diagnosis, severity assessment, treatment recommendations, and visual Grad-CAM overlays.
+    Optionally accepts selected_box_idx to diagnose a specific candidate leaf in multi-leaf scenes.
+    Returns complete diagnosis, severity assessment, treatment recommendations, and visual overlays.
     """
     pipeline = get_pipeline(request)
 
@@ -256,13 +260,15 @@ async def diagnose_leaf(
             img_input = image_url.strip()
             filename = image_url.strip().split("/")[-1].split("?")[0] or "remote_leaf.jpg"
 
-        # Execute full multi-stage pipeline with smart leaf ROI extraction and optional species locking
+        # Execute full multi-stage pipeline with YOLO leaf detection and optional species locking
         diagnosis_data = pipeline.diagnose(
             image_input=img_input,
             generate_visualization=include_visualizations,
             top_k=max(1, min(top_k, 10)),
             auto_crop=auto_crop,
             target_species=target_species,
+            use_neural_detector=use_neural_detector,
+            selected_box_idx=selected_box_idx,
         )
     except HTTPException:
         raise
@@ -277,6 +283,7 @@ async def diagnose_leaf(
     if include_visualizations and "visualizations" in diagnosis_data:
         v = diagnosis_data["visualizations"]
         vis_res = VisualizationsResult(
+            detection_overlay=encode_array_to_base64(v.get("detection_overlay")),
             cropped_leaf=encode_array_to_base64(v.get("cropped_leaf")),
             cam_overlay=encode_array_to_base64(v.get("cam_overlay")),
             cam_heatmap=encode_array_to_base64(v.get("cam_heatmap")),
@@ -284,11 +291,30 @@ async def diagnose_leaf(
             composite_panel=encode_array_to_base64(v.get("composite_panel")),
         )
 
+    # Format detected candidate leaves
+    raw_leaves = diagnosis_data.get("detected_leaves", [])
+    detected_leaf_items = [
+        DetectedLeafItem(
+            index=int(item["index"]),
+            bbox=list(item["bbox"]),
+            confidence=float(item["confidence"]),
+            class_id=int(item["class_id"]),
+            label=str(item["label"]),
+            area=int(item["area"]),
+            width=int(item["width"]),
+            height=int(item["height"]),
+            is_primary=bool(item.get("is_primary", False)),
+        )
+        for item in raw_leaves
+    ]
+
     return DiagnosisResponse(
         success=True,
         image_name=filename,
         is_cropped=diagnosis_data.get("is_cropped", False),
         roi_bbox=diagnosis_data.get("roi_bbox"),
+        detector_used=diagnosis_data.get("detector_used"),
+        detected_leaves=detected_leaf_items,
         target_species=diagnosis_data.get("target_species"),
         is_healthy=diagnosis_data["is_healthy"],
         overall_status=diagnosis_data["overall_status"],

@@ -24,6 +24,9 @@
   --amber-glow: rgba(245, 158, 11, 0.3);
   --crimson-danger: #ef4444;
   --crimson-glow: rgba(239, 68, 68, 0.35);
+  --purple-primary: #a855f7;
+  --purple-light: #c084fc;
+  --purple-glow: rgba(168, 85, 247, 0.35);
 
   --font-heading: 'Outfit', sans-serif;
   --font-body: 'Inter', sans-serif;
@@ -722,7 +725,8 @@ body {
   color: var(--emerald-primary);
 }
 
-/* Smart Leaf Isolation Toggle */
+/* Smart Leaf Isolation & YOLO Detector Toggles */
+.detector-toggle-wrapper,
 .autocrop-toggle-wrapper {
   display: flex;
   align-items: center;
@@ -1009,6 +1013,17 @@ body {
   border-radius: var(--radius-full);
 }
 
+.badge-sub.text-purple {
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  color: #d8b4fe;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.25);
+}
+
+.text-purple {
+  color: var(--purple-light) !important;
+}
+
 .result-disease-name {
   font-family: var(--font-heading);
   font-size: 28px;
@@ -1194,6 +1209,125 @@ body {
   background: var(--emerald-primary);
   color: #fff;
   box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+/* Multi-Leaf Candidate Selection Tray */
+.multi-leaf-tray {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: rgba(30, 41, 59, 0.55);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.tray-header {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 12px;
+}
+
+.tray-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #e9d5ff;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.tray-subtitle {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.candidate-leaves-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+.candidate-leaf-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  position: relative;
+  text-align: left;
+}
+
+.candidate-leaf-card:hover {
+  border-color: rgba(168, 85, 247, 0.6);
+  background: rgba(15, 23, 42, 0.95);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(168, 85, 247, 0.25);
+}
+
+.candidate-leaf-card.active {
+  border-color: #a855f7;
+  background: rgba(88, 28, 135, 0.25);
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.35);
+}
+
+.candidate-leaf-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.candidate-leaf-rank {
+  font-size: 12px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.candidate-primary-pill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: var(--mint-light);
+}
+
+.candidate-leaf-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #c084fc;
+}
+
+.candidate-leaf-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.candidate-btn-diagnose {
+  margin-top: 4px;
+  padding: 5px 8px;
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  border-radius: var(--radius-sm);
+  color: #e9d5ff;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  transition: var(--transition-smooth);
+}
+
+.candidate-leaf-card:hover .candidate-btn-diagnose {
+  background: #a855f7;
+  color: #ffffff;
 }
 
 .visualizer-display {
@@ -1595,6 +1729,53 @@ body {
 
 .footer-sep {
   color: var(--text-muted);
+}
+
+/* Keyboard Shortcut Badge */
+.kbd-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--mint-light);
+  background: rgba(30, 41, 59, 0.85);
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  vertical-align: middle;
+}
+
+/* Botanical Toast Notification */
+.leafdoc-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(16, 185, 129, 0.5);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 20px rgba(16, 185, 129, 0.35);
+  color: #f8fafc;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 9999;
+  transform: translateY(80px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  backdrop-filter: blur(12px);
+}
+
+.leafdoc-toast.show {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* ==========================================================================

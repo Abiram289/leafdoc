@@ -4,7 +4,7 @@ LeafDoc Serving Engine & Web Application Entry Point.
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -75,6 +75,11 @@ def create_app() -> FastAPI:
         if not index_file.exists():
             return HTMLResponse("<h1>LeafDoc</h1><p>Web dashboard is loading...</p>")
         return FileResponse(str(index_file))
+
+    # Favicon route to prevent 404 logs
+    @app.get("/favicon.ico")
+    async def favicon():
+        return Response(content=b"", media_type="image/x-icon", status_code=204)
 
     return app
 
