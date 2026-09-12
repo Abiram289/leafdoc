@@ -7,6 +7,7 @@ Orchestrates all 4 stages:
   3. Stage 3: Explainable AI & Severity (Grad-CAM Heatmap, Leaf Segmentation, % Affected Surface Area)
   4. Stage 4: Agronomic Treatment Recommender (Cultural, Chemical, Biological Remedies)
 """
+import logging
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
@@ -30,6 +31,16 @@ from src.inference.preprocessor import letterbox_image, preprocess_leaf
 from src.inference.treatments import TreatmentRecommender
 from src.models.factory import build_model
 from src.utils.config import load_config
+
+logger = logging.getLogger("leafdoc.pipeline")
+
+
+def normalize_species_name(name: Optional[str]) -> str:
+    """Strips punctuation, underscores, whitespace, and lowercases for fuzzy crop matching."""
+    if not name:
+        return ""
+    trans = str.maketrans("", "", "_ ,()[]{}")
+    return name.lower().translate(trans).strip()
 
 
 class LeafDocPipeline:
@@ -130,15 +141,7 @@ class LeafDocPipeline:
         if not target_species:
             return [], None
 
-        target_clean = (
-            target_species.lower()
-            .replace("_", "")
-            .replace(" ", "")
-            .replace(",", "")
-            .replace("(", "")
-            .replace(")", "")
-            .strip()
-        )
+        target_clean = normalize_species_name(target_species)
         if not target_clean or target_clean in ("all", "auto", "autodetect", "none"):
             return [], None
 
@@ -146,20 +149,8 @@ class LeafDocPipeline:
         matched_species_names = set()
 
         for idx, class_name in self.s2_idx_to_class.items():
-            if "___" in class_name:
-                species_raw = class_name.split("___", 1)[0]
-            else:
-                species_raw = class_name
-
-            spec_clean = (
-                species_raw.lower()
-                .replace("_", "")
-                .replace(" ", "")
-                .replace(",", "")
-                .replace("(", "")
-                .replace(")", "")
-                .strip()
-            )
+            species_raw = class_name.split("___", 1)[0] if "___" in class_name else class_name
+            spec_clean = normalize_species_name(species_raw)
 
             if target_clean == spec_clean or target_clean in spec_clean or spec_clean in target_clean:
                 matching_indices.append(idx)

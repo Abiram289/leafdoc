@@ -3,12 +3,14 @@ FastAPI REST API routes for LeafDoc.
 """
 import base64
 import io
+import logging
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import cv2
 import numpy as np
 from PIL import Image
+import torch
 from fastapi import APIRouter, File, Form, HTTPException, Query, Request, UploadFile, status
 
 from app.schemas import (
@@ -25,6 +27,7 @@ from app.schemas import (
 )
 from src.inference.pipeline import LeafDocPipeline
 
+logger = logging.getLogger("leafdoc.api")
 router = APIRouter(prefix="/api/v1", tags=["LeafDoc API"])
 
 
@@ -59,7 +62,7 @@ def encode_array_to_base64(array: Optional[np.ndarray], quality: int = 92) -> Op
         encoded = base64.b64encode(buf.tobytes()).decode("utf-8")
         return f"data:{mime};base64,{encoded}"
     except Exception as e:
-        print(f"Base64 encoding error: {e}")
+        logger.error("Base64 encoding error: %s", e)
         return None
 
 
@@ -74,13 +77,12 @@ def get_pipeline(request: Request) -> LeafDocPipeline:
 
 
 @router.get("/health", response_model=HealthResponse)
-async def health_check(request: Request):
+async def health_check(request: Request) -> HealthResponse:
     """
     Health check endpoint returning system status, device acceleration, and model checkpoint health.
     """
     pipeline = get_pipeline(request)
     device_type = pipeline.device.type
-    import torch
     device_name = torch.cuda.get_device_name(0) if torch.cuda.is_available() else "Host CPU"
 
     return HealthResponse(

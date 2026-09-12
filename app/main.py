@@ -1,6 +1,7 @@
 """
 LeafDoc Serving Engine & Web Application Entry Point.
 """
+import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -12,6 +13,8 @@ from fastapi.staticfiles import StaticFiles
 from app.api.routes import router as api_router
 from src.inference.pipeline import LeafDocPipeline
 
+logger = logging.getLogger("leafdoc.main")
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -19,21 +22,21 @@ async def lifespan(app: FastAPI):
     Application lifespan manager: preloads the multi-stage deep learning pipeline
     and agronomic treatment database once on startup for instant inference.
     """
-    print("=" * 60)
-    print("Initializing LeafDoc End-to-End Diagnostic Pipeline...")
-    print("=" * 60)
+    logger.info("=" * 60)
+    logger.info("Initializing LeafDoc End-to-End Diagnostic Pipeline...")
+    logger.info("=" * 60)
     app.state.pipeline = LeafDocPipeline(
         config_path="configs/config.yaml",
         stage1_ckpt_path="checkpoints/stage1_binary_best.pth",
         stage2_ckpt_path="checkpoints/stage2_fine_best.pth",
         treatments_path="data/treatments.json",
     )
-    print("LeafDoc Pipeline successfully loaded into app.state.pipeline!")
-    print(f"Device: {app.state.pipeline.device}")
-    print(f"Classes: {len(app.state.pipeline.s2_idx_to_class)}")
-    print("=" * 60)
+    logger.info("LeafDoc Pipeline successfully loaded into app.state.pipeline!")
+    logger.info("Device: %s", app.state.pipeline.device)
+    logger.info("Classes: %d", len(app.state.pipeline.s2_idx_to_class))
+    logger.info("=" * 60)
     yield
-    print("Shutting down LeafDoc server.")
+    logger.info("Shutting down LeafDoc server.")
 
 
 def create_app() -> FastAPI:

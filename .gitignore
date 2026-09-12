@@ -10,3 +10,4 @@ checks/
 .DS_Store
 .pytest_cache/
 history.txt
+SYSTEM_DOCUMENTATION.md

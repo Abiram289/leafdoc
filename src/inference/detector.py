@@ -6,6 +6,7 @@ across 46 crop species (mAP@0.5: 0.946, 21.5 MB). Detects individual leaf boundi
 outdoor and orchard scenes, crops out distracting branches, sky, and soil, and feeds clean leaf tissue
 directly into the EfficientNet disease classifier and Grad-CAM explainability engine.
 """
+import logging
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 import urllib.request
@@ -20,8 +21,18 @@ except ImportError:
     ULTRALYTICS_AVAILABLE = False
 
 
+logger = logging.getLogger("leafdoc.detector")
+
 HF_WEIGHTS_URL = "https://huggingface.co/foduucom/plant-leaf-detection-and-classification/resolve/main/best.pt"
 DEFAULT_CHECKPOINT_PATH = "checkpoints/yolov8s_leaf_detector.pt"
+
+# Algorithm Constants for Leaf Prominence Ranking
+RANK_WEIGHT_AREA: float = 0.45
+RANK_WEIGHT_CENTRALITY: float = 0.35
+RANK_WEIGHT_CONF: float = 0.20
+MIN_BOX_AREA_RATIO: float = 0.01
+MIN_BOX_DIM: int = 20
+DEFAULT_PAD_PCT: float = 0.06
 
 
 def download_weights(target_path: str = DEFAULT_CHECKPOINT_PATH, url: str = HF_WEIGHTS_URL) -> Path:
@@ -33,11 +44,11 @@ def download_weights(target_path: str = DEFAULT_CHECKPOINT_PATH, url: str = HF_W
         return dest
 
     dest.parent.mkdir(parents=True, exist_ok=True)
-    print(f"Downloading YOLOv8 leaf detector weights from {url} to {dest}...")
+    logger.info("Downloading YOLOv8 leaf detector weights from %s to %s...", url, dest)
     req = urllib.request.Request(url, headers={"User-Agent": "LeafDoc-Engine/1.0"})
     with urllib.request.urlopen(req) as resp, open(dest, "wb") as f:
         f.write(resp.read())
-    print(f"Successfully downloaded {dest.stat().st_size / 1024 / 1024:.2f} MB to {dest}")
+    logger.info("Successfully downloaded %.2f MB to %s", dest.stat().st_size / (1024 * 1024), dest)
     return dest
 
 
@@ -53,7 +64,7 @@ class LeafDetector:
         weights_path: Optional[str] = None,
         device: Optional[Union[str, torch.device]] = None,
         conf_threshold: float = 0.20,
-    ):
+    ) -> None:
         self.conf_threshold = conf_threshold
         self.model = None
 
@@ -65,7 +76,7 @@ class LeafDetector:
             self.device = str(device)
 
         if not ULTRALYTICS_AVAILABLE:
-            print("Warning: ultralytics is not installed. LeafDetector running in fallback mode.")
+            logger.warning("ultralytics is not installed. LeafDetector running in fallback mode.")
             return
 
         ckpt_path = Path(weights_path) if weights_path else Path(DEFAULT_CHECKPOINT_PATH)
@@ -73,14 +84,14 @@ class LeafDetector:
             try:
                 ckpt_path = download_weights(str(ckpt_path))
             except Exception as e:
-                print(f"Warning: Failed to download YOLO weights ({e}). Running in fallback mode.")
+                logger.warning("Failed to download YOLO weights (%s). Running in fallback mode.", e)
                 return
 
         try:
             self.model = YOLO(str(ckpt_path))
             self.names = getattr(self.model, "names", {})
         except Exception as e:
-            print(f"Warning: Failed to load YOLO model from {ckpt_path}: {e}")
+            logger.warning("Failed to load YOLO model from %s: %s", ckpt_path, e)
             self.model = None
 
     def is_available(self) -> bool:
@@ -118,7 +129,7 @@ class LeafDetector:
                 verbose=False,
             )
         except Exception as e:
-            print(f"Leaf detection error: {e}")
+            logger.error("Leaf detection inference error: %s", e)
             return []
 
         if not results or len(results) == 0:
@@ -149,8 +160,8 @@ class LeafDetector:
             bh = y2 - y1
             area = bw * bh
 
-            # Filter microscopic false positives (< 1% of image)
-            if area < (0.01 * img_area) or bw < 20 or bh < 20:
+            # Filter microscopic false positives (< 1% of image or < 20px)
+            if area < (MIN_BOX_AREA_RATIO * img_area) or bw < MIN_BOX_DIM or bh < MIN_BOX_DIM:
                 continue
 
             # Centrality score (1.0 = center of frame, 0.0 = corner)
@@ -161,7 +172,7 @@ class LeafDetector:
 
             # Prominence ranking score
             area_fraction = area / img_area
-            rank_score = (area_fraction * 0.45) + (centrality * 0.35) + (conf * 0.20)
+            rank_score = (area_fraction * RANK_WEIGHT_AREA) + (centrality * RANK_WEIGHT_CENTRALITY) + (conf * RANK_WEIGHT_CONF)
 
             candidates.append({
                 "index": i,
