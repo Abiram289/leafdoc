@@ -316,9 +316,25 @@ class LeafDocPipeline:
         # -------------------------------------------------------------
         # Stage 3: Grad-CAM Explainability & Severity Assessment
         # -------------------------------------------------------------
-        cam_heatmap = self.explainer.generate_heatmap(tensor, target_class_idx=s2_top_idx)
+        raw_cam = self.explainer.generate_heatmap(tensor, target_class_idx=s2_top_idx)
         subject_rgb = cropped_leaf_rgb if is_cropped else img_rgb
+
+        # Un-letterbox the heatmap: crop out the valid leaf ROI to eliminate padding distortion
+        sub_h, sub_w = subject_rgb.shape[:2]
+        scale = target_dim / max(sub_h, sub_w)
+        new_w = max(1, int(round(sub_w * scale)))
+        new_h = max(1, int(round(sub_h * scale)))
+        pad_top = (target_dim - new_h) // 2
+        pad_left = (target_dim - new_w) // 2
+
+        valid_cam = raw_cam[pad_top : pad_top + new_h, pad_left : pad_left + new_w]
+        if valid_cam.max() > valid_cam.min() + 1e-6:
+            valid_cam = (valid_cam - valid_cam.min()) / (valid_cam.max() - valid_cam.min())
+
+        cam_heatmap = cv2.resize(valid_cam, (sub_w, sub_h), interpolation=cv2.INTER_LINEAR)
         leaf_mask = segment_leaf_mask(subject_rgb)
+        # Confine raw activation heatmap cleanly to the leaf surface
+        cam_heatmap = np.clip(cam_heatmap * (leaf_mask > 0).astype(np.float32), 0.0, 1.0)
 
         severity_info = compute_severity(
             cam_heatmap=cam_heatmap,
@@ -326,6 +342,7 @@ class LeafDocPipeline:
             is_healthy=is_overall_healthy,
             mild_max_pct=self.mild_max_pct,
             moderate_max_pct=self.moderate_max_pct,
+            image_rgb=subject_rgb,
         )
 
         # -------------------------------------------------------------
@@ -346,7 +363,7 @@ class LeafDocPipeline:
         cam_overlay = None
         composite_panel = None
         if generate_visualization:
-            cam_overlay = generate_gradcam_overlay(subject_rgb, cam_heatmap)
+            cam_overlay = generate_gradcam_overlay(subject_rgb, cam_heatmap, leaf_mask=leaf_mask)
             composite_panel = generate_annotated_panel(
                 image_rgb=subject_rgb,
                 cam_overlay=cam_overlay,
@@ -372,6 +389,7 @@ class LeafDocPipeline:
                 "label": s1_pred_label,
                 "confidence": round(s1_confidence, 4),
                 "is_diseased": is_diseased,
+                "is_healthy": not is_diseased,
                 "probabilities": s1_prob_dict,
             },
             "stage2_fine": {

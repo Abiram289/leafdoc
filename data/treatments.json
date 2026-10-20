@@ -3,916 +3,1348 @@
     "species": "Apple",
     "condition_name": "Apple Scab",
     "pathogen_type": "Fungal (Venturia inaequalis)",
-    "description": "Produces olive-green to black velvety spots on leaves and fruit, causing premature defoliation and fruit deformities.",
+    "description": "Velvety olive-green to dull black spots appear on leaves and fruit. Leaves turn yellow and drop early, leaving trees bare and fruit cracked with rough corky patches. Common in wet, humid highland orchards during cool rainy spells.",
     "cultural_controls": [
-      "Rake and destroy fallen leaves in autumn to eliminate overwintering fungal spores.",
-      "Prune canopy during dormancy to promote rapid leaf drying and air circulation.",
-      "Avoid overhead sprinkler irrigation."
+      "Collect and burn or bury fallen leaves in late autumn to destroy overwintering fungal spores.",
+      "Prune dense tree canopies during winter rest to let sunlight penetrate and speed up leaf drying.",
+      "Keep the soil basin under the tree canopy weed-free; avoid splashing water on lower trunks."
     ],
     "chemical_controls": [
-      "Apply protective fungicides (Captan, Mancozeb) at bud break and early bloom.",
-      "Use systemic fungicides (Myclobutanil, Difenoconazole) if post-infection control is required."
+      "Blue Copper Powder / நீல மருந்து - Blitox 50 or Fytolan [Chemical: Copper Oxychloride 50% WP]: Greenish-blue protective powder. Mix 3 tablespoons (45-50g) in a 15-liter knapsack pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 45-50 கிராம்). Spray at green tip stage before flowering.",
+      "Yellow Powder Fungicide / மஞ்சள் பொடி மருந்து - Dithane M-45 [Chemical: Mancozeb 75% WP]: Widely available yellow powder. Mix 2 tablespoons (35-40g) per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்) from pink bud to petal fall.",
+      "Curative Liquid / கருகல் நிவாரண திரவம் - Score 25% EC [Chemical: Difenoconazole 25% EC]: Concentrated liquid medicine. Take 6-8 ml per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 6-8 மி.லி) for rapid healing within 72 hours of rain.",
+      "Powdery Mildew Curative / சாம்பல் நோய் திரவம் - Contaf Plus [Chemical: Hexaconazole 5% EC]: Take 15 ml per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 15 மி.லி) as an economical systemic spray."
     ],
     "biological_controls": [
-      "Apply sulfur-based organic sprays or liquid copper at green tip stage.",
-      "Foliar applications of Bacillus subtilis or potassium bicarbonate."
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution) to strengthen natural leaf immunity against fungal infections.",
+      "Sulfur Dust Powder / கந்தகப் பொடி மருந்து - Sulfex 80% WDG [Chemical: Wettable Sulfur]: Mix 35-40 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்) during sunny weather.",
+      "Trichoderma viride Bio-Fungicide / உயிர் பூஞ்சாணக் கொல்லி: Mix 60-75 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்) at petal fall."
     ],
     "preventive_measures": [
-      "Plant scab-resistant cultivars (e.g., Liberty, Enterprise, Freedom).",
-      "Apply 5% urea spray in late autumn to accelerate leaf decomposition."
+      "Plant scab-resistant apple varieties in new orchard blocks.",
+      "Disinfect pruning shears with Dettol or spirit when moving from tree to tree.",
+      "Monitor orchard weather alerts and apply protective spray before continuous rainy periods."
     ],
     "severity_actions": {
-      "Mild": "Remove affected leaves manually, monitor weather for rain periods, and apply preventive bio-fungicide.",
-      "Moderate": "Apply targeted fungicide (Captan or Myclobutanil) immediately; ensure complete canopy coverage.",
-      "Severe": "Initiate full systemic fungicide schedule every 7-10 days, prune heavily infected shoots, and inspect fruit clusters."
-    }
+      "Mild": "Pick off early spotted leaves and spray protective Yellow Powder Fungicide - Dithane M-45 (35-40g per 15L pump).",
+      "Moderate": "Spray systemic curative Score 25% EC (6-8 ml per 15L pump) or Contaf Plus (15 ml per 15L pump); ensure full canopy drenching.",
+      "Severe": "Initiate strict fungicide rotation every 8-10 days alternating Score and Dodine; prune infected spurs and burn fallen leaves."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்). Spray foliage every 12-15 days to rebuild vigorous green growth.",
+      "Pre-Bloom Micronutrients / நுண்ணூட்டச் சத்து கரைசல்: Spray Chelated Zinc (30g) + Borax (15g) per 15-liter pump to improve fruit set and leaf strength.",
+      "Fruit Development Spray (Potassium Nitrate 13:0:45): Mix 60 grams per 15-liter pump during fruit sizing for high disease resistance and fruit color.",
+      "Tree Basin Dressing / மட்கிய தொழு உரம்: Apply 25-30 kg well-rotted farmyard manure (மட்கிய தொழு உரம்) + 2 kg Vermicompost (மண்புழு உரம்) per tree basin."
+    ],
+    "tamil_name": "ஆப்பிள் சொறி நோய் / கரும்புள்ளி நோய்"
   },
   "Apple___Black_rot": {
     "species": "Apple",
     "condition_name": "Black Rot / Frogeye Leaf Spot",
     "pathogen_type": "Fungal (Botryosphaeria obtusa)",
-    "description": "Causes small purple specks that enlarge into frogeye leaf spots with light brown centers and purple margins, limb cankers, and fruit rot.",
+    "description": "Small purple specks enlarge into circular spots with brown centers resembling 'frog eyes'. Causes dark sunken cankers on limbs and black leathery rot on ripening fruits. Spreads rapidly in warm, rainy weather.",
     "cultural_controls": [
-      "Prune out dead wood, fire blight strikes, and mummified fruit which harbor inoculum.",
-      "Maintain tree vigor through balanced fertilization and proper irrigation."
+      "Prune out dead wood, fire-blighted twigs, and shriveled fruit mummies during winter rest.",
+      "Cut away branch cankers cleanly 4 to 6 inches below visible infected bark.",
+      "Paint pruning cuts larger than 1 inch with Bordeaux paste (போர்டோ பசை)."
     ],
     "chemical_controls": [
-      "Apply fungicides containing Captan, Mancozeb, or Thiophanate-methyl from pink bud through petal fall."
+      "Blue Copper Powder / நீல மருந்து - Blitox 50 [Chemical: Copper Oxychloride 50% WP]: Mix 3 tablespoons (45g) in a 15-liter knapsack pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 45 கிராம்) at bud swell.",
+      "Yellow Powder Fungicide / மஞ்சள் பொடி மருந்து - Dithane M-45 [Chemical: Mancozeb 75% WP]: Mix 35-40 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்) from petal fall through fruit sizing.",
+      "Systemic White Powder - Roko [Chemical: Thiophanate-methyl 70% WP]: Mix 15 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 15 கிராம்) for deep systemic canker healing."
     ],
     "biological_controls": [
-      "Apply copper sprays during delayed dormant period.",
-      "Use bio-fungicides such as Bacillus amyloliquefaciens."
+      "Trichoderma Paste / ட்ரைக்கோடெர்மா பசை: Apply fresh Trichoderma paste directly onto scraped bark cankers.",
+      "Pseudomonas Bio-agent / சூடோமோனாஸ் கரைசல்: Mix 75 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்) on foliage during active flush.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா கரைசல்: Mix 450 ml per 15-liter pump (3% solution) to strengthen tree vitality."
     ],
     "preventive_measures": [
-      "Sanitize pruning tools between cuts with 70% alcohol.",
-      "Avoid bark injury during mowing and equipment operations."
+      "Avoid wounding tree bark with tractor equipment or pruning ladders.",
+      "Maintain balanced tree nutrition; avoid excessive chemical nitrogen; apply recommended potassium."
     ],
     "severity_actions": {
-      "Mild": "Prune out visible cankers and remove spotted leaves; apply protective copper spray.",
-      "Moderate": "Apply Captan or Thiophanate-methyl spray; remove all infected fruit mummies from branches and ground.",
-      "Severe": "Excise infected branch cankers 6-8 inches below visible lesion; apply systemic fungicide program."
-    }
+      "Mild": "Prune out dead twigs, collect fallen infected leaves, and spray Blue Copper Powder - Blitox 50 (45g per 15L pump).",
+      "Moderate": "Apply systemic Roko (15g per 15L pump) or Yellow Powder Fungicide (35g per 15L pump); coat open bark cuts with Bordeaux paste.",
+      "Severe": "Chop and burn severely cankered branches; execute systemic fungicide rotation program and drench tree basin."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்) every 14 days.",
+      "Micronutrient Tonic / நுண்ணூட்டச் சத்து கரைசல்: Spray Chelated Zinc (30g) + Boron (15g) per 15-liter pump.",
+      "Organic Soil Booster / மட்கிய தொழு உரம்: Apply 25-30 kg farmyard manure (தொழு உரம்) + 2 kg Vermicompost per tree."
+    ],
+    "tamil_name": "ஆப்பிள் கருப்பு அழுகல் நோய்"
   },
   "Apple___Cedar_apple_rust": {
     "species": "Apple",
     "condition_name": "Cedar Apple Rust",
-    "pathogen_type": "Fungal (Gymnosporangium juniperi-virginianae)",
-    "description": "Bright orange-yellow circular spots appear on leaves in spring, developing tiny raised pustules and tube-like structures on the underside.",
+    "pathogen_type": "Fungal (Gymnosporangium spp.)",
+    "description": "Bright orange-yellow circular spots form on the upper leaf surface in spring. Tiny raised pustules develop on the underside, discharging powdery rust spores. Can defoliate trees if left untreated.",
     "cultural_controls": [
-      "Remove nearby Eastern Red Cedar and juniper trees (alternate hosts) within 1-2 miles if feasible.",
-      "Prune gall swellings on ornamental junipers before orange spore horns emerge in spring."
+      "Inspect surrounding borders and remove wild cedar or juniper host shrubs within 500 meters of the orchard.",
+      "Prune out swollen galls on nearby junipers before spring rains.",
+      "Ensure good orchard spacing and canopy pruning to allow fast foliage drying."
     ],
     "chemical_controls": [
-      "Apply Myclobutanil, Propiconazole, or Mancozeb from pink bud stage through early summer."
+      "Yellow Powder Fungicide / மஞ்சள் பொடி மருந்து - Dithane M-45 [Chemical: Mancozeb 75% WP]: Mix 35-40 grams in a 15-liter knapsack pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்). Spray from tight cluster stage to petal fall.",
+      "Curative Liquid / கருகல் நிவாரண திரவம் - Score 25% EC [Chemical: Difenoconazole 25% EC]: Take 6-8 ml per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 6-8 மி.லி) for active rust eradication.",
+      "Powdery Mildew & Rust Curative - Contaf Plus [Chemical: Hexaconazole 5% EC]: Mix 15 ml per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 15 மி.லி)."
     ],
     "biological_controls": [
-      "Sulfur sprays applied before anticipated rain events during primary infection periods."
+      "Sulfur Dust Powder / கந்தகப் பொடி மருந்து - Sulfex 80% WDG [Chemical: Wettable Sulfur]: Mix 35 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35 கிராம்).",
+      "Neem Oil Spray / வேப்பெண்ணெய் கரைசல்: Mix 45 ml neem oil + 5 ml soap water in a 15-liter pump.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா: Mix 450 ml per 15-liter pump."
     ],
     "preventive_measures": [
-      "Plant rust-resistant apple varieties (e.g., Redfree, Liberty, William's Pride)."
+      "Plant rust-resistant apple varieties.",
+      "Start protective sprays early in spring when orange cedar galls first swell during rain."
     ],
     "severity_actions": {
-      "Mild": "Monitor neighboring juniper hosts; apply preventive bio-sulfur spray during wet spring spells.",
-      "Moderate": "Apply Myclobutanil or Mancozeb fungicide spray to prevent leaf drop.",
-      "Severe": "Full protective fungicide coverage every 7-10 days until cedar spore release subsides."
-    }
+      "Mild": "Spray protective Yellow Powder Fungicide - Dithane M-45 (35-40g per 15L pump) at first orange speck.",
+      "Moderate": "Spray systemic curative Score 25% EC (6-8 ml per 15L pump); ensure full foliage coverage.",
+      "Severe": "Spray Score or Contaf Plus every 10 days until rust sporulation ceases."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Potassium Booster (SOP 0:0:50): Mix 60 grams per 15-liter pump to enhance leaf cuticle thickness.",
+      "Basin Manure: Apply 20 kg farmyard manure (தொழு உரம்) around the root zone."
+    ],
+    "tamil_name": "ஆப்பிள் துரு நோய்"
   },
   "Apple___healthy": {
     "species": "Apple",
     "condition_name": "Healthy",
     "pathogen_type": "None",
-    "description": "Leaf foliage is healthy, showing vibrant green pigmentation, intact leaf structure, and no visible lesions.",
+    "description": "Foliage is dark green, robust, and showing healthy active spur growth with zero disease lesions.",
     "cultural_controls": [
-      "Maintain regular drip irrigation and balanced seasonal fertilization (N-P-K + micronutrients).",
-      "Perform annual structural pruning to maintain airflow and sunlight penetration."
+      "Maintain clean tree basins free of aggressive weeds and standing water.",
+      "Prune excess water shoots to optimize sunlight penetration across the canopy.",
+      "Apply clean organic mulch around tree basins to retain steady root moisture."
     ],
     "chemical_controls": [
-      "No chemical intervention required. Continue routine pest monitoring."
+      "No chemical fungicides or pesticides required. Maintain routine seasonal monitoring."
     ],
     "biological_controls": [
-      "Encourage beneficial predatory insects and pollinators."
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution) monthly to sustain plant vigor.",
+      "Neem Oil Preventive / வேப்பெண்ணெய் கரைசல்: Mix 35 ml neem oil with soap water per 15-liter pump during pest season."
     ],
     "preventive_measures": [
-      "Conduct bi-weekly visual inspections during peak growing season.",
-      "Maintain clean orchard floor and mulching."
+      "Inspect leaves and spurs weekly during wet spring and monsoon flushes.",
+      "Ensure orchard irrigation drains well and does not waterlog tree root collars."
     ],
     "severity_actions": {
-      "Healthy": "No treatment required. Maintain current orchard management and preventive scouting."
-    }
+      "Healthy": "No chemical treatment needed. Continue balanced organic feeding and seasonal pruning."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்) every 2 weeks.",
+      "Micronutrient Tonic / நுண்ணூட்டச் சத்து கரைசல்: Spray Chelated Zinc (30g) + Borax (15g) per 15-liter pump at pink bud.",
+      "Root Basin Dressing / மட்கிய தொழு உரம்: Apply 25-30 kg well-rotted farmyard manure (தொழு உரம்) + 2 kg Vermicompost (மண்புழு உரம்)."
+    ],
+    "tamil_name": "ஆரோக்கியமான ஆப்பிள் மரம்"
   },
   "Blueberry___healthy": {
     "species": "Blueberry",
     "condition_name": "Healthy",
     "pathogen_type": "None",
-    "description": "Foliage exhibits vigorous growth, deep green color, and absence of chlorosis or fungal spots.",
+    "description": "Canopy is vigorous with glossy green leaves and strong vegetative shoot extension.",
     "cultural_controls": [
-      "Maintain acidic soil pH (4.5 - 5.5) using elemental sulfur or peat moss.",
-      "Apply organic pine bark or sawdust mulch to retain moisture and suppress weeds."
+      "Maintain acidic soil pH (4.5 to 5.2) using pine bark or peat moss mulch.",
+      "Use drip irrigation to deliver uniform moisture without wetting foliage.",
+      "Hand-pull weeds gently to protect shallow feeder roots."
     ],
     "chemical_controls": [
-      "None required."
+      "No chemical intervention needed. Monitor for leaf spot during rainy weather."
     ],
     "biological_controls": [
-      "Maintain mycorrhizal soil health."
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா: Mix 300 ml per 15-liter pump monthly.",
+      "Trichoderma Soil Drench / ட்ரைக்கோடெர்மா: Drench 50 grams per 15L pump around root zones twice yearly."
     ],
     "preventive_measures": [
-      "Regular soil moisture monitoring and acidifying irrigation water if alkaline."
+      "Ensure good drainage; avoid high-salinity or alkaline canal water.",
+      "Prune weak, twiggy old canes annually in late winter."
     ],
     "severity_actions": {
-      "Healthy": "No treatment needed. Maintain optimal acidic soil and mulch depth."
-    }
+      "Healthy": "Maintain acid soil mulch and light foliar nutrition."
+    },
+    "fertilizers_and_nutrition": [
+      "Ammonium Sulfate Acidic Tonic: Apply 20 grams per bush in split doses.",
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 உரம்: Mix 50 grams per 15-liter pump monthly."
+    ],
+    "tamil_name": "ஆரோக்கியமான புளூபெர்ரி பயிர்"
   },
   "Cherry_(including_sour)___Powdery_mildew": {
     "species": "Cherry",
     "condition_name": "Powdery Mildew",
     "pathogen_type": "Fungal (Podosphaera clandestina)",
-    "description": "White powdery fungal patches on the surface of young leaves, causing leaf curling, distortion, and stunted shoot growth.",
+    "description": "White talcum powder-like fungal coating develops on young leaves and terminal shoots. Leaves curl upward, become brittle, and drop prematurely, stunting branch growth.",
     "cultural_controls": [
-      "Prune to increase sunlight and canopy ventilation.",
-      "Avoid excessive nitrogen fertilization which stimulates overly susceptible succulent growth."
+      "Prune infected shoot tips (*தலை கிள்ளுதல்*) and burn them away from the orchard.",
+      "Thin interior shoots to improve air circulation and direct sunlight penetration.",
+      "Avoid excessive chemical nitrogen fertilizers that produce overly succulent, vulnerable shoots."
     ],
     "chemical_controls": [
-      "Apply Quinoxyfen, Triflumizole, or Myclobutanil at petal fall and shuck fall stages."
+      "Powdery Mildew Curative / சாம்பல் நோய் திரவம் - Contaf Plus [Chemical: Hexaconazole 5% EC]: Mix 15 ml in a 15-liter knapsack pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 15 மி.லி). Spray thoroughly over shoot tips.",
+      "Curative Liquid / கருகல் நிவாரண திரவம் - Score 25% EC [Chemical: Difenoconazole 25% EC]: Take 8-10 ml per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 8-10 மி.லி) at petal fall.",
+      "Sulfur Dust Powder / கந்தகப் பொடி மருந்து - Sulfex 80% WDG [Chemical: Wettable Sulfur]: Mix 35 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35 கிராம்) during warm sunny spells."
     ],
     "biological_controls": [
-      "Potassium bicarbonate (Armicarb/Kaligreen) or horticultural neem oil.",
-      "Foliar sulfur sprays during early season."
+      "Sour Buttermilk & Asafoetida Spray / புளித்த மோர் மற்றும் பெருங்காயக் கரைசல்: Mix 750 ml sour buttermilk + 10g hing in a 15-liter pump. Natural lactic acid suppresses mildew spores.",
+      "Neem Oil Spray / வேப்பெண்ணெய் கரைசல்: Mix 40 ml neem oil + 5 ml liquid soap per 15-liter pump.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா: Mix 450 ml per 15-liter pump."
     ],
     "preventive_measures": [
-      "Scout young shoots at the base and interior of trees regularly."
+      "Begin preventive sprays right after petal fall when new leaves start growing.",
+      "Do not use sprinkler overhead irrigation; keep tree foliage dry."
     ],
     "severity_actions": {
-      "Mild": "Apply potassium bicarbonate or horticultural oil; prune infected water sprouts.",
-      "Moderate": "Apply targeted powdery mildew fungicide (Myclobutanil or Triflumizole).",
-      "Severe": "Rotate between FRAC group 3 and 11 fungicides every 10-14 days to prevent resistance."
-    }
+      "Mild": "Prune curled shoot tips and spray Sulfur Dust Powder - Sulfex (35g per 15L pump) or sour buttermilk.",
+      "Moderate": "Spray systemic Contaf Plus (15 ml per 15L pump) or Score (8-10 ml per 15L pump); ensure complete canopy coverage.",
+      "Severe": "Repeat systemic fungicide spray every 10-12 days until white powdery mildew completely dries up."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Potassium Nitrate (13:0:45): Mix 60 grams per 15-liter pump to strengthen leaf cell walls.",
+      "Organic Manure / மட்கிய தொழு உரம்: Apply 20 kg farmyard manure + 2 kg Vermicompost per tree basin."
+    ],
+    "tamil_name": "செர்ரி சாம்பல் நோய்"
   },
   "Cherry_(including_sour)___healthy": {
     "species": "Cherry",
     "condition_name": "Healthy",
     "pathogen_type": "None",
-    "description": "Leaves are robust, glossy green, and free of spots, shot holes, or mildew.",
+    "description": "Foliage is clean, vibrant green, and actively growing without powdery mildew or leaf spot symptoms.",
     "cultural_controls": [
-      "Maintain consistent soil moisture, especially during fruit sizing.",
-      "Apply organic mulch around drip line."
+      "Prune competing inner branches during winter to maintain open vase shape.",
+      "Apply organic mulch around the tree drip line to keep root zone cool.",
+      "Ensure clean drip irrigation without pooling around the trunk base."
     ],
     "chemical_controls": [
-      "None needed."
+      "No chemical intervention needed. Monitor regularly during rainy periods."
     ],
     "biological_controls": [
-      "Preserve natural beneficial insect populations."
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump monthly.",
+      "Neem Oil Preventive / வேப்பெண்ணெய் கரைசல்: Mix 35 ml neem oil with soap water per 15-liter pump."
     ],
     "preventive_measures": [
-      "Conduct regular canopy scouting for cherry fruit fly and fungal leaf spot."
+      "Inspect young shoot flushes weekly in spring.",
+      "Ensure orchard drainage paths are free and clear."
     ],
     "severity_actions": {
-      "Healthy": "Healthy canopy. Maintain standard orchard sanitation and irrigation."
-    }
+      "Healthy": "Continue regular balanced organic nutrition and seasonal pruning."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 உரம்: Mix 75 grams per 15-liter pump monthly.",
+      "Basin Dressing / தொழு உரம்: Apply 20 kg farmyard manure per tree annually."
+    ],
+    "tamil_name": "ஆரோக்கியமான செர்ரி பயிர்"
   },
   "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot": {
     "species": "Corn",
     "condition_name": "Cercospora / Gray Leaf Spot",
     "pathogen_type": "Fungal (Cercospora zeae-maydis)",
-    "description": "Rectangular, brown to gray lesions delimited by leaf veins, spreading from lower canopy upward in warm, humid weather.",
+    "description": "Narrow rectangular, tan-to-gray lesions form parallel between leaf veins. Lesions coalesce into large blighted areas, drying out the upper canopy and reducing ear grain filling.",
     "cultural_controls": [
-      "Rotate crops away from corn for at least 1-2 years.",
-      "Utilize conventional tillage to bury crop debris where feasible."
+      "Deeply plow under corn crop residues after harvest to bury fungal spores in soil.",
+      "Practice 2-year crop rotation with legumes (groundnut, soybean, or cowpea).",
+      "Avoid excessive planting density to allow good air movement between rows."
     ],
     "chemical_controls": [
-      "Apply strobilurin and triazole premix fungicides (Pyraclostrobin + Fluxapyroxad, Azoxystrobin + Propiconazole) at VT-R1 growth stage."
+      "Blue Packet Combo Fungicide / சாஃப் மருந்து - SAAF [Chemical: Carbendazim 12% + Mancozeb 63% WP]: Popular blue packet. Mix 2 tablespoons (30g) in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 30 கிராம்).",
+      "Ear & Foliage Curative - Tilt 25% EC [Chemical: Propiconazole 25% EC]: Mix 15 ml in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 15 மி.லி) at tasseling stage.",
+      "Yellow Powder Fungicide / மஞ்சள் பொடி மருந்து - Dithane M-45 [Chemical: Mancozeb 75% WP]: Mix 35-40 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்)."
     ],
     "biological_controls": [
-      "Bio-fungicides like Bacillus subtilis applied early in disease development."
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution) to stimulate plant vigor.",
+      "Pseudomonas Bio-Fungicide / சூடோமோனாஸ்: Mix 75 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Neem Oil Spray / வேப்பெண்ணெய்: Mix 40 ml neem oil with soap water per 15-liter pump."
     ],
     "preventive_measures": [
-      "Select corn hybrids with high Gray Leaf Spot tolerance ratings."
+      "Plant certified gray leaf spot-tolerant hybrid maize seeds.",
+      "Ensure balanced potash fertilization to strengthen maize stalks and leaf tissue."
     ],
     "severity_actions": {
-      "Mild": "Monitor disease progression toward the ear leaf; evaluate economic threshold.",
-      "Moderate": "Apply dual-mode-of-action fungicide at VT/R1 tassel stage.",
-      "Severe": "Immediate fungicide application to protect upper canopy and ear leaves; plan 2-year crop rotation."
-    }
+      "Mild": "Spray Blue Packet Combo Fungicide - SAAF (30g per 15L pump) on lower affected leaves.",
+      "Moderate": "Apply systemic Tilt 25% EC (15 ml per 15L pump); spray before tasseling to safeguard the ear leaf.",
+      "Severe": "Repeat systemic fungicide spray within 10 days to protect ear filling."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்) at knee-high stage.",
+      "Potassium Booster (MOP): Apply 25 kg Muriate of Potash per acre to improve disease resistance.",
+      "Micronutrient Tonic (Zinc Sulfate): Foliar spray 30g Zinc Sulfate per 15L pump to prevent white bud chlorosis."
+    ],
+    "tamil_name": "மக்காச்சோளம் சாம்பல் நிற இலைப்புள்ளி நோய்"
   },
   "Corn_(maize)___Common_rust_": {
     "species": "Corn",
     "condition_name": "Common Rust",
     "pathogen_type": "Fungal (Puccinia sorghi)",
-    "description": "Small, powdery, cinnamon-brown circular to elongate pustules on both upper and lower leaf surfaces.",
+    "description": "Small, powdery cinnamon-brown to golden-brown pustules erupt on both upper and lower leaf surfaces. Ruptured pustules discharge dusty rust spores when rubbed.",
     "cultural_controls": [
-      "Plant early in the season to escape peak wind-borne airborne spore loads."
+      "Plant early in the season to avoid late-season cool, humid weather favorable to rust.",
+      "Eradicate wild oxalis weeds along field bunds that act as intermediate rust hosts.",
+      "Avoid overhead sprinkler irrigation during late afternoon."
     ],
     "chemical_controls": [
-      "Fungicides containing Azoxystrobin, Pyraclostrobin, or Tebuconazole if rust appears prior to tasseling on susceptible hybrids."
+      "Yellow Powder Fungicide / மஞ்சள் பொடி மருந்து - Dithane M-45 [Chemical: Mancozeb 75% WP]: Mix 2 tablespoons (35-40g) per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்) at first pustule sight.",
+      "Systemic Rust Curative - Tilt 25% EC [Chemical: Propiconazole 25% EC]: Mix 15 ml in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 15 மி.லி).",
+      "Curative Liquid / கருகல் நிவாரண திரவம் - Score 25% EC [Chemical: Difenoconazole]: Take 8-10 ml per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 8-10 மி.லி)."
     ],
     "biological_controls": [
-      "Sulfur dust or neem-based antifungal formulations in organic farming."
+      "Sulfur Dust Powder / கந்தகப் பொடி மருந்து - Sulfex 80% WDG [Chemical: Wettable Sulfur]: Mix 35 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35 கிராம்).",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump.",
+      "Neem Oil Spray / வேப்பெண்ணெய் கரைசல்: Mix 40 ml neem oil with soap water per 15-liter pump."
     ],
     "preventive_measures": [
-      "Plant corn hybrids with Rp-gene resistance."
+      "Sow certified rust-resistant maize hybrids.",
+      "Apply balanced nitrogen and potassium; avoid excess nitrogen alone."
     ],
     "severity_actions": {
-      "Mild": "Scout field weekly; rust rarely requires treatment if appearing late in grain fill.",
-      "Moderate": "Apply foliar fungicide if lesions appear on upper leaves 2 weeks before tasseling.",
-      "Severe": "Spray systemic triazole/strobilurin mix immediately to protect grain yield."
-    }
+      "Mild": "Spray Yellow Powder Fungicide - Dithane M-45 (35-40g per 15L pump) at first appearance of brown pustules.",
+      "Moderate": "Spray systemic Tilt 25% EC (15 ml per 15L pump) to protect the top canopy leaves.",
+      "Severe": "Repeat systemic fungicide rotation within 10-12 days if pustules spread up to the ear leaf."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Potash Application: Side-dress 20 kg Potash per acre to strengthen leaf cell walls.",
+      "Zinc Micronutrient: Foliar spray 30g Zinc Sulfate per 15L pump."
+    ],
+    "tamil_name": "மக்காச்சோளம் துரு நோய்"
   },
   "Corn_(maize)___Northern_Leaf_Blight": {
     "species": "Corn",
     "condition_name": "Northern Corn Leaf Blight",
-    "pathogen_type": "Fungal (Setosphaeria turcica / Exserohilum turcicum)",
-    "description": "Long, elliptical, cigar-shaped grayish-green to tan lesions (1-6 inches long) that rapidly coalesce and kill leaf tissue.",
+    "pathogen_type": "Fungal (Exserohilum turcicum / Setosphaeria turcica)",
+    "description": "Large, elongated cigar-shaped grayish-green to tan lesions (1 to 6 inches long) develop on leaves. Lesions merge during wet weather, scorching the entire leaf and sharply decreasing grain yields.",
     "cultural_controls": [
-      "Crop rotation with non-host crops (soybean, small grains).",
-      "Manage crop residue to accelerate degradation."
+      "Plow down crop residues after harvest to bury fungal inoculum.",
+      "Rotate corn with non-grass crops (groundnut, soybean, or green gram) for at least 1 year.",
+      "Avoid dense planting; maintain 60 cm x 20 cm spacing to improve airflow."
     ],
     "chemical_controls": [
-      "Apply strobilurin/triazole combination fungicides (Azoxystrobin + Difenoconazole, Pyraclostrobin + Metconazole)."
+      "Yellow Powder Fungicide / மஞ்சள் பொடி மருந்து - Dithane M-45 [Chemical: Mancozeb 75% WP]: Mix 2 tablespoons (35-40g) in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்).",
+      "Blue Packet Combo Fungicide / சாஃப் மருந்து - SAAF [Chemical: Carbendazim 12% + Mancozeb 63% WP]: Mix 30 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 30 கிராம்).",
+      "Curative Liquid / கருகல் நிவாரண திரவம் - Score 25% EC or Tilt 25% EC [Chemical: Difenoconazole / Propiconazole]: Take 10-12 ml per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 10-12 மி.லி)."
     ],
     "biological_controls": [
-      "Trichoderma-based biocontrol products applied early."
+      "Pseudomonas Bio-agent / சூடோமோனாஸ்: Mix 75 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Trichoderma Soil Application / ட்ரைக்கோடெர்மா: Mix 2.5 kg Trichoderma with 100 kg farmyard manure (தொழு உரம்) per acre.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா: Mix 450 ml per 15-liter pump (3% solution)."
     ],
     "preventive_measures": [
-      "Select resistant hybrids with multi-gene resistance (Ht1, Ht2, Ht3)."
+      "Plant blight-resistant maize hybrids.",
+      "Spray protectant fungicide before tasseling if cigar-shaped lesions appear on lower leaves."
     ],
     "severity_actions": {
-      "Mild": "Monitor lower leaves; scout field every 5 days during wet, overcast weather.",
-      "Moderate": "Apply fungicide before silking if lesions reach the third leaf below the ear.",
-      "Severe": "Immediate systemic fungicide spray; ensure high pressure and spray volume for deep canopy penetration."
-    }
+      "Mild": "Spray Yellow Powder Fungicide - Dithane M-45 (35-40g per 15L pump) at first sign of cigar lesions.",
+      "Moderate": "Apply Blue Packet SAAF (30g per 15L pump) or Tilt (15 ml per 15L pump); cover both upper and lower leaves.",
+      "Severe": "Spray systemic curative fungicide (Tilt or Score) every 10 days to protect ear leaf."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Potash Application: Side-dress 25 kg MOP per acre.",
+      "Farmyard Manure / தொழு உரம்: Apply 5 tons well-rotted manure per acre during land preparation."
+    ],
+    "tamil_name": "மக்காச்சோளம் இலைக் கருகல் நோய்"
   },
   "Corn_(maize)___healthy": {
     "species": "Corn",
     "condition_name": "Healthy",
     "pathogen_type": "None",
-    "description": "Vibrant, clean green foliage with no rust pustules, cigar lesions, or fungal spotting.",
+    "description": "Maize plants are vigorous, dark green, and free of leaf blight or rust pustules.",
     "cultural_controls": [
-      "Ensure balanced soil nutrition (proper N sidedressing at V6).",
-      "Maintain appropriate plant population density."
+      "Maintain weed-free rows during first 35 days using mechanical weeding.",
+      "Earth up soil around stalk bases at knee-high stage to prevent lodging.",
+      "Provide critical irrigation at tasseling and silking stages."
     ],
     "chemical_controls": [
-      "None required."
+      "No chemical intervention needed. Monitor for fall armyworm and leaf spots."
     ],
     "biological_controls": [
-      "Promote beneficial soil microbiology."
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா: Mix 450 ml per 15-liter pump at 30 and 45 days.",
+      "Neem Oil Preventive / வேப்பெண்ணெய்: Mix 40 ml neem oil with soap water per 15-liter pump."
     ],
     "preventive_measures": [
-      "Continue routine crop scouting through reproductive stages."
+      "Inspect the top whorl and ear leaf weekly.",
+      "Ensure field drains excess monsoon water smoothly."
     ],
     "severity_actions": {
-      "Healthy": "Crop is in optimal health. Continue standard agronomic management."
-    }
+      "Healthy": "Maintain scheduled split nitrogen and potash nutrition."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Zinc Sulfate Spray: 30 grams per 15-liter pump.",
+      "Organic Booster / தொழு உரம்: Apply farmyard manure at sowing."
+    ],
+    "tamil_name": "ஆரோக்கியமான மக்காச்சோளம் பயிர்"
   },
   "Grape___Black_rot": {
     "species": "Grape",
     "condition_name": "Black Rot",
     "pathogen_type": "Fungal (Guignardia bidwellii)",
-    "description": "Small circular reddish-brown leaf spots with dark borders and tiny black pycnidia; causes grape berries to shrivel into hard black mummies.",
+    "description": "Small reddish-brown circular spots appear on leaves with tiny black spore pimples. Berries turn brown, shrivel up into hard black wrinkled mummies, and stay attached to the bunch.",
     "cultural_controls": [
-      "Canopy management: shoot thinning, leaf pulling, and trellis training for rapid drying.",
-      "Remove and destroy all mummified fruit clusters during winter pruning."
+      "Prune and destroy all dried mummified berry bunches and diseased canes during winter pruning.",
+      "Maintain open vine canopies through shoot thinning and leaf pulling around fruit clusters.",
+      "Keep vineyard floor free of tall weeds that trap morning humidity."
     ],
     "chemical_controls": [
-      "Apply Mancozeb, Captan, or Myclobutanil starting at bud break (1-inch shoot growth) through 4 weeks post-bloom."
+      "Blue Copper Powder / நீல மருந்து - Blitox 50 [Chemical: Copper Oxychloride 50% WP]: Mix 3 tablespoons (45g) in a 15-liter knapsack pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 45 கிராம்) before bud break.",
+      "Yellow Powder Fungicide / மஞ்சள் பொடி மருந்து - Dithane M-45 [Chemical: Mancozeb 75% WP]: Mix 35-40 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்) from pre-bloom to berry touch.",
+      "Curative Liquid / கருகல் நிவாரண திரவம் - Score 25% EC [Chemical: Difenoconazole 25% EC]: Take 8-10 ml per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 8-10 மி.லி) for systemic curative healing."
     ],
     "biological_controls": [
-      "Copper hydroxide or liquid lime sulfur during early shoot development."
+      "Bordeaux Mixture 1% / போர்டோ கலவை: Dissolve 150g Copper Sulfate + 150g Slaked Lime in 15 liters of water. Spray thoroughly on vine framework.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution).",
+      "Trichoderma Vine Spray / ட்ரைக்கோடெர்மா: Mix 75 grams per 15-liter pump."
     ],
     "preventive_measures": [
-      "Maintain weed-free zone under vine rows to enhance ground airflow."
+      "Maintain strict preventive spray program from early shoot growth until veraison (berry softening).",
+      "Disinfect pruning secateurs with alcohol between vine rows."
     ],
     "severity_actions": {
-      "Mild": "Remove affected leaves and shoot tips; apply protective Mancozeb spray.",
-      "Moderate": "Apply systemic Myclobutanil or Difenoconazole; remove all diseased fruit clusters.",
-      "Severe": "Implement intensive 7-day spray rotation until veraison; prune severely damaged canes."
-    }
+      "Mild": "Clip off infected leaf spots and spray Yellow Powder Fungicide - Dithane M-45 (35-40g per 15L pump).",
+      "Moderate": "Spray systemic curative Score 25% EC (8-10 ml per 15L pump); drench fruit bunches thoroughly.",
+      "Severe": "Cut and burn infected bunches; execute 8-day fungicide rotation alternating Score and Blue Copper."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Potassium Nitrate (13:0:45): Mix 60 grams per 15-liter pump during berry sizing to increase skin toughness.",
+      "Vine Basin Dressing / மட்கிய தொழு உரம்: Apply 15 kg farmyard manure + 1 kg Vermicompost per vine."
+    ],
+    "tamil_name": "திராட்சை கருப்பு அழுகல் நோய்"
   },
   "Grape___Esca_(Black_Measles)": {
     "species": "Grape",
     "condition_name": "Esca / Black Measles",
-    "pathogen_type": "Fungal Complex (Phaeomoniella chlamydospora, Fomitiporia mediterranea)",
-    "description": "Causes tiger-stripe chlorotic and necrotic patterns between leaf veins, dark spot speckling on berries, and sudden apoplexy collapse.",
+    "pathogen_type": "Fungal Complex (Phaeomoniella chlamydospora, Phaeoacremonium, Fomitiporia)",
+    "description": "Leaves develop striking 'tiger-stripe' patterns of yellow/white chlorosis and brown necrosis between green veins. Dark purple-brown spots ('black measles') speckle berry skins, and mature vines suffer sudden summer apoplexy (wilting).",
     "cultural_controls": [
-      "Practice delayed pruning (late winter) to reduce spore infection of pruning wounds.",
-      "Seal all large pruning wounds (>1 inch diameter) with wound sealant or pruning paint."
+      "Prune vines strictly during late winter dry periods to minimize spore entry through cuts.",
+      "Seal all pruning wounds larger than 1.5 cm immediately with Bordeaux paste (போர்டோ பசை).",
+      "Cut back chronically affected cordons several inches below visible wood discoloration."
     ],
     "chemical_controls": [
-      "Apply wound protectant fungicides (Thiophanate-methyl) directly to fresh pruning cuts."
+      "Bordeaux Paste Application / போர்டோ பசை பூசுதல்: Mix 100g Copper Sulfate + 100g Lime into a thick paste with water; paint onto cut vine wounds.",
+      "Blue Copper Powder / நீல மருந்து - Blitox 50 [Chemical: Copper Oxychloride 50% WP]: Mix 45 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 45 கிராம்) as a trunk drench.",
+      "Systemic White Powder - Roko [Chemical: Thiophanate-methyl 70% WP]: Mix 20 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 20 கிராம்) drench around the trunk base."
     ],
     "biological_controls": [
-      "Apply Trichoderma-based bio-protectants (e.g., Trichoderma atroviride) immediately after pruning."
+      "Trichoderma Wound Dressing / ட்ரைக்கோடெர்மா பூசுதல்: Apply fresh Trichoderma viride paste onto fresh pruning cuts within 24 hours.",
+      "Pseudomonas Soil Drench / சூடோமோனாஸ்: Mix 100 grams per 15-liter pump and drench around vine roots.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா: Mix 450 ml per 15-liter pump."
     ],
     "preventive_measures": [
-      "Avoid cutting into old infected wood; sanitize pruning shears with 10% bleach or alcohol."
+      "Source certified disease-free vine rootstocks from authorized nurseries.",
+      "Avoid severe pruning cuts that expose extensive heartwood."
     ],
     "severity_actions": {
-      "Mild": "Mark infected vines for selective winter sanitation; protect all pruning wounds with sealant.",
-      "Moderate": "Excise infected cordons below visible wood necrosis; apply Trichoderma protectant.",
-      "Severe": "Retrain a new healthy sucker from base or replace vine; properly dispose of infected trunks."
-    }
+      "Mild": "Paint all pruning cuts with Bordeaux paste and spray Blue Copper Powder (45g per 15L pump).",
+      "Moderate": "Prune out dying arms below dark internal wood staining; drench trunk base with systemic Roko (20g per 15L pump).",
+      "Severe": "Uproot and burn collapsed vines; disinfect the planting pit with lime and Trichoderma before replanting."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Chelated Micronutrient Spray: 25 grams per 15-liter pump to relieve stress chlorosis.",
+      "Organic Root Health / தொழு உரம்: Apply well-rotted farmyard manure enriched with Trichoderma."
+    ],
+    "tamil_name": "திராட்சை எஸ்கா தண்டு காய்வு நோய்"
   },
   "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)": {
     "species": "Grape",
     "condition_name": "Leaf Blight (Isariopsis Leaf Spot)",
-    "pathogen_type": "Fungal (Pseudocercospora vitis / Phaeoisariopsis clavispora)",
-    "description": "Large, irregular brown to dark red necrotic spots on mature leaves, leading to yellowing, premature leaf drop, and weakened vines.",
+    "pathogen_type": "Fungal (Pseudocercospora vitis / Isariopsis clavispora)",
+    "description": "Angular to irregular dark brown spots with well-defined borders appear on older leaves. In humid conditions, dark sooty spore mold covers spot undersides, causing severe premature leaf fall.",
     "cultural_controls": [
-      "Prune excess foliage in the fruit zone to improve airflow.",
-      "Collect and destroy infected autumn leaf litter."
+      "Collect and burn all fallen leaves after harvest to eliminate overwintering spore reservoirs.",
+      "Prune dense vine canopies to promote swift leaf drying after monsoon showers.",
+      "Maintain weed-free vine basins to reduce under-canopy humidity."
     ],
     "chemical_controls": [
-      "Apply Copper oxychloride, Mancozeb, or Pyraclostrobin post-harvest or at first symptom emergence."
+      "Yellow Powder Fungicide / மஞ்சள் பொடி மருந்து - Dithane M-45 [Chemical: Mancozeb 75% WP]: Mix 2 tablespoons (35-40g) in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்).",
+      "Blue Copper Powder / நீல மருந்து - Blitox 50 [Chemical: Copper Oxychloride 50% WP]: Mix 35-40 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்).",
+      "Blue Packet Combo Fungicide / சாஃப் மருந்து - SAAF [Chemical: Carbendazim 12% + Mancozeb 63% WP]: Mix 30 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 30 கிராம்)."
     ],
     "biological_controls": [
-      "Bordeaux mixture or copper soaps.",
-      "Bacillus subtilis foliar sprays."
+      "Bordeaux Mixture 1% / போர்டோ கலவை: Dissolve 150g Copper Sulfate + 150g Slaked Lime in 15 liters of water.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution).",
+      "Neem Oil Spray / வேப்பெண்ணெய் கரைசல்: Mix 40 ml neem oil with soap water per 15-liter pump."
     ],
     "preventive_measures": [
-      "Avoid excess overhead irrigation that prolongs leaf wetness."
+      "Begin protective sprays at post-bloom stage when rainy conditions prevail.",
+      "Avoid excess nitrogen fertilizer that creates dense, shade-trapped canopies."
     ],
     "severity_actions": {
-      "Mild": "Rake fallen leaves, improve trellis aeration, and apply copper fungicide spray.",
-      "Moderate": "Apply Mancozeb or Strobilurin fungicide; ensure coverage of lower and inner leaf surfaces.",
-      "Severe": "Full vineyard fungicide coverage; strip severely defoliated shoots and burn debris."
-    }
+      "Mild": "Spray Yellow Powder Fungicide - Dithane M-45 (35-40g per 15L pump) at first leaf spots.",
+      "Moderate": "Apply Blue Packet SAAF (30g per 15L pump) or Blue Copper Powder (40g per 15L pump); coat undersides of leaves.",
+      "Severe": "Spray systemic curative Score 25% EC (8-10 ml per 15L pump) on a 10-day cycle."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Potassium Nitrate (13:0:45): Mix 60 grams per 15-liter pump.",
+      "Basin Manure: Apply 15 kg well-rotted farmyard manure (தொழு உரம்) per vine."
+    ],
+    "tamil_name": "திராட்சை இலைக் கருகல் நோய்"
   },
   "Grape___healthy": {
     "species": "Grape",
     "condition_name": "Healthy",
     "pathogen_type": "None",
-    "description": "Vine leaves are clean, broad, and uniform deep green without chlorosis, spots, or powdery residue.",
+    "description": "Vines are strong with vibrant green foliage, robust shoot canes, and clean bunch clusters.",
     "cultural_controls": [
-      "Maintain proper shoot positioning and trellis wire tension.",
-      "Regulate irrigation using drip systems to prevent water stress."
+      "Maintain proper bower or trellis training with uniform shoot positioning.",
+      "Nip excess sub-shoots (*பக்கக் கிளை கிள்ளுதல்*) to maximize fruit zone sunlight.",
+      "Regulate drip irrigation to match berry development phases."
     ],
     "chemical_controls": [
-      "None required."
+      "No chemical fungicides or insecticides required. Routine monitoring recommended."
     ],
     "biological_controls": [
-      "Support beneficial predatory mites for natural pest management."
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution) monthly.",
+      "Neem Oil Preventive / வேப்பெண்ணெய்: Mix 35 ml neem oil with soap water per 15-liter pump."
     ],
     "preventive_measures": [
-      "Routine weekly scouting for early signs of downy/powdery mildew and black rot."
+      "Inspect leaves and fruit clusters weekly during humid weather.",
+      "Sanitize shears before all pruning operations."
     ],
     "severity_actions": {
-      "Healthy": "Vines are healthy. Continue standard viticulture canopy and nutrition practices."
-    }
+      "Healthy": "Continue balanced organic feeding and systematic shoot training."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Micronutrient Tonic / நுண்ணூட்டச் சத்து கரைசல்: 25 grams per 15-liter pump.",
+      "Basin Dressing / தொழு உரம்: Apply 15 kg farmyard manure per vine annually."
+    ],
+    "tamil_name": "ஆரோக்கியமான திராட்சைக் கொடி"
   },
   "Orange___Haunglongbing_(Citrus_greening)": {
-    "species": "Orange / Citrus",
+    "species": "Orange",
     "condition_name": "Huanglongbing (Citrus Greening)",
-    "pathogen_type": "Bacterial (Candidatus Liberibacter asiaticus, vectored by Asian Citrus Psyllid)",
-    "description": "Asymmetrical blotchy mottle leaf yellowing, yellow veins, small lopsided bitter green fruit, and progressive dieback of tree canopy.",
+    "pathogen_type": "Bacterial (Candidatus Liberibacter asiaticus, spread by Asian Citrus Psyllid)",
+    "description": "Blotchy, asymmetrical yellow mottling appears across leaf veins. Leaves become small, upright, and leathery with zinc-deficiency-like patterns. Twigs die back, and fruits stay small, lopsided, sour, and green at the base.",
     "cultural_controls": [
-      "Inspect orchard for Asian Citrus Psyllid vectors (Diaphorina citri).",
-      "Remove and destroy PCR-confirmed infected trees immediately to reduce inoculum source."
+      "Inspect trees regularly; immediately cut down and burn severely declining trees to protect surrounding orchards.",
+      "Eradicate wild jasmine and orange jessamine (*Murraya paniculata*) shrubs nearby that host the psyllid insect vector.",
+      "Control ground ant colonies that protect psyllid nymphs from natural predators."
     ],
     "chemical_controls": [
-      "Control psyllid vectors with rotational insecticides (Imidacloprid, Thiamethoxam, Fenpropathrin).",
-      "Apply foliar nutritional sprays (Zinc, Manganese, Boron) to sustain tree production."
+      "Whitefly & Sucking Pest Liquid / சாறு உறிஞ்சும் பூச்சி மருந்து - Confidor [Chemical: Imidacloprid 17.8% SL]: Mix 5-7 ml in a 15-liter knapsack pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 5-7 மி.லி) at new leaf flush to eliminate citrus psyllids.",
+      "Green Hopper & Psyllid Medicine - Actara [Chemical: Thiamethoxam 25% WG]: Mix 5 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 5 கிராம்).",
+      "Plant Antibiotic Packet / செடி பாக்டீரியா எதிர்ப்பு பொடி - Streptocycline [Chemical: Streptomycin + Tetracycline]: Mix 1 small pouch (6g) + Blue Copper (35g) per 15-liter pump."
     ],
     "biological_controls": [
-      "Release Tamarixia radiata parasitoid wasps for biological psyllid suppression."
+      "Neem Oil Vector Spray / வேப்பெண்ணெய் கரைசல்: Mix 45 ml neem oil (10,000 ppm) + 5 ml soap water per 15-liter pump.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution) to rebuild tree vigor.",
+      "Pseudomonas Soil Drench / சூடோமோனாஸ்: Mix 100 grams per 15-liter pump around tree root zone."
     ],
     "preventive_measures": [
-      "Plant only certified disease-free nursery stock from screenhouses.",
-      "Establish physical protective windbreaks or screen barriers."
+      "Plant only certified disease-free grafted saplings from government-certified nurseries.",
+      "Establish yellow sticky traps across the orchard to monitor citrus psyllid flights."
     ],
     "severity_actions": {
-      "Mild": "Isolate tree, treat immediately for psyllid vectors with systemic insecticide, submit tissue for PCR testing.",
-      "Moderate": "Intensive vector suppression; apply enhanced micronutrient foliar program to alleviate symptoms.",
-      "Severe": "Eradicate and burn infected tree to prevent vector transmission to neighboring healthy citrus blocks."
-    }
+      "Mild": "Control psyllid insect vectors with Confidor (5-7 ml per 15L pump); spray micronutrient cocktail.",
+      "Moderate": "Spray Streptocycline (6g per 15L pump) + Blue Copper (35g per 15L pump); prune dead shoot twigs.",
+      "Severe": "Mark and uproot unproductive, severely declining trees; burn stumps and control psyllids on remaining blocks."
+    },
+    "fertilizers_and_nutrition": [
+      "Foliar Micronutrient Cocktail / நுண்ணூட்டச் சத்து கரைசல்: Mix Zinc Sulfate (30g) + Ferrous Sulfate (25g) + Manganese Sulfate (20g) + Borax (10g) in a 15-liter pump.",
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Root Health Dressing / மட்கிய தொழு உரம்: Apply 25 kg well-rotted farmyard manure (தொழு உரம்) + 2 kg Vermicompost per tree."
+    ],
+    "tamil_name": "எலுமிச்சை / ஆரஞ்சு பச்சை நரம்பு நோய்"
   },
   "Peach___Bacterial_spot": {
     "species": "Peach",
     "condition_name": "Bacterial Spot",
     "pathogen_type": "Bacterial (Xanthomonas arboricola pv. pruni)",
-    "description": "Small water-soaked angular spots on leaves turning purple-brown, centers drop out giving a shot-hole appearance; causes severe defoliation and fruit pitting.",
+    "description": "Small angular water-soaked purple-brown spots form along leaf midribs. The necrotic centers drop out, leaving a distinct 'shot-hole' appearance. Can cause severe fruit pitting and gum-oozing bark cankers.",
     "cultural_controls": [
-      "Avoid planting in excessively sandy, wind-exposed sites without windbreaks.",
-      "Avoid heavy summer nitrogen applications which stimulate late susceptible growth."
+      "Prune out dead shoots and cankered twigs during winter dormancy.",
+      "Plant tree windbreaks to shield orchard blocks from blowing sand and wind-driven rain.",
+      "Avoid excessive nitrogen fertilizers that promote soft, highly susceptible shoot growth."
     ],
     "chemical_controls": [
-      "Apply copper bactericides during dormant and bud-swell stages.",
-      "Apply Oxytetracycline (Mycoshield) sprays during bloom and petal fall."
+      "Blue Copper Powder / நீல மருந்து - Blitox 50 [Chemical: Copper Oxychloride 50% WP]: Mix 2 tablespoons (35g) in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35 கிராம்) at dormant bud break.",
+      "Plant Antibiotic Packet / செடி பாக்டீரியா எதிர்ப்பு பொடி - Streptocycline [Chemical: Streptomycin + Tetracycline]: Mix 1 pouch (6g) in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 6 கிராம்).",
+      "Copper Hydroxide Spray - Kocide [Chemical: Copper Hydroxide 53.8% DF]: Mix 25 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 25 கிராம்)."
     ],
     "biological_controls": [
-      "Bacillus amyloliquefaciens or bacteriophage products."
+      "Pseudomonas Bio-Fungicide / சூடோமோனாஸ்: Mix 75 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Sour Buttermilk & Asafoetida / புளித்த மோர் மற்றும் பெருங்காயக் கரைசல்: Mix 750 ml sour buttermilk + 10g hing in a 15-liter pump.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா: Mix 450 ml per 15-liter pump."
     ],
     "preventive_measures": [
-      "Select resistant peach cultivars (e.g., Redhaven, Candor, Biscoe)."
+      "Plant bacterial spot-resistant peach cultivars in sandy, wind-prone soils.",
+      "Apply low-dose protective copper sprays throughout the bloom period."
     ],
     "severity_actions": {
-      "Mild": "Apply low-rate copper or bio-bactericide spray; minimize foliage abrasion from wind.",
-      "Moderate": "Apply Oxytetracycline or copper-mancozeb tank mix every 7 days during wet weather.",
-      "Severe": "Full bactericide schedule; prune affected twigs during dormancy; improve windbreak protection."
-    }
+      "Mild": "Spray Blue Copper Powder - Blitox 50 (35g per 15L pump) at bud swell.",
+      "Moderate": "Apply Plant Antibiotic Packet - Streptocycline (6g per 15L pump) mixed with Blue Copper (30g per 15L pump).",
+      "Severe": "Prune out infected shoot tips and cankers; maintain 10-day protective bactericide schedule."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Zinc & Boron Spray: 25g Chelated Zinc + 15g Borax per 15-liter pump.",
+      "Basin Dressing / தொழு உரம்: Apply 20 kg farmyard manure per tree."
+    ],
+    "tamil_name": "பீச் பாக்டீரியா இலைப்புள்ளி நோய்"
   },
   "Peach___healthy": {
     "species": "Peach",
     "condition_name": "Healthy",
     "pathogen_type": "None",
-    "description": "Foliage is lanceolate, smooth, glossy green, and free of shot-holes, cankers, or curl.",
+    "description": "Foliage is lush, glossy green, and free of shot-hole leaf spots or twig cankers.",
     "cultural_controls": [
-      "Prune into open-center vase structure to allow maximum light penetration.",
-      "Maintain proper soil drainage to prevent root rot."
+      "Prune to maintain open center vase canopy to let sunlight into the interior fruit zone.",
+      "Maintain organic wood chip mulch around tree basins to conserve steady moisture.",
+      "Ensure drainage away from trunk collars."
     ],
     "chemical_controls": [
-      "None required."
+      "No chemical pesticides needed. Routine seasonal checks recommended."
     ],
     "biological_controls": [
-      "Maintain orchard ground cover to support beneficial insects."
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump monthly.",
+      "Neem Oil Preventive / வேப்பெண்ணெய்: Mix 35 ml neem oil with soap water per 15-liter pump."
     ],
     "preventive_measures": [
-      "Dormant copper spray in late winter to prevent peach leaf curl."
+      "Inspect emerging leaves weekly after spring rains.",
+      "Sanitize pruning equipment before moving between trees."
     ],
     "severity_actions": {
-      "Healthy": "Healthy foliage. Continue standard stone-fruit nutrition and orchard management."
-    }
+      "Healthy": "Continue regular seasonal pruning and balanced organic feeding."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 உரம்: Mix 75 grams per 15-liter pump monthly.",
+      "Basin Dressing / தொழு உரம்: Apply 20 kg farmyard manure per tree annually."
+    ],
+    "tamil_name": "ஆரோக்கியமான பீச் மரம்"
   },
   "Pepper,_bell___Bacterial_spot": {
-    "species": "Bell Pepper",
+    "species": "Pepper bell",
     "condition_name": "Bacterial Spot",
-    "pathogen_type": "Bacterial (Xanthomonas euvesicatoria)",
-    "description": "Small, water-soaked circular to irregular dark brown spots with yellow halos on leaves, causing widespread blighting and leaf shedding.",
+    "pathogen_type": "Bacterial (Xanthomonas campestris pv. vesicatoria)",
+    "description": "Small, water-soaked, circular-to-irregular dark brown spots develop on leaves and stems. Spotted leaves turn yellow and drop prematurely, exposing bell peppers to sunburn and causing raised wart-like scabs on green fruits.",
     "cultural_controls": [
-      "Use drip irrigation rather than overhead sprinklers to keep foliage dry.",
-      "Practice 2-3 year crop rotation with non-solanaceous crops.",
-      "Sanitize stakes, trays, and tools."
+      "Avoid overhead sprinkler irrigation; water strictly at ground level using drip lines.",
+      "Stake bell pepper plants upright with bamboo sticks (*மூங்கில் கம்பு கட்டுதல்*) to prevent soil contact.",
+      "Lay clean straw mulch (*வைக்கோல் மூடாக்கு*) to stop rain droplets splashing soil bacteria onto lower leaves.",
+      "Prune lower foliage touching wet soil."
     ],
     "chemical_controls": [
-      "Apply fixed copper tank-mixed with Mancozeb (improves copper solubility and bacterial kill)."
+      "Plant Antibiotic Packet / செடி பாக்டீரியா எதிர்ப்பு பொடி - Streptocycline [Chemical: Streptomycin + Tetracycline]: Dissolve 1 small pouch (6g) in a 15-liter knapsack pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 6 கிராம்).",
+      "Blue Copper Powder / நீல மருந்து - Blitox 50 [Chemical: Copper Oxychloride 50% WP]: Mix 2 tablespoons (35g) in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35 கிராம்). Spray tank-mixed with Streptocycline.",
+      "Copper Hydroxide Spray - Kocide 2000 [Chemical: Copper Hydroxide 53.8% DF]: Mix 25 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 25 கிராம்)."
     ],
     "biological_controls": [
-      "Foliar sprays of Bacillus subtilis, Streptomyces lydicus, or copper soap formulations."
+      "Sour Buttermilk & Asafoetida Spray / புளித்த மோர் மற்றும் பெருங்காயக் கரைசல்: Mix 750 ml sour buttermilk + 10g hing per 15-liter pump. Natural lactic acid creates an antibacterial leaf shield.",
+      "Neem Oil Spray / வேப்பெண்ணெய் கரைசல்: Mix 40 ml neem oil + 5 ml soap water per 15-liter pump.",
+      "Pseudomonas Bio-Fungicide / சூடோமோனாஸ்: Mix 75 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution)."
     ],
     "preventive_measures": [
-      "Plant certified disease-free, hot-water-treated seed or resistant hybrid pepper varieties."
+      "Treat seeds before sowing by soaking in hot water (50°C for 25 minutes) or Trichoderma suspension.",
+      "Follow a 2-year crop rotation without chillies, tomatoes, or brinjals.",
+      "Plant certified bacterial spot-resistant hybrid seeds."
     ],
     "severity_actions": {
-      "Mild": "Remove infected lower leaves; apply copper-mancozeb or Bacillus spray; avoid working in wet fields.",
-      "Moderate": "Apply copper + mancozeb bactericide every 5-7 days; strictly avoid overhead watering.",
-      "Severe": "Intensive bactericide program; rogue out severely infected plants; sanitize all harvesting tools."
-    }
+      "Mild": "Pick off lower spotted leaves; spray Blue Copper Powder (35g per 15L pump) mixed with Streptocycline (6g per 15L pump).",
+      "Moderate": "Spray Streptocycline (6g per 15L pump) + Blue Copper on a strict 7-day cycle; stop overhead watering.",
+      "Severe": "Remove severely blighted plants; execute continuous 7-day bactericide schedule to protect developing bell peppers."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்) every 10-12 days.",
+      "Calcium Nitrate & Boron / கால்சியம் நைட்ரேட் மற்றும் போரான்: Mix 15g Calcium Nitrate + 5g Boron per 15-liter pump to prevent blossom-end rot.",
+      "Micronutrient Tonic / நுண்ணூட்டச் சத்து கரைசல்: 20 grams per 15-liter pump.",
+      "Soil Health Dressing / மட்கிய தொழு உரம்: Apply 2 kg farmyard manure (தொழு உரம்) + 200g Vermicompost per plant."
+    ],
+    "tamil_name": "குடைமிளகாய் பாக்டீரியா இலைப்புள்ளி நோய்"
   },
   "Pepper,_bell___healthy": {
-    "species": "Bell Pepper",
+    "species": "Pepper bell",
     "condition_name": "Healthy",
     "pathogen_type": "None",
-    "description": "Leaves are crisp, deep green, and free of blemishes, chlorosis, or bacterial spotting.",
+    "description": "Bell pepper plants are bushy, sturdy, with glossy deep-green foliage, abundant flower buds, and clean developing fruits.",
     "cultural_controls": [
-      "Provide consistent moisture through drip lines and balanced fertilization (calcium prevents blossom end rot).",
-      "Mulch soil bed with plastic or straw."
+      "Stake plants securely to support heavy fruit load.",
+      "Maintain straw mulch to conserve steady soil moisture and suppress weeds.",
+      "Irrigate evenly through drip emitters without waterlogging root zones."
     ],
     "chemical_controls": [
-      "None required."
+      "No chemical fungicides or insecticides required. Continue routine monitoring."
     ],
     "biological_controls": [
-      "Deploy beneficial insectary plants (alyssum, dill) nearby."
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution) every 15 days.",
+      "Neem Oil Preventive / வேப்பெண்ணெய்: Mix 35 ml neem oil with soap water per 15-liter pump."
     ],
     "preventive_measures": [
-      "Monitor underside of leaves for aphids and thrips."
+      "Inspect leaf undersides weekly for aphids and thrips.",
+      "Ensure uniform soil calcium levels to avoid blossom-end fruit rot."
     ],
     "severity_actions": {
-      "Healthy": "Healthy crop. Maintain consistent soil moisture and nutrient fertigation."
-    }
+      "Healthy": "Maintain scheduled balanced NPK fertigation and organic tonics."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Calcium Nitrate & Boron / கால்சியம் நைட்ரேட் மற்றும் போரான்: 15g + 5g per 15-liter pump.",
+      "Root Manure: Apply 2 kg farmyard manure (தொழு உரம்) per plant."
+    ],
+    "tamil_name": "ஆரோக்கியமான குடைமிளகாய் பயிர்"
   },
   "Potato___Early_blight": {
     "species": "Potato",
     "condition_name": "Early Blight",
     "pathogen_type": "Fungal (Alternaria solani)",
-    "description": "Characteristic brown to black target-board lesions with concentric rings, surrounded by yellow chlorotic margins on mature leaves.",
+    "description": "Characteristic dark brown circular spots with distinct concentric rings ('target board' pattern) bordered by yellow chlorosis. Starts on bottom leaves and progresses upward, causing heavy leaf drop and tuber yield loss.",
     "cultural_controls": [
-      "Avoid overhead irrigation; schedule watering early in the morning.",
-      "Ensure adequate nitrogen and potassium fertility (stressed plants are more susceptible).",
-      "Rotate crops away from potatoes and tomatoes for 3 years."
+      "Prune off lower yellowing leaves touching the ground.",
+      "Ridge soil up around potato stems (*மண் அணைத்தல்*) to protect shallow tubers from rain-washed spores.",
+      "Water strictly in morning through furrows or drip lines; keep foliage dry overnight."
     ],
     "chemical_controls": [
-      "Apply Chlorothalonil, Mancozeb, or Azoxystrobin + Difenoconazole at initial symptom detection."
+      "Yellow Powder Fungicide / மஞ்சள் பொடி மருந்து - Dithane M-45 [Chemical: Mancozeb 75% WP]: Mix 2 tablespoons (35-40g) in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்) at first spot sighting.",
+      "White Shield Powder / வெள்ளை பாதுகாப்பு பொடி - Kavach 75% WP [Chemical: Chlorothalonil 75% WP]: Mix 30 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 30 கிராம்).",
+      "Curative Liquid / கருகல் நிவாரண திரவம் - Score 25% EC [Chemical: Difenoconazole 25% EC]: Take 8-10 ml per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 8-10 மி.லி) for systemic curative healing.",
+      "Blue Packet Combo Fungicide / சாஃப் மருந்து - SAAF [Chemical: Carbendazim 12% + Mancozeb 63% WP]: Mix 30 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 30 கிராம்)."
     ],
     "biological_controls": [
-      "Foliar bio-fungicides (Bacillus subtilis, copper octanoate)."
+      "Sour Buttermilk Spray / புளித்த மோர் கரைசல்: Mix 750 ml sour buttermilk in a 15-liter pump (5% solution) as a protective bio-shield.",
+      "Neem Oil Spray / வேப்பெண்ணெய் கரைசல்: Mix 40 ml neem oil with soap water per 15-liter pump.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution).",
+      "Trichoderma Tuber Treatment / ட்ரைக்கோடெர்மா: Treat seed tubers with Trichoderma viride (10g/kg) before planting."
     ],
     "preventive_measures": [
-      "Plant certified disease-free seed tubers.",
-      "Destroy potato cull piles before planting season."
+      "Plant certified early blight-tolerant seed potatoes (e.g., Kufri Jyoti, Kufri Pukhraj).",
+      "Follow a 3-year crop rotation without tomatoes, chillies, or brinjals."
     ],
     "severity_actions": {
-      "Mild": "Strip lower infected leaves; apply protective Chlorothalonil or Mancozeb spray.",
-      "Moderate": "Apply systemic fungicide (Azoxystrobin or Boscalid); ensure thorough canopy penetration.",
-      "Severe": "Spray dual-action fungicide every 7 days; protect tubers by maintaining soil hilling."
-    }
+      "Mild": "Spray Yellow Powder Fungicide - Dithane M-45 (35-40g per 15L pump); remove lower spotted leaves.",
+      "Moderate": "Spray systemic curative Score 25% EC (8-10 ml per 15L pump) or Blue Packet SAAF (30g per 15L pump).",
+      "Severe": "Spray systemic fungicide every 7 days (Score or Amistar Top); maintain ridged soil to protect developing tubers."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Potassium Booster (SOP 0:0:50): Mix 60 grams per 15-liter pump at tuber bulking to improve tuber weight and skin quality.",
+      "Organic Manure / மட்கிய தொழு உரம்: Apply 10 tons farmyard manure (தொழு உரம்) per acre during field preparation."
+    ],
+    "tamil_name": "உருளைக்கிழங்கு ஆரம்ப இலைக் கருகல் நோய்"
   },
   "Potato___Late_blight": {
     "species": "Potato",
     "condition_name": "Late Blight",
-    "pathogen_type": "Oomycete / Fungal-like (Phytophthora infestans)",
-    "description": "Rapidly expanding water-soaked dark green to purplish-black lesions with white fuzzy mold on leaf undersides in humid conditions; can destroy entire fields in days.",
+    "pathogen_type": "Oomycete / Water Mold (Phytophthora infestans)",
+    "description": "Rapidly expanding water-soaked greenish-black lesions on leaves and stems. White cottony fungal mold appears on leaf undersides in foggy, humid weather. Can destroy entire potato fields within 48 to 72 hours and rot underground tubers.",
     "cultural_controls": [
-      "Destroy all volunteer potato plants and cull piles.",
-      "Ensure deep hill covering over tubers to prevent spore washdown.",
-      "Never irrigate in the late afternoon or evening."
+      "Earth up ridges high with soil (*மண் அணைத்தல்*) to prevent water mold spores washing down onto underground tubers.",
+      "Destroy cull piles of rotting potatoes away from the field.",
+      "Stop irrigation immediately when cool fog or late blight alerts are announced."
     ],
     "chemical_controls": [
-      "Apply specialized oomycete fungicides: Mandipropamid, Cymoxanil, Fluopicolide, or Chlorothalonil."
+      "Late Blight Emergency Powder / அழுகல் நிவாரணி - Ridomil Gold [Chemical: Metalaxyl-M 4% + Mancozeb 64% WP]: Mix 2 tablespoons (35-40g) in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்) at first warning.",
+      "Rot Stopper Powder / அழுகல் தடுப்பு மருந்து - Curzate [Chemical: Cymoxanil 8% + Mancozeb 64% WP]: Mix 35-40 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்).",
+      "Yellow Powder Fungicide / மஞ்சள் பொடி மருந்து - Indofil M-45 or Dithane M-45 [Chemical: Mancozeb 75% WP]: Mix 35-40 grams per 15-liter pump as preventive cover."
     ],
     "biological_controls": [
-      "Fixed copper hydroxide sprays applied preventively."
+      "Blue Copper Powder / நீல மருந்து - Blitox 50 [Chemical: Copper Oxychloride 50% WP]: Mix 35-40 grams per 15-liter pump.",
+      "Trichoderma Soil Inoculation / ட்ரைக்கோடெர்மா: Mix 2.5 kg Trichoderma with 100 kg farmyard manure per acre.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா: Mix 450 ml per 15-liter pump."
     ],
     "preventive_measures": [
-      "Plant certified blight-resistant seed potatoes; subscribe to local blight forecasting warnings."
+      "Plant late blight-resistant potato varieties (e.g., Kufri Girdhari, Kufri Himalini).",
+      "De-haulm (cut off above-ground vines) 10-14 days before harvest to prevent tuber contamination."
     ],
     "severity_actions": {
-      "Mild": "Apply translaminar fungicide (Cymoxanil + Mancozeb) immediately; alert surrounding growers.",
-      "Moderate": "Apply systemic anti-oomycete fungicide (Mandipropamid/Fluopicolide) on strict 5-day cycle.",
-      "Severe": "Desiccate / vine-kill canopy before harvest to prevent spore washdown and tuber rotting; do not harvest wet tubers."
-    }
+      "Mild": "Immediate protective/curative spray of Curzate (35-40g per 15L pump) or Ridomil Gold; alert neighboring farmers.",
+      "Moderate": "Spray systemic anti-oomycete fungicide Ridomil Gold (35-40g per 15L pump) on a strict 5-day cycle; stop irrigation.",
+      "Severe": "Fungicide emergency program alternating Acrobat and Revus every 5 days; prune and bury rotting stems."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Potassium Nitrate (13:0:45): Mix 60 grams per 15-liter pump for tuber firmness.",
+      "Farmyard Manure / தொழு உரம்: Apply well-rotted manure at field prep."
+    ],
+    "tamil_name": "உருளைக்கிழங்கு பின் கருகல் / அழுகல் நோய்"
   },
   "Potato___healthy": {
     "species": "Potato",
     "condition_name": "Healthy",
     "pathogen_type": "None",
-    "description": "Leaves are broad, healthy dark green, with vigorous vine development and clean leaf surfaces.",
+    "description": "Potato haulms are vigorous, dense, rich green, and showing no blight lesions or leaf chlorosis.",
     "cultural_controls": [
-      "Maintain adequate soil hilling to cover growing tubers from sunlight and blight spores.",
-      "Balanced irrigation to avoid drought or waterlogging."
+      "Keep ridges well-mounded with soil to protect expanding tubers from greening.",
+      "Weed furrow channels early to maintain clean field drainage.",
+      "Schedule steady drip or furrow irrigation to keep soil moisture uniform."
     ],
     "chemical_controls": [
-      "None required."
+      "No chemical intervention needed. Monitor during cloudy or foggy weather."
     ],
     "biological_controls": [
-      "Promote healthy soil rhizosphere."
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution) every 15 days.",
+      "Neem Oil Preventive / வேப்பெண்ணெய்: Mix 35 ml neem oil with soap water per 15-liter pump."
     ],
     "preventive_measures": [
-      "Conduct regular scouting for Colorado potato beetles and early blight symptoms."
+      "Inspect leaf undersides weekly for early blight spots.",
+      "Ensure field ditches drain standing rain promptly."
     ],
     "severity_actions": {
-      "Healthy": "Potato canopy is thriving. Continue standard hilling, irrigation, and scouting."
-    }
+      "Healthy": "Maintain scheduled soil earthing and balanced potassium nutrition."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Potassium Booster (SOP 0:0:50): Mix 60 grams per 15-liter pump at tuber initiation.",
+      "Root Manure: Apply farmyard manure (தொழு உரம்) during ridging."
+    ],
+    "tamil_name": "ஆரோக்கியமான உருளைக்கிழங்கு பயிர்"
   },
   "Raspberry___healthy": {
     "species": "Raspberry",
     "condition_name": "Healthy",
     "pathogen_type": "None",
-    "description": "Canes and leaves show bright green serrated foliage, healthy primocanes, and no rust or cane blight.",
+    "description": "Canes are robust, leaves are deep green and free of rust or cane blight lesions.",
     "cultural_controls": [
-      "Prune floricanes to the ground immediately after harvest.",
-      "Trellis canes to maintain upright growth and airflow."
+      "Tie canes to wire trellis supports to keep fruit off the ground.",
+      "Thin weak floricanes after summer fruiting.",
+      "Mulch rows with clean straw or woodchips to conserve soil moisture."
     ],
     "chemical_controls": [
-      "None required."
+      "No chemical fungicides needed. Continue routine monitoring."
     ],
     "biological_controls": [
-      "Mulch root zone with wood chips to prevent weed competition."
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா: Mix 300 ml per 15-liter pump monthly.",
+      "Neem Oil Preventive / வேப்பெண்ணெய்: Mix 35 ml neem oil with soap water per 15-liter pump."
     ],
     "preventive_measures": [
-      "Monitor canes for cane borers and spur blight."
+      "Ensure good row spacing for morning air drying.",
+      "Sanitize cane pruning shears between rows."
     ],
     "severity_actions": {
-      "Healthy": "Vigorous and healthy raspberry foliage. Continue routine cane management."
-    }
+      "Healthy": "Maintain trellis training and organic mulch."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 உரம்: Mix 60 grams per 15-liter pump.",
+      "Organic Manure: Apply 2 kg compost per cane row."
+    ],
+    "tamil_name": "ஆரோக்கியமான ராஸ்பெர்ரி பயிர்"
   },
   "Soybean___healthy": {
     "species": "Soybean",
     "condition_name": "Healthy",
     "pathogen_type": "None",
-    "description": "Trifoliate leaves are uniform emerald green, well-nodulated roots, and absent of frogeye leaf spots or rust.",
+    "description": "Soybean crop is thriving with uniform green trifoliate leaves, robust nodulation, and healthy pod set.",
     "cultural_controls": [
-      "Maintain optimal plant spacing and clean row cultivation.",
-      "Ensure proper Rhizobium nodulation."
+      "Maintain weed-free field during the first 30 days after sowing.",
+      "Ensure surface drainage channels carry away heavy monsoon rains.",
+      "Avoid mechanical injury to roots during inter-cultivation."
     ],
     "chemical_controls": [
-      "None required."
+      "No chemical fungicides needed. Monitor for pod borers and rust."
     ],
     "biological_controls": [
-      "Encourage natural predators of soybean aphids."
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump at flowering.",
+      "Neem Oil Preventive / வேப்பெண்ணெய்: Mix 40 ml neem oil with soap water per 15-liter pump."
     ],
     "preventive_measures": [
-      "Perform weekly scouting from R1 through R5 reproductive stages."
+      "Inspect lower leaves weekly for rust pustules.",
+      "Inoculate seeds with Rhizobium culture before sowing."
     ],
     "severity_actions": {
-      "Healthy": "Crop is healthy. Maintain standard agronomic and soil management."
-    }
+      "Healthy": "Maintain balanced phosphorus and potash top-dressing."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Micronutrient Tonic (Boron & Molybdenum): 20 grams per 15-liter pump at flowering."
+    ],
+    "tamil_name": "ஆரோக்கியமான சோயாபீன் பயிர்"
   },
   "Squash___Powdery_mildew": {
-    "species": "Squash / Cucurbits",
+    "species": "Squash",
     "condition_name": "Powdery Mildew",
-    "pathogen_type": "Fungal (Podosphaera xanthii / Erysiphe cichoracearum)",
-    "description": "White talcum-powder-like fungal growth on upper and lower surfaces of leaves and petioles, leading to premature leaf senescence and sunburned fruit.",
+    "pathogen_type": "Fungal (Podosphaera xanthii / Golovinomyces cichoracearum)",
+    "description": "White powdery fungal spots spread across upper and lower surfaces of leaves, petioles, and stems. Leaves turn brown, shrivel like parchment paper, and expose developing squash fruits to direct sunscald.",
     "cultural_controls": [
-      "Plant in full sun with wide plant spacing (4-6 feet) to promote airflow.",
-      "Avoid excessive nitrogen fertilizer which causes dense foliage."
+      "Space squash plants widely (1.5m x 1m) to maximize air movement through the vine canopy.",
+      "Prune and safely destroy heavily infected older crown leaves.",
+      "Water strictly at root level through drip emitters; keep vine foliage completely dry."
     ],
     "chemical_controls": [
-      "Apply fungicides such as Trifloxystrobin, Cyflufenamid, or Boscalid + Pyraclostrobin."
+      "Sulfur Dust Powder / கந்தகப் பொடி மருந்து - Sulfex 80% WDG [Chemical: Wettable Sulfur]: Mix 2 tablespoons (35g) in a 15-liter knapsack pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35 கிராம்). Spray thoroughly over leaves.",
+      "Powdery Mildew Curative / சாம்பல் நோய் திரவம் - Contaf Plus [Chemical: Hexaconazole 5% EC]: Mix 15 ml in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 15 மி.லி).",
+      "Curative Liquid / கருகல் நிவாரண திரவம் - Score 25% EC [Chemical: Difenoconazole 25% EC]: Take 8-10 ml per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 8-10 மி.லி)."
     ],
     "biological_controls": [
-      "Potassium bicarbonate (MilStop, Kaligreen), neem oil, or dilute milk spray (10-20%)."
+      "Sour Buttermilk & Asafoetida Spray / புளித்த மோர் மற்றும் பெருங்காயக் கரைசல்: Mix 750 ml sour buttermilk + 10g hing in a 15-liter pump. Lactic acid bacteria quickly break down powdery mildew fungus.",
+      "Neem Oil Spray / வேப்பெண்ணெய் கரைசல்: Mix 40 ml neem oil + 5 ml soap water per 15-liter pump.",
+      "Wood Ash Dusting / மரச்சாம்பல் தூவுதல்: Lightly dust fresh wood ash on moist foliage in early morning to deter fungal colonization.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution)."
     ],
     "preventive_measures": [
-      "Plant powdery mildew tolerant or resistant squash hybrids."
+      "Plant powdery mildew-resistant squash and pumpkin varieties.",
+      "Begin preventive buttermilk or sulfur spray as soon as vine runners begin spreading."
     ],
     "severity_actions": {
-      "Mild": "Apply potassium bicarbonate or neem oil spray; prune out heavily covered older base leaves.",
-      "Moderate": "Apply targeted powdery mildew fungicide; ensure coverage of leaf undersides.",
-      "Severe": "Rotate FRAC fungicide classes every 7 days; protect developing squash fruit from direct sunburn."
-    }
+      "Mild": "Spray Sour Buttermilk (750 ml per 15L pump) or Sulfur Dust Powder - Sulfex (35g per 15L pump); prune yellowing crown leaves.",
+      "Moderate": "Spray systemic Contaf Plus (15 ml per 15L pump) or Score (8-10 ml per 15L pump); ensure underside wetting.",
+      "Severe": "Repeat systemic fungicide spray every 8-10 days; clear dead foliage to let sunlight reach developing fruits."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Potassium Nitrate (13:0:45): Mix 60 grams per 15-liter pump during fruit sizing.",
+      "Vine Basin Dressing / தொழு உரம்: Apply 5 kg farmyard manure (தொழு உரம்) per vine hill."
+    ],
+    "tamil_name": "பூசணி சாம்பல் நோய்"
   },
   "Strawberry___Leaf_scorch": {
     "species": "Strawberry",
     "condition_name": "Leaf Scorch",
     "pathogen_type": "Fungal (Diplocarpon earlianum)",
-    "description": "Numerous small, irregular purplish spots on upper leaf surfaces that enlarge and cause entire leaves to look scorched, dry, and brown.",
+    "description": "Numerous small, irregular purplish-red blotches develop on upper leaf surfaces. Unlike leaf spot, scorch spots do not develop white centers. Leaves dry up, turn brown, and appear scorched by fire.",
     "cultural_controls": [
-      "Mow and renovate strawberry beds immediately after harvest, destroying infected foliage.",
-      "Avoid overhead watering; use drip tape beneath plastic mulch."
+      "Plant strawberries on raised beds covered with clean plastic or straw mulch (*வைக்கோல் மூடாக்கு*).",
+      "Prune off older spotted leaves during renovation after harvest.",
+      "Avoid overhead sprinkler watering; deliver water through drip irrigation under mulch."
     ],
     "chemical_controls": [
-      "Apply Captan, Thiram, or Pyraclostrobin early in the season and at post-harvest renovation."
+      "Blue Copper Powder / நீல மருந்து - Blitox 50 [Chemical: Copper Oxychloride 50% WP]: Mix 2 tablespoons (35g) in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35 கிராம்).",
+      "Yellow Powder Fungicide / மஞ்சள் பொடி மருந்து - Dithane M-45 [Chemical: Mancozeb 75% WP]: Mix 35 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35 கிராம்).",
+      "Curative Liquid / கருகல் நிவாரண திரவம் - Score 25% EC [Chemical: Difenoconazole 25% EC]: Take 6-8 ml per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 6-8 மி.லி)."
     ],
     "biological_controls": [
-      "Copper octanoate or Bacillus subtilis foliar bio-fungicides."
+      "Trichoderma Spray / ட்ரைக்கோடெர்மா: Mix 60-75 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution).",
+      "Neem Oil Spray / வேப்பெண்ணெய் கரைசல்: Mix 35 ml neem oil with soap water per 15-liter pump."
     ],
     "preventive_measures": [
-      "Plant certified disease-free strawberry crowns in well-drained raised beds."
+      "Plant certified disease-free strawberry runners.",
+      "Do not overcrowd crowns; maintain 30 cm spacing between plants."
     ],
     "severity_actions": {
-      "Mild": "Remove scorched outer leaves; apply protective copper or Captan spray.",
-      "Moderate": "Apply Captan or Pyraclostrobin; ensure row spacing is weed-free to accelerate drying.",
-      "Severe": "Post-harvest complete bed renovation and foliage burning; apply systemic fungicide."
-    }
+      "Mild": "Pick off scorched older leaves; spray Blue Copper Powder - Blitox 50 (35g per 15L pump).",
+      "Moderate": "Spray Yellow Powder Fungicide - Dithane M-45 (35g per 15L pump) or Score (8 ml per 15L pump); ensure crown drenching.",
+      "Severe": "Renovate beds by mowing old foliage after harvest; apply systemic fungicide rotation."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 50 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 50 கிராம்).",
+      "Calcium Nitrate & Boron: 10g + 3g per 15-liter pump for firm fruit texture.",
+      "Organic Manure: Apply 500g Vermicompost (மண்புழு உரம்) per strawberry crown."
+    ],
+    "tamil_name": "ஸ்ட்ராபெரி இலை கருகல் நோய்"
   },
   "Strawberry___healthy": {
     "species": "Strawberry",
     "condition_name": "Healthy",
     "pathogen_type": "None",
-    "description": "Vibrant green trifoliate leaves, healthy crown growth, free of scorch spots or gray mold.",
+    "description": "Foliage is vibrant emerald green, crowns are robust, and runners are developing without scorch or mildew.",
     "cultural_controls": [
-      "Maintain clean straw or plastic mulch to keep fruit and leaves off bare soil.",
-      "Consistent drip irrigation and balanced potassium feeding."
+      "Keep mulch clean under berries to prevent soil splash and fruit rot.",
+      "Remove runner stolons from fruiting beds to concentrate energy into berry sizing.",
+      "Maintain drip irrigation schedule to keep root zone evenly moist."
     ],
     "chemical_controls": [
-      "None required."
+      "No chemical pesticides needed. Continue routine monitoring."
     ],
     "biological_controls": [
-      "Introduce predatory mites (Phytoseiulus persimilis) for spider mite prevention."
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 300 ml per 15-liter pump every 2 weeks.",
+      "Neem Oil Preventive / வேப்பெண்ணெய்: Mix 30 ml neem oil with soap water per 15-liter pump."
     ],
     "preventive_measures": [
-      "Regular inspection of crowns and runners."
+      "Inspect leaves and flower crowns weekly.",
+      "Ensure plastic mulch drainage prevents puddles."
     ],
     "severity_actions": {
-      "Healthy": "Strawberry bed is healthy. Continue routine mulch maintenance and scouting."
-    }
+      "Healthy": "Maintain balanced drip fertigation and clean runner management."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 உரம்: Mix 50 grams per 15-liter pump.",
+      "Micronutrient Tonic: 15 grams per 15-liter pump.",
+      "Vermicompost: Apply 500g per plant."
+    ],
+    "tamil_name": "ஆரோக்கியமான ஸ்ட்ராபெரி பயிர்"
   },
   "Tomato___Bacterial_spot": {
     "species": "Tomato",
     "condition_name": "Bacterial Spot",
-    "pathogen_type": "Bacterial (Xanthomonas spp.)",
-    "description": "Small (less than 3mm), dark brown to black circular lesions with greasy or water-soaked appearance, surrounded by yellow halos, causing extensive defoliation.",
+    "pathogen_type": "Bacterial (Xanthomonas perforans / X. vesicatoria)",
+    "description": "Small, water-soaked dark brown spots (1-3 mm) appear on leaves and stems, often surrounded by faint yellow halos. Leaves yellow and drop, exposing green tomatoes to sunburn while producing raised, rough scabs on tomato fruits.",
     "cultural_controls": [
-      "Do not handle plants or cultivate fields when foliage is wet from dew or rain.",
-      "Rotate fields away from tomatoes, peppers, and eggplants for 2-3 years.",
-      "Disinfect greenhouse benches, stakes, and tomato cages."
+      "Prune off lower leaves touching the ground up to 1 foot height once plants establish.",
+      "Stake tomato vines upright on bamboo poles (*மூங்கில் கம்பு கட்டுதல்*) to keep foliage away from soil splash.",
+      "Lay clean straw mulch (*வைக்கோல் மூடாக்கு*) or silver-black plastic mulch.",
+      "Water strictly at ground level using drip lines; avoid overhead sprinkler watering."
     ],
     "chemical_controls": [
-      "Apply Copper hydroxide mixed with Mancozeb to enhance bacterial control."
+      "Plant Antibiotic Packet / செடி பாக்டீரியா எதிர்ப்பு பொடி - Streptocycline [Chemical: Streptomycin Sulphate 90% + Tetracycline 10%]: Mix 1 small pouch (6g) in a 15-liter knapsack pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 6 கிராம்).",
+      "Blue Copper Powder / நீல மருந்து - Blitox 50 or Fytolan [Chemical: Copper Oxychloride 50% WP]: Mix 2 tablespoons (35g) in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35 கிராம்). Spray tank-mixed with Streptocycline for maximum synergy.",
+      "Copper Hydroxide Spray - Kocide 2000 [Chemical: Copper Hydroxide 53.8% DF]: Mix 25 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 25 கிராம்)."
     ],
     "biological_controls": [
-      "Bacteriophage treatments (AgriPhage) or Bacillus subtilis sprays.",
-      "Foliar application of Actigard (acibenzolar-S-methyl) for systemic acquired resistance."
+      "Sour Buttermilk & Asafoetida Spray / புளித்த மோர் மற்றும் பெருங்காயக் கரைசல்: Mix 750 ml sour buttermilk + 10g hing in a 15-liter pump. Natural lactic acid creates an antibacterial leaf shield.",
+      "Pseudomonas Bio-Fungicide / சூடோமோனாஸ்: Mix 75 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Neem Oil Spray / வேப்பெண்ணெய் கரைசல்: Mix 40 ml neem oil + 5 ml soap water per 15-liter pump.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution) to strengthen natural leaf resistance."
     ],
     "preventive_measures": [
-      "Use certified disease-free seed and hot-water-treated transplants."
+      "Treat tomato seeds by soaking in hot water (50°C for 25 minutes) before nursery sowing.",
+      "Follow a 2-year crop rotation without potatoes, chillies, or brinjals.",
+      "Plant certified bacterial spot-tolerant hybrid seeds."
     ],
     "severity_actions": {
-      "Mild": "Prune infected lower foliage with sanitized tools; spray copper + mancozeb or bio-bactericide.",
-      "Moderate": "Apply copper-mancozeb tank mix every 5-7 days; strictly avoid overhead watering.",
-      "Severe": "Intensive bactericide program; prune damaged branches; isolate affected crop zone."
-    }
+      "Mild": "Pick off lower spotted leaves; spray Blue Copper Powder (35g per 15L pump) mixed with Streptocycline (6g per 15L pump).",
+      "Moderate": "Spray Streptocycline (6g per 15L pump) + Blue Copper on a strict 7-day cycle; ensure drip-only irrigation.",
+      "Severe": "Prune severely spotted lower branches; spray copper-antibiotic bactericide every 5-7 days to safeguard fruits."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்) every 10-12 days to stimulate fresh green foliage.",
+      "Calcium Nitrate & Boron / கால்சியம் நைட்ரேட் மற்றும் போரான்: Mix 15g Calcium Nitrate + 5g Boron per 15-liter pump to prevent blossom-end rot (*தக்காளி அழுகல் நோய்*).",
+      "Micronutrient Tonic / நுண்ணூட்டச் சத்து கரைசல்: 20 grams per 15-liter pump (Zinc, Iron, Manganese, Magnesium).",
+      "Soil Health Booster / மட்கிய தொழு உரம்: Apply well-rotted farmyard manure (தொழு உரம்) + 200g Vermicompost enriched with Trichoderma per plant."
+    ],
+    "tamil_name": "தக்காளி பாக்டீரியா புள்ளி நோய்"
   },
   "Tomato___Early_blight": {
     "species": "Tomato",
     "condition_name": "Early Blight",
     "pathogen_type": "Fungal (Alternaria solani)",
-    "description": "Brown to black lesions with characteristic concentric target rings starting on older lower leaves, causing yellowing, defoliation, and stem cankers.",
+    "description": "Characteristic dark brown circular spots with distinct concentric rings ('target board' pattern) bordered by yellow halos. Begins on older bottom leaves and spreads upward, causing severe leaf drying, stem collar rot, and sunscald on unprotected fruits.",
     "cultural_controls": [
-      "Prune lower leaves (bottom 12-18 inches) once plants reach maturity to prevent soil splash.",
-      "Stake and cage plants to keep foliage elevated and dry.",
-      "Apply organic or plastic mulch around the base of plants."
+      "Prune off lower leaves touching the ground up to 1 foot height once plants establish.",
+      "Lay clean straw mulch (*வைக்கோல் மூடாக்கு*) or plastic mulch to stop rainwater splashing fungal soil spores onto lower foliage.",
+      "Stake tomato vines upright on bamboo poles (*மூங்கில் கம்பு கட்டுதல்*) for excellent air circulation.",
+      "Water exclusively at soil level using drip irrigation; keep foliage completely dry."
     ],
     "chemical_controls": [
-      "Apply Chlorothalonil, Mancozeb, Azoxystrobin, or Difenoconazole at first appearance of lower leaf lesions."
+      "Yellow Powder Fungicide / மஞ்சள் பொடி மருந்து - Dithane M-45 [Chemical: Mancozeb 75% WP]: The most popular yellow powder fungicide. Mix 2 tablespoons (35-40g) in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்) at first spot on lower leaves.",
+      "White Shield Powder / வெள்ளை பாதுகாப்பு பொடி - Kavach 75% WP [Chemical: Chlorothalonil 75% WP]: Off-white protective powder. Mix 30 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 30 கிராம்) for long-lasting canopy cover.",
+      "Curative Liquid / கருகல் நிவாரண திரவம் - Score 25% EC [Chemical: Difenoconazole 25% EC]: Small bottle liquid medicine. Take 8-10 ml per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 8-10 மி.லி) for rapid systemic curative healing.",
+      "Blue Packet Combo Fungicide / சாஃப் மருந்து - SAAF [Chemical: Carbendazim 12% + Mancozeb 63% WP]: The famous blue packet combo. Mix 30 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 30 கிராம்).",
+      "Dual Action Curative - Amistar Top [Chemical: Azoxystrobin 18.2% + Difenoconazole 11.4% SC]: Take 15 ml per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 15 மி.லி) during severe spreading blight."
     ],
     "biological_controls": [
-      "Copper fungicides, Bacillus subtilis, or Trichoderma harzianum."
+      "Seedling Root Dip / நாற்று வேர் நனைத்தல்: Dip seedling roots in Trichoderma viride suspension (10g/L water) for 20 minutes before transplanting.",
+      "Sour Buttermilk Spray / புளித்த மோர் கரைசல்: Mix 750 ml sour buttermilk in a 15-liter pump (5% solution) as a protective bio-shield against fungal spores.",
+      "Neem Oil Spray / வேப்பெண்ணெய் கரைசல்: Mix 40 ml neem oil + 5 ml liquid soap per 15-liter pump.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution) to strengthen natural plant immunity."
     ],
     "preventive_measures": [
-      "Practice 3-year crop rotation with non-solanaceous crops.",
-      "Plant early-blight tolerant cultivars (e.g., Mountain Supreme, Defiant PhR)."
+      "Sow certified early blight-tolerant hybrid seeds (e.g. Arka Rakshak, Arka Samrat, Syngenta Abhinav).",
+      "Follow a 3-year crop rotation without potatoes, chillies, or eggplants.",
+      "Maintain clean field borders free of solanaceous weeds."
     ],
     "severity_actions": {
-      "Mild": "Prune out infected lower leaves; apply organic copper or Chlorothalonil spray.",
-      "Moderate": "Apply systemic Azoxystrobin/Difenoconazole; mulch soil base to eliminate soil splash.",
-      "Severe": "Spray broad-spectrum fungicide every 7 days; remove severely blighted branches to protect fruit."
-    }
+      "Mild": "Pick off lower spotted leaves; spray Yellow Powder Fungicide - Dithane M-45 (35-40g per 15L pump); stake vines upright.",
+      "Moderate": "Spray systemic curative Score 25% EC (8-10 ml per 15L pump) or Blue Packet SAAF (30g per 15L pump).",
+      "Severe": "Spray systemic curative fungicide every 7 days (Score 25% EC at 8-10 ml or Amistar Top at 15 ml per 15L pump); prune heavily blighted lower leaves."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்). Spray foliage every 10-12 days to stimulate fresh green leaves.",
+      "Calcium Nitrate & Boron / கால்சியம் நைட்ரேட் மற்றும் போரான்: Mix 15g Calcium Nitrate + 5g Boron per 15-liter pump at flowering to strengthen cell walls and stop blossom-end rot.",
+      "Micronutrient Tonic / நுண்ணூட்டச் சத்து கரைசல்: Spray 20 grams per 15-liter pump (Zinc, Iron, Manganese, Magnesium) to cure yellowing chlorosis.",
+      "Soil Health & Root Booster / மட்கிய தொழு உரம்: Apply well-rotted farmyard manure (தொழு உரம்) or Vermicompost (2 kg/plant) enriched with Trichoderma viride around root zones."
+    ],
+    "tamil_name": "தக்காளி ஆரம்ப இலைக் கருகல் நோய்"
   },
   "Tomato___Late_blight": {
     "species": "Tomato",
     "condition_name": "Late Blight",
-    "pathogen_type": "Oomycete (Phytophthora infestans)",
-    "description": "Large, irregular, water-soaked oily greenish-gray to dark brown lesions on leaves and stems with white fuzzy sporulation on leaf undersides during cool, moist weather.",
+    "pathogen_type": "Oomycete / Water Mold (Phytophthora infestans)",
+    "description": "Rapidly expanding water-soaked greasy greenish-black lesions on leaves and stems. White cottony mold appears on leaf undersides during cool, foggy, and humid weather. Can wipe out entire tomato fields within days and turns green tomatoes brown, greasy, and rotten.",
     "cultural_controls": [
-      "Destroy and bag severely infected plants immediately (do not compost).",
-      "Ensure wide plant spacing and drip irrigation exclusively.",
-      "Remove nearby volunteer tomato and potato plants."
+      "Open polyhouse and green net side curtains immediately to purge trapped humidity.",
+      "Avoid overhead sprinkler irrigation; deliver water strictly at ground level through drip emitters.",
+      "Stake tomato vines upright and prune bottom side suckers (*பக்கக் கிளை கிள்ளுதல்*) for thorough airflow.",
+      "Uproot and bury infected plants immediately at the first sign of late blight."
     ],
     "chemical_controls": [
-      "Apply specialized oomycete fungicides: Mandipropamid, Dimethomorph, Fluopicolide, or Cymoxanil."
+      "Late Blight Emergency Powder / அழுகல் நிவாரணி - Ridomil Gold [Chemical: Metalaxyl-M 4% + Mancozeb 64% WP]: Mix 2 tablespoons (35-40g) in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்) at first symptom.",
+      "Rot Stopper Powder / அழுகல் தடுப்பு மருந்து - Curzate [Chemical: Cymoxanil 8% + Mancozeb 64% WP]: Mix 35-40 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்) for rapid systemic stop.",
+      "Yellow Powder Fungicide / மஞ்சள் பொடி மருந்து - Indofil M-45 or Dithane M-45 [Chemical: Mancozeb 75% WP]: Mix 35-40 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்) as preventive spray before fog or rain.",
+      "Epidemic Stop Medicine - Acrobat [Chemical: Dimethomorph 50% WP]: Take 15 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 15 கிராம்) tank-mixed with Mancozeb (30g).",
+      "Systemic Oomycide - Revus [Chemical: Mandipropamid 23.4% SC]: Take 15 ml per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 15 மி.லி)."
     ],
     "biological_controls": [
-      "Fixed copper bactericide/fungicide applied preventively before rain events."
+      "Blue Copper Powder / நீல மருந்து - Blitox 50 [Chemical: Copper Oxychloride 50% WP]: Mix 35-40 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்) before wet weather spells.",
+      "Trichoderma Soil Inoculation / ட்ரைக்கோடெர்மா: Mix 2.5 kg Trichoderma with 100 kg farmyard manure (தொழு உரம்) per acre during field preparation.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution)."
     ],
     "preventive_measures": [
-      "Plant resistant varieties (e.g., Mountain Magic, Plum Regal, Iron Lady)."
+      "Plant certified late blight-tolerant hybrids (e.g. Arka Abhed, Arka Rakshak, US-440).",
+      "Do not cultivate tomatoes adjacent to late blight-infected potato plots.",
+      "Monitor local weather alerts and spray preventive protectant before continuous cool rains."
     ],
     "severity_actions": {
-      "Mild": "Immediate application of Cymoxanil + Mancozeb; inspect entire field daily.",
-      "Moderate": "Apply Mandipropamid or Fluopicolide every 5-7 days; prune and bag infected shoots.",
-      "Severe": "Eradicate heavily infected plants to protect greenhouse/neighboring crops; apply systemic curative fungicide."
-    }
+      "Mild": "Immediate protective/curative spray of Curzate (35-40g per 15L pump) or Ridomil Gold; alert neighboring farmers.",
+      "Moderate": "Spray systemic anti-oomycete fungicide Ridomil Gold (35-40g per 15L pump) on a strict 5-day cycle; stop irrigation.",
+      "Severe": "Fungicide emergency program alternating Acrobat and Revus every 5 days; prune and bury rotting stems and greasy fruits."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Calcium Nitrate & Boron / கால்சியம் நைட்ரேட் மற்றும் போரான்: Mix 15g Calcium Nitrate + 5g Boron per 15-liter pump.",
+      "Micronutrient Tonic / நுண்ணூட்டச் சத்து கரைசல்: 20 grams per 15-liter pump.",
+      "Soil Health & Root Booster / மட்கிய தொழு உரம்: Apply well-rotted farmyard manure (தொழு உரம்) + Vermicompost (2 kg/plant)."
+    ],
+    "tamil_name": "தக்காளி பின் கருகல் / அழுகல் நோய்"
   },
   "Tomato___Leaf_Mold": {
     "species": "Tomato",
     "condition_name": "Leaf Mold",
     "pathogen_type": "Fungal (Passalora fulva / Cladosporium fulvum)",
-    "description": "Pale greenish-yellow chlorotic spots on upper leaf surfaces matching olive-green to brown velvety fungal patches on lower leaf surfaces; common in high-tunnel greenhouses.",
+    "description": "Pale yellow chlorotic spots form on upper surface of older leaves, matching olive-green to velvety brown mold patches on the underside. Highly prevalent in humid polyhouses, shaded net houses, and during extended monsoon fog.",
     "cultural_controls": [
-      "Reduce relative humidity below 85% in high tunnels using exhaust fans and horizontal airflow.",
-      "Increase night temperatures and improve ventilation.",
-      "Space plants generously and prune suckers to open canopy."
+      "Open polyhouse and green shade net side curtains during the day to maximize natural cross ventilation.",
+      "Prune bottom suckers (*பக்கக் கிளை கிள்ளுதல்*) and lower yellowing leaves up to 1 foot above ground level.",
+      "Space tomato plants generously (60 cm x 50 cm) on raised beds; avoid overcrowding in polyhouses.",
+      "Water exclusively at soil level using drip tubes; keep foliage completely dry."
     ],
     "chemical_controls": [
-      "Apply Chlorothalonil, Mancozeb, Difenoconazole, or Cyazofamid."
+      "White Shield Powder / வெள்ளை பாதுகாப்பு பொடி - Kavach 75% WP [Chemical: Chlorothalonil 75% WP]: Mix 2 tablespoons (30g) in a 15-liter knapsack pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 30 கிராம்). Spray thoroughly on leaf undersides where mold colonies grow.",
+      "Yellow Powder Fungicide / மஞ்சள் பொடி மருந்து - Dithane M-45 [Chemical: Mancozeb 75% WP]: Widely available yellow powder. Mix 2 tablespoons (35-40g) per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்) for broad-spectrum prevention.",
+      "Curative Liquid / கருகல் நிவாரண திரவம் - Score 25% EC [Chemical: Difenoconazole 25% EC]: Concentrated liquid medicine. Take 8-10 ml per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 8-10 மி.லி) to stop active spreading mold.",
+      "Blue Packet Combo Fungicide / சாஃப் மருந்து - SAAF [Chemical: Carbendazim 12% + Mancozeb 63% WP]: Popular blue packet combo. Mix 30 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 30 கிராம்).",
+      "Systemic Curative - Ranman 400 SC or Amistar Top [Chemical: Cyazofamid / Azoxystrobin]: Take 10-15 ml per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 10-15 மி.லி) for rapid knockdown."
     ],
     "biological_controls": [
-      "Copper octanoate, bio-fungicides (Bacillus subtilis), or potassium bicarbonate."
+      "Sour Buttermilk Spray / புளித்த மோர் கரைசல்: Ferment 1 liter of fresh buttermilk for 3-4 days until sour. Mix 750 ml in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 750 மி.லி) and spray on sunny mornings. Lactic acid destroys fungal spore membranes.",
+      "Neem Oil Spray / வேப்பெண்ணெய் கரைசல்: Mix 40 ml neem oil + 5 ml soap water per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 40 மி.லி).",
+      "Trichoderma Bio-Fungicide / ட்ரைக்கோடெர்மா விரிடி: Mix 60-75 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution) to strengthen natural leaf immunity."
     ],
     "preventive_measures": [
-      "Select resistant tomato varieties with Cf resistance genes (Cf-2, Cf-4, Cf-9)."
+      "Select leaf mold-resistant tomato hybrids (e.g. Arka Rakshak, Arka Samrat, or Syngenta Himsona).",
+      "Wash and disinfect polyhouse plastic sheets, shade nets, and bamboo stakes with 1% bleaching powder between seasons."
     ],
     "severity_actions": {
-      "Mild": "Turn on high tunnel exhaust fans to lower humidity; remove affected lower leaves; spray copper.",
-      "Moderate": "Apply Chlorothalonil or Difenoconazole; prune inner canopy for maximum airflow.",
-      "Severe": "Implement aggressive humidity management and 7-day fungicide rotation; sanitize greenhouse."
-    }
+      "Mild": "Roll up polyhouse side curtains for cross airflow; pick off yellowed lower leaves; spray protective Kavach (30g per 15L pump) or Yellow Powder Fungicide.",
+      "Moderate": "Spray systemic Score (8-10 ml per 15L pump) or Blue Packet SAAF (30g per 15L pump); ensure nozzle wets leaf undersides thoroughly.",
+      "Severe": "Strict 7-day systemic fungicide rotation alternating Score and Kavach; prune dense inner suckers to let direct sunlight onto vines."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்). Spray foliage every 10-12 days to stimulate fresh green foliage.",
+      "Calcium Nitrate & Boron / கால்சியம் நைட்ரேட் மற்றும் போரான்: Mix 15g Calcium Nitrate + 5g Boron per 15-liter pump at flowering to strengthen cell walls and stop blossom-end rot.",
+      "Micronutrient Tonic / நுண்ணூட்டச் சத்து கரைசல்: Spray 20 grams per 15-liter pump (Zinc, Iron, Manganese, Magnesium) to cure yellowing chlorosis.",
+      "Soil Health Booster / மட்கிய தொழு உரம்: Apply well-rotted farmyard manure (தொழு உரம்) or Vermicompost (2 kg/plant) enriched with Trichoderma viride around root zones."
+    ],
+    "tamil_name": "தக்காளி இலை பூஞ்சை அச்சு நோய்"
   },
   "Tomato___Septoria_leaf_spot": {
     "species": "Tomato",
     "condition_name": "Septoria Leaf Spot",
     "pathogen_type": "Fungal (Septoria lycopersici)",
-    "description": "Numerous small (1-3mm) circular spots with dark brown margins and sunken grayish-white centers dotted with tiny black pycnidia.",
+    "description": "Numerous small circular spots (2-3 mm) with grayish-white centers and dark brown borders pepper the lower leaves. Tiny black specks (pycnidia) appear inside the centers like black pepper grains, causing rapid lower foliage yellowing and drop.",
     "cultural_controls": [
-      "Remove diseased bottom leaves promptly.",
-      "Mulch soil heavily to prevent rain splash of fungal spores from soil.",
-      "Do not overhead water; use soaker hoses or drip irrigation."
+      "Prune off lower infected leaves touching the soil up to 12 inches above the ground.",
+      "Stake tomato vines upright on bamboo poles (*மூங்கில் கம்பு கட்டுதல்*) to prevent dense ground mats.",
+      "Apply clean straw mulch (*வைக்கோல் மூடாக்கு*) to prevent rainwater splashing soil fungus upward.",
+      "Water exclusively at soil level using drip lines."
     ],
     "chemical_controls": [
-      "Apply Chlorothalonil, Mancozeb, or Pyraclostrobin starting at first sign of symptoms."
+      "Yellow Powder Fungicide / மஞ்சள் பொடி மருந்து - Dithane M-45 [Chemical: Mancozeb 75% WP]: Mix 2 tablespoons (35-40g) in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்).",
+      "Blue Copper Powder / நீல மருந்து - Blitox 50 [Chemical: Copper Oxychloride 50% WP]: Mix 35 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35 கிராம்).",
+      "White Shield Powder / வெள்ளை பாதுகாப்பு பொடி - Kavach 75% WP [Chemical: Chlorothalonil 75% WP]: Mix 30 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 30 கிராம்).",
+      "Curative Liquid / கருகல் நிவாரண திரவம் - Score 25% EC [Chemical: Difenoconazole 25% EC]: Take 8-10 ml per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 8-10 மி.லி)."
     ],
     "biological_controls": [
-      "Copper soap or Bacillus amyloliquefaciens applied weekly."
+      "Sour Buttermilk Spray / புளித்த மோர் கரைசல்: Mix 750 ml sour buttermilk in a 15-liter pump as an anti-fungal barrier.",
+      "Neem Oil Spray / வேப்பெண்ணெய் கரைசல்: Mix 40 ml neem oil with soap water per 15-liter pump.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution).",
+      "Trichoderma Bio-Fungicide / ட்ரைக்கோடெர்மா: Mix 75 grams per 15-liter pump."
     ],
     "preventive_measures": [
-      "Clean up and burn all crop debris in autumn; practice 3-year crop rotation."
+      "Practice a 3-year crop rotation without solanaceous crops.",
+      "Clean all tomato stakes and cages with disinfectant between seasons."
     ],
     "severity_actions": {
-      "Mild": "Pick off spotted lower leaves; apply thick straw/plastic mulch and preventive bio-fungicide.",
-      "Moderate": "Apply Chlorothalonil or Mancozeb fungicide; ensure coverage of lower leaf canopy.",
-      "Severe": "Fungicide schedule every 7 days; prune lower half of canopy to save upper leaves and fruit."
-    }
+      "Mild": "Pick off lower spotted leaves and spray Yellow Powder Fungicide - Dithane M-45 (35-40g per 15L pump).",
+      "Moderate": "Spray systemic curative Score 25% EC (8-10 ml per 15L pump) or Kavach (30g per 15L pump); ensure full canopy drenching.",
+      "Severe": "Spray systemic fungicide every 7 days; remove severely blighted lower foliage to protect developing green fruits."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Calcium Nitrate & Boron: 15g + 5g per 15-liter pump.",
+      "Micronutrient Tonic: 20 grams per 15-liter pump.",
+      "Soil Health Booster: Apply 2 kg farmyard manure (தொழு உரம்) per plant."
+    ],
+    "tamil_name": "தக்காளி செப்டோரியா இலைப்புள்ளி நோய்"
   },
   "Tomato___Spider_mites Two-spotted_spider_mite": {
     "species": "Tomato",
     "condition_name": "Two-Spotted Spider Mites",
-    "pathogen_type": "Pest / Mite (Tetranychus urticae)",
-    "description": "Fine yellow or white stippling/speckling on leaves, accompanied by fine silky webbing on leaf undersides and shoot tips; leads to leaf bronzing and drying.",
+    "pathogen_type": "Pest / Arachnid (Tetranychus urticae)",
+    "description": "Leaves develop fine pale-yellow stippling and speckled bronze discoloration. Fine silky webbing covers leaf undersides and growing shoot tips. Under hot, dry weather, populations explode and scorch entire vines.",
     "cultural_controls": [
-      "Avoid plant water stress (dusty, hot, drought conditions trigger mite outbreaks).",
-      "Wash foliage with strong water spray to knock down mite populations and remove webs."
+      "Wash leaf undersides with a high-pressure jet of plain water in early morning to dislodge mites and destroy webs.",
+      "Eliminate dusty road dust by dampening farm paths; dust promotes heavy spider mite outbreaks.",
+      "Clear broadleaf weeds along field borders that host overwintering spider mites."
     ],
     "chemical_controls": [
-      "Apply selective miticides (Bifenazate, Abamectin, Spiromesifen) rotating chemical modes of action."
+      "Red Spider Mite Spray / செம்பேன் மருந்து - Omite [Chemical: Propargite 57% EC]: Mix 2 tablespoons (30 ml) in a 15-liter knapsack pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 30 மி.லி). Spray thoroughly targeting leaf undersides.",
+      "Egg & Mite Killer - Oberon [Chemical: Spiromesifen 22.9% SC]: Mix 15 ml in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 15 மி.லி) for complete egg and nymph control.",
+      "Sulfur Dust Powder / கந்தகப் பொடி மருந்து - Sulfex 80% WDG [Chemical: Wettable Sulfur]: Mix 35 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35 கிராம்). Avoid spraying sulfur when temperature exceeds 35°C."
     ],
     "biological_controls": [
-      "Release predatory mites (Phytoseiulus persimilis, Neoseiulus californicus).",
-      "Apply insecticidal soaps, neem oil, or rosemary-based horticultural oils."
+      "Neem Oil Mite Spray / வேப்பெண்ணெய் கரைசல்: Mix 45-50 ml neem oil (10,000 ppm) + 5 ml soap water per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 50 மி.லி). Suffocates mites and disrupts breeding.",
+      "Wood Ash Dusting / மரச்சாம்பல் தூவுதல்: Lightly dust fresh sieved wood ash on moist foliage in early morning.",
+      "Sour Buttermilk & Asafoetida / புளித்த மோர் மற்றும் பெருங்காயக் கரைசல்: Mix 750 ml sour buttermilk + 10g hing in a 15-liter pump.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution)."
     ],
     "preventive_measures": [
-      "Eliminate weeds around greenhouse and field perimeters (which host overwintering mites)."
+      "Maintain regular overhead misting in polyhouses to keep humidity above 60% (mites thrive in dry heat).",
+      "Do not apply broad-spectrum synthetic pyrethroids (e.g., cypermethrin) that kill natural predatory mites."
     ],
     "severity_actions": {
-      "Mild": "Spray insecticidal soap or neem oil thoroughly on leaf undersides; release predatory mites.",
-      "Moderate": "Apply targeted miticide (Bifenazate or Abamectin); spray in early morning or evening.",
-      "Severe": "Rotate between two distinct miticide classes 5-7 days apart; prune heavily webbed shoot tips."
-    }
+      "Mild": "Spray high-pressure water jet on leaf undersides, followed by Neem Oil Spray (50 ml per 15L pump).",
+      "Moderate": "Apply targeted miticide Oberon (15 ml per 15L pump) or Sulfur Dust Powder - Sulfex (35g per 15L pump); coat undersides.",
+      "Severe": "Spray Omite (30 ml per 15L pump); repeat in 7 days to eliminate newly hatched mite nymphs."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்) to help plants rebuild lost foliage.",
+      "Micronutrient Tonic / நுண்ணூட்டச் சத்து கரைசல்: Spray 20 grams per 15-liter pump.",
+      "Root Manure: Apply 2 kg well-rotted farmyard manure (தொழு உரம்) per plant."
+    ],
+    "tamil_name": "தக்காளி செம்பேன் / சிலந்திப் பேன் தாக்குதல்"
   },
   "Tomato___Target_Spot": {
     "species": "Tomato",
     "condition_name": "Target Spot",
     "pathogen_type": "Fungal (Corynespora cassiicola)",
-    "description": "Small pinpoint brown lesions that expand into circular brown spots with concentric light and dark rings and yellow halos; causes extensive foliage collapse.",
+    "description": "Pinpoint brown specks enlarge into circular lesions with light brown centers and dark concentric rings resembling an archery target board. Centers frequently crack or drop out, and lesions can develop on stems and green tomato fruits.",
     "cultural_controls": [
-      "Improve air circulation through suckering and proper plant spacing.",
-      "Avoid overhead irrigation.",
-      "Maintain crop hygiene and weed control."
+      "Prune off lower leaves up to 1 foot to improve airflow through the plant base.",
+      "Stake tomato vines upright on bamboo poles (*மூங்கில் கம்பு கட்டுதல்*) to prevent dense mats.",
+      "Lay straw mulch (*வைக்கோல் மூடாக்கு*) to stop soil-splashed fungal spores.",
+      "Water strictly through drip irrigation; keep foliage dry."
     ],
     "chemical_controls": [
-      "Apply Azoxystrobin, Fluxapyroxad + Pyraclostrobin, or Chlorothalonil."
+      "Yellow Powder Fungicide / மஞ்சள் பொடி மருந்து - Dithane M-45 [Chemical: Mancozeb 75% WP]: Mix 2 tablespoons (35-40g) in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 35-40 கிராம்).",
+      "White Shield Powder / வெள்ளை பாதுகாப்பு பொடி - Kavach 75% WP [Chemical: Chlorothalonil 75% WP]: Mix 30 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 30 கிராம்).",
+      "Blue Packet Combo Fungicide / சாஃப் மருந்து - SAAF [Chemical: Carbendazim 12% + Mancozeb 63% WP]: Mix 30 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 30 கிராம்).",
+      "Curative Liquid / கருகல் நிவாரண திரவம் - Score 25% EC [Chemical: Difenoconazole 25% EC]: Take 8-10 ml per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 8-10 மி.லி)."
     ],
     "biological_controls": [
-      "Copper hydroxide and bio-fungicides (Bacillus subtilis)."
+      "Sour Buttermilk Spray / புளித்த மோர் கரைசல்: Mix 750 ml sour buttermilk in a 15-liter pump (5% solution).",
+      "Neem Oil Spray / வேப்பெண்ணெய் கரைசல்: Mix 40 ml neem oil with soap water per 15-liter pump.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution).",
+      "Trichoderma Bio-Fungicide / ட்ரைக்கோடெர்மா: Mix 75 grams per 15-liter pump."
     ],
     "preventive_measures": [
-      "Rotate with non-host crops (corn, sorghum); destroy previous solanaceous crop residues."
+      "Practice a 3-year crop rotation without solanaceous crops.",
+      "Ensure wide plant spacing (60cm x 50cm) to keep air circulating freely."
     ],
     "severity_actions": {
-      "Mild": "Remove affected foliage; apply Chlorothalonil or copper spray.",
-      "Moderate": "Apply strobilurin/SDHI fungicide; improve canopy ventilation.",
-      "Severe": "Intensive 7-day fungicide schedule; strip damaged canopy to preserve fruit development."
-    }
+      "Mild": "Pick off lower spotted leaves and spray Yellow Powder Fungicide - Dithane M-45 (35-40g per 15L pump).",
+      "Moderate": "Spray systemic curative Score 25% EC (8-10 ml per 15L pump) or Blue Packet SAAF (30g per 15L pump).",
+      "Severe": "Spray systemic fungicide every 7 days; remove heavily spotted foliage to protect developing fruits."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Calcium Nitrate & Boron: 15g + 5g per 15-liter pump.",
+      "Micronutrient Tonic: 20 grams per 15-liter pump.",
+      "Soil Health Booster: Apply 2 kg farmyard manure (தொழு உரம்) per plant."
+    ],
+    "tamil_name": "தக்காளி இலக்கு புள்ளி நோய்"
   },
   "Tomato___Tomato_Yellow_Leaf_Curl_Virus": {
     "species": "Tomato",
     "condition_name": "Tomato Yellow Leaf Curl Virus (TYLCV)",
-    "pathogen_type": "Viral (Begomovirus, vectored by Sweetpotato Whitefly Bemisia tabaci)",
-    "description": "Severe upward leaf cupping, curling, yellowing of leaf margins, reduced leaf size (shoestring appearance), flower drop, and stunted bushy growth.",
+    "pathogen_type": "Viral (Begomovirus, transmitted by Whitefly / Bemisia tabaci)",
+    "description": "Leaves become markedly stunted, curled upward like cups, with prominent yellowing (chlorosis) along margins and interveinal areas. Plants become bushy and dwarfed; flowers drop without setting fruit, causing near-total yield failure.",
     "cultural_controls": [
-      "Install 50-mesh insect screening in high tunnels and greenhouses.",
-      "Use reflective silver mulches to repel whitefly vectors.",
-      "Immediately rogue and bag symptomatic virus-infected plants."
+      "Install Yellow Sticky Traps / மஞ்சள் நிற ஒட்டும் பொறிகள்: Hang 12-15 yellow sticky traps per acre at canopy level to monitor and mass-trap whitefly vectors.",
+      "Eradicate and bag infected stunted plants immediately at first sighting; do not leave them in the field.",
+      "Grow 3-4 dense barrier rows of maize or sorghum (*மக்காச்சோளம் அல்லது சோளம் எல்லைப் பயிர்*) around tomato plots to block flying whiteflies.",
+      "Cover seedling nursery beds with 40-mesh insect-proof nylon net."
     ],
     "chemical_controls": [
-      "Manage whitefly vectors with systemic insecticides (Imidacloprid, Dinotefuran, Spirotetramat, Pyriproxyfen)."
+      "Whitefly Pest Liquid / வெள்ளை ஈ மருந்து - Confidor [Chemical: Imidacloprid 17.8% SL]: Mix 5-7 ml in a 15-liter knapsack pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 5-7 மி.லி). Spray targeting leaf undersides where whiteflies feed.",
+      "Sucking Pest Medicine / சாறு உறிஞ்சும் பூச்சி மருந்து - Actara [Chemical: Thiamethoxam 25% WG]: Mix 1 teaspoon (5g) in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 5 கிராம்).",
+      "Whitefly Nymph Controller - Pegasus [Chemical: Diafenthiuron 50% WP]: Mix 15-20 grams per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 20 கிராம்)."
     ],
     "biological_controls": [
-      "Introduce parasitoid wasps (Encarsia formosa, Eretmocerus eremicus).",
-      "Apply Beauveria bassiana or insecticidal soap for organic whitefly control."
+      "Neem Oil Vector Spray / வேப்பெண்ணெய் கரைசல்: Mix 45-50 ml neem oil (10,000 ppm) + 5 ml soap water per 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 50 மி.லி). Repels whiteflies and disrupts egg laying.",
+      "Sour Buttermilk & Asafoetida Spray / புளித்த மோர் மற்றும் பெருங்காயக் கரைசல்: Mix 750 ml sour buttermilk + 10g hing in a 15-liter pump.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution) to stimulate plant vigor."
     ],
     "preventive_measures": [
-      "Plant TYLCV-resistant tomato cultivars (e.g., Tycoon, Grand Marshall, Red Deuce)."
+      "Plant certified TYLCV-resistant hybrid tomato varieties (e.g., US-440, Arka Rakshak, Arka Samrat, Syngenta Abhinav).",
+      "Drench nursery seedlings with Imidacloprid (0.5 ml/L) 3 days before field transplanting."
     ],
     "severity_actions": {
-      "Mild": "Immediately rogue and bag symptomatic plants; spray vector control (insecticidal soap or Dinotefuran).",
-      "Moderate": "Remove all infected plants; apply systemic whitefly insecticide to remaining healthy crop block.",
-      "Severe": "Eradicate heavily infected section; implement mandatory whitefly eradication protocol across greenhouse/field."
-    }
+      "Mild": "Hang yellow sticky traps; spray Neem Oil (50 ml per 15L pump) or Confidor (5-7 ml per 15L pump) to knock down whitefly vectors.",
+      "Moderate": "Spray systemic insecticide Actara (5g per 15L pump); uproot and burn visibly stunted, curled virus-infected plants.",
+      "Severe": "Strict 7-day vector eradication alternating Confidor and Pegasus; maintain maize border windbreak to stop incoming whitefly swarms."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்).",
+      "Micronutrient Tonic / நுண்ணூட்டச் சத்து கரைசல்: Spray 20 grams per 15-liter pump (Zinc, Boron, Magnesium) to overcome viral chlorosis.",
+      "Soil Health Dressing / மட்கிய தொழு உரம்: Apply 2 kg farmyard manure (தொழு உரம்) + 200g Vermicompost per plant."
+    ],
+    "tamil_name": "தக்காளி இலை சுருட்டு வைரஸ் நோய்"
   },
   "Tomato___Tomato_mosaic_virus": {
     "species": "Tomato",
     "condition_name": "Tomato Mosaic Virus (ToMV)",
-    "pathogen_type": "Viral (Tobamovirus, mechanically transmitted)",
-    "description": "Light and dark green mottled mosaic patterns on leaves, leaf distortion, blistering, fern-leaf growth, and internal browning of fruit.",
+    "pathogen_type": "Viral (Tobamovirus, mechanically transmitted by hands, tools, and sap)",
+    "description": "Leaves display alternating light-green and dark-green mosaic mottling, accompanied by leaf distortion, curling, and 'shoestring' narrowing of leaflets. Stems develop dark internal brown necrosis and fruit ripening becomes uneven with brown internal walls.",
     "cultural_controls": [
-      "Disinfect all tools, stakes, and hands in 20% non-fat dry milk solution or 10% TSP.",
-      "Prohibit tobacco use (smoking/chewing) near tomato plants.",
-      "Rogue out and destroy infected plants immediately upon symptom detection."
+      "Immediately uproot, bag, and burn plants showing mosaic mottling; do not compost virus-infected plants.",
+      "Wash hands with soap and water or 10% Trisodium Phosphate (TSP) before handling tomato plants.",
+      "Workers should never smoke, chew, or handle tobacco (*புகையிலை*) near tomato crops (tobacco carries mosaic virus).",
+      "Sanitize pruning knives and shears by dipping in 10% bleach solution between rows."
     ],
     "chemical_controls": [
-      "No chemical virucides exist. Focus entirely on sanitation and vector/contact control."
+      "No chemical viricides exist to cure viral plant infections. Focus on tool sanitation and vector control.",
+      "20% Skimmed Milk Protective Spray / பால் கரைசல் தெளிப்பு: Dissolve 3 liters fresh skimmed cow milk in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 3 லிட்டர் பால்). Spray onto foliage before pruning or staking; milk proteins coat and deactivate mechanically spread virus particles."
     ],
     "biological_controls": [
-      "Use skim milk spray (20%) on workers' hands and tools to inactivate virus particles during handling."
+      "Sour Buttermilk & Asafoetida Spray / புளித்த மோர் மற்றும் பெருங்காயக் கரைசல்: Mix 750 ml sour buttermilk + 10g hing in a 15-liter pump.",
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution) to build natural systemic resistance.",
+      "Neem Oil Preventive / வேப்பெண்ணெய் கரைசல்: Mix 40 ml neem oil with soap water per 15-liter pump to repel vector insects."
     ],
     "preventive_measures": [
-      "Plant virus-resistant tomato hybrids (look for 'Tm-2' or 'ToMV' resistance on seed packets)."
+      "Sow certified ToMV-resistant hybrid seeds (carrying Tm-2a resistance gene).",
+      "Heat-treat dry tomato seeds at 70°C for 3 days to eliminate seed-borne virus particles.",
+      "Control chewing and sap-sucking insects in the field."
     ],
     "severity_actions": {
-      "Mild": "Carefully rogue out and bag infected plant; wash hands and tools thoroughly in 20% milk solution.",
-      "Moderate": "Remove all symptomatic plants; avoid pruning or touching healthy plants without sanitizing.",
-      "Severe": "Eradicate infected section; sanitize all greenhouse surfaces, soil beds, and irrigation equipment."
-    }
+      "Mild": "Uproot and burn virus-infected plants; spray milk solution (3L milk in 15L pump) before handling healthy plants.",
+      "Moderate": "Sanitize all stakes and tools with 10% bleach; immediately remove all mosaic-mottled plants; wash hands before handling crop.",
+      "Severe": "Rogue out affected plants aggressively; spray milk solution across remaining crop; disinfect all nursery trays and stakes before next season."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்) to assist healthy plants in sustaining vegetative vigor.",
+      "Micronutrient Tonic / நுண்ணூட்டச் சத்து கரைசல்: Spray 20 grams per 15-liter pump.",
+      "Soil Health Booster / மட்கிய தொழு உரம்: Apply well-rotted farmyard manure (தொழு உரம்) around root zones."
+    ],
+    "tamil_name": "தக்காளி தேமல் வைரஸ் நோய்"
   },
   "Tomato___healthy": {
     "species": "Tomato",
     "condition_name": "Healthy",
     "pathogen_type": "None",
-    "description": "Foliage is vibrant, deep green, with lush healthy growth, sturdy stems, and no spots, lesions, or curling.",
+    "description": "Tomato plants are vigorous with deep green foliage, strong thick stems, abundant flower clusters, and zero disease lesions.",
     "cultural_controls": [
-      "Maintain consistent drip irrigation (avoid soil dry-wet fluctuations to prevent blossom end rot).",
-      "Prune bottom suckers and lower leaves for good ventilation.",
-      "Apply balanced organic fertilizer and calcium supplementation."
+      "Prune lower foliage touching the soil up to 1 foot above ground level once plants establish.",
+      "Stake tomato vines upright on bamboo poles (*மூங்கில் கம்பு கட்டுதல்*) or trellis wires to maximize sunlight and airflow.",
+      "Maintain clean straw mulch (*வைக்கோல் மூடாக்கு*) or plastic mulch to conserve root moisture and prevent weed competition.",
+      "Deliver irrigation consistently through drip emitters; avoid wetting foliage."
     ],
     "chemical_controls": [
-      "None required."
+      "No chemical fungicides or insecticides required. Maintain routine preventive monitoring."
     ],
     "biological_controls": [
-      "Support beneficial pollinators (bumblebees) and predatory insects."
+      "Panchagavya Organic Spray / பஞ்சகாவ்யா இயற்கை உரம்: Mix 450 ml per 15-liter pump (3% solution) every 15 days to sustain robust plant immunity.",
+      "Neem Oil Preventive Spray / வேப்பெண்ணெய் கரைசல்: Mix 35 ml neem oil with soap water per 15-liter pump every 2 weeks as a natural pest deterrent.",
+      "Trichoderma Soil Drench / ட்ரைக்கோடெர்மா: Drench 50 grams per 15L pump around root zones once a month."
     ],
     "preventive_measures": [
-      "Weekly scouting of lower leaves for early blight and leaf mold."
+      "Inspect leaf undersides weekly for early signs of whiteflies, leaf mold, or blight.",
+      "Keep field borders clean of solanaceous weeds.",
+      "Ensure uniform soil calcium and moisture to prevent blossom-end rot during peak fruit expansion."
     ],
     "severity_actions": {
-      "Healthy": "Plants are healthy and vigorous. Maintain current irrigation, pruning, and nutrition schedule."
-    }
+      "Healthy": "No intervention needed. Continue balanced fertigation, organic tonics, and vine staking."
+    },
+    "fertilizers_and_nutrition": [
+      "All 19 Foliar Tonic / 19:19:19 ஆல் 19 இலைவழி உரம்: Mix 75 grams in a 15-liter pump (15 லிட்டர் தெளிப்பான் பம்பிற்கு 75 கிராம்). Spray foliage every 12-14 days to sustain rapid growth.",
+      "Calcium Nitrate & Boron / கால்சியம் நைட்ரேட் மற்றும் போரான்: Mix 15g Calcium Nitrate + 5g Boron per 15-liter pump at flowering and fruit setting to stop blossom-end rot (*தக்காளி அழுகல் நோய்*).",
+      "Micronutrient Tonic / நுண்ணூட்டச் சத்து கரைசல்: Spray 20 grams per 15-liter pump (Zinc, Iron, Manganese, Magnesium) for vibrant green foliage.",
+      "Soil Health Booster / மட்கிய தொழு உரம்: Apply 2 kg well-rotted farmyard manure (தொழு உரம்) + 200g Vermicompost (மண்புழு உரம்) enriched with Trichoderma per plant."
+    ],
+    "tamil_name": "ஆரோக்கியமான தக்காளி பயிர் - பராமரிப்பு வழிகாட்டல்"
   }
 }

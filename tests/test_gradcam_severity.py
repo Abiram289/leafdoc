@@ -111,6 +111,59 @@ class TestGradCAMAndSeverity(unittest.TestCase):
         self.assertEqual(panel.shape[0], 256)
         self.assertEqual(panel.shape[2], 3)
 
+    def test_leaf_mask_with_colored_background(self):
+        """Verify segment_leaf_mask isolates green leaf even on lavender/purple paper backdrops."""
+        h, w = 224, 224
+        # Lavender/purple backdrop common in PlantVillage Apple Scab images
+        img = np.full((h, w, 3), [180, 160, 205], dtype=np.uint8)
+        # Green leaf blade
+        img[40:180, 40:180] = [60, 140, 50]
+        mask = segment_leaf_mask(img)
+        self.assertEqual(mask.shape, (h, w))
+        # Mask should identify the green leaf area, rejecting lavender backdrop
+        self.assertGreater(mask[100, 100], 0)
+        self.assertEqual(mask[10, 10], 0)
+
+    def test_compute_severity_excludes_healthy_green_tissue(self):
+        """Verify compute_severity does not mark pristine healthy green foliage as diseased lesions."""
+        h, w = 100, 100
+        # Synthetic leaf: 95% vibrant green, 5% brown spot
+        img = np.full((h, w, 3), [40, 150, 40], dtype=np.uint8)  # healthy green
+        img[10:15, 10:15] = [120, 60, 20]  # small brown lesion (25 pixels = 0.25%)
+        leaf_mask = np.ones((h, w), dtype=np.uint8) * 255
+
+        # Diffuse high Grad-CAM activation covering the whole leaf (e.g. 0.8)
+        cam = np.full((h, w), 0.8, dtype=np.float32)
+
+        res = compute_severity(cam, leaf_mask, is_healthy=False, image_rgb=img)
+        # Affected area should reflect physical lesions, NOT 100% of the green leaf
+        self.assertLess(res["affected_area_pct"], 15.0)
+        self.assertEqual(res["severity"], "Mild")
+
+    def test_overlay_adaptive_transparency_and_mask(self):
+        """Verify generate_gradcam_overlay leaves background and sub-threshold healthy regions natural."""
+        h, w = 100, 100
+        bg_color = np.array([200, 200, 200], dtype=np.uint8)
+        img = np.full((h, w, 3), bg_color, dtype=np.uint8)
+        # Leaf in center
+        leaf_mask = np.zeros((h, w), dtype=np.uint8)
+        leaf_mask[20:80, 20:80] = 255
+        img[20:80, 20:80] = [50, 160, 50]
+
+        # Cam heatmap with peak inside leaf and 0 outside
+        cam = np.zeros((h, w), dtype=np.float32)
+        cam[30:40, 30:40] = 0.9  # Hotspot
+        cam[50:60, 50:60] = 0.05  # Sub-threshold low activation
+
+        overlay = generate_gradcam_overlay(img, cam, leaf_mask=leaf_mask, activation_floor=0.18)
+
+        # Background pixel (5, 5) outside leaf should be identical to original image
+        np.testing.assert_array_equal(overlay[5, 5], img[5, 5])
+        # Sub-threshold activation (55, 55) inside leaf should be untouched original leaf green
+        np.testing.assert_array_equal(overlay[55, 55], img[55, 55])
+        # Hotspot pixel (35, 35) should be modified by the colormap
+        self.assertFalse(np.array_equal(overlay[35, 35], img[35, 35]))
+
 
 if __name__ == "__main__":
     unittest.main()

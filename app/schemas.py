@@ -9,6 +9,7 @@ class Stage1Result(BaseModel):
     label: str = Field(..., description="Binary classification label ('healthy' or 'diseased')")
     confidence: float = Field(..., description="Confidence score for Stage 1 prediction (0.0 to 1.0)")
     is_diseased: bool = Field(..., description="True if Stage 1 predicted diseased")
+    is_healthy: bool = Field(True, description="True if Stage 1 predicted healthy")
     probabilities: Dict[str, float] = Field(..., description="Softmax probabilities for binary classes")
 
 
@@ -45,6 +46,7 @@ class Stage4Result(BaseModel):
     preventive_measures: List[str] = Field(default_factory=list, description="Long-term prevention techniques")
     severity_actions: Dict[str, str] = Field(default_factory=dict, description="Actions tailored to severity levels")
     immediate_action: str = Field(..., description="Urgent immediate action for current severity rating")
+    fertilizers_and_nutrition: Optional[List[str]] = Field(default_factory=list, description="Indian fertilizers, tonics, and plant nutrition")
 
 
 class DetectedLeafItem(BaseModel):

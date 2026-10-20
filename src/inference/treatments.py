@@ -57,6 +57,10 @@ class TreatmentRecommender:
                 "chemical_controls": ["Consult a local agricultural extension officer for approved fungicides."],
                 "biological_controls": ["Apply bio-fungicides such as Bacillus subtilis or neem oil."],
                 "preventive_measures": ["Practice crop rotation and avoid overhead watering."],
+                "fertilizers_and_nutrition": [
+                    "Spray NPK 19:19:19 (75g per 15L pump) to encourage fresh foliage recovery.",
+                    "Apply well-rotted compost or FYM around the base."
+                ],
                 "severity_level": severity or "Unknown",
                 "immediate_action": "Inspect surrounding plants and monitor progress.",
             }
@@ -83,12 +87,34 @@ class TreatmentRecommender:
         rec = self.get_recommendation(fine_label, severity)
         lines = []
         lines.append(f"Condition : {rec['condition_name']} ({rec['species']})")
+        if rec.get("tamil_name"):
+            lines.append(f"Tamil     : {rec['tamil_name']}")
         lines.append(f"Pathogen  : {rec['pathogen_type']}")
         lines.append(f"Severity  : {rec['severity_level']}")
         lines.append(f"Summary   : {rec['description']}")
         lines.append(f"\nImmediate Action Plan [{rec['severity_level']}]:")
         lines.append(f"  * {rec['immediate_action']}")
         
+        if rec.get("chemical_controls") and rec["pathogen_type"] != "None":
+            lines.append("\nChemical and Medicine Sprays:")
+            for item in rec["chemical_controls"]:
+                lines.append(f"  - {item}")
+
+        if rec.get("fertilizers_and_nutrition"):
+            lines.append("\nFertilizers and Plant Tonics:")
+            for item in rec["fertilizers_and_nutrition"]:
+                lines.append(f"  - {item}")
+
+        if rec.get("biological_controls") and rec["pathogen_type"] != "None":
+            lines.append("\nBiological and Desi Remedies:")
+            for item in rec["biological_controls"]:
+                lines.append(f"  - {item}")
+
+        if rec.get("preventive_measures"):
+            lines.append("\nPreventive Measures:")
+            for item in rec["preventive_measures"]:
+                lines.append(f"  - {item}")
+
         if rec.get("cultural_controls"):
             lines.append("\nCultural Management:")
             for item in rec["cultural_controls"]:

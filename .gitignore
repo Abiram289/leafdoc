@@ -11,3 +11,8 @@ checks/
 .pytest_cache/
 history.txt
 SYSTEM_DOCUMENTATION.md
+*.pptx
+*.docx
+build_*.py
+generate_project_report.py
+BCSE497J_*

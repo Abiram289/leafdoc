@@ -311,7 +311,7 @@
         </div>
         <div class="urgent-text-col">
           <span class="urgent-title">Urgent Recommended Action</span>
-          <p class="urgent-action-text" id="res-immediate-action-text">Apply targeted fungicide immediately...</p>
+          <p class="urgent-action-text" id="res-urgent-action-text">Apply targeted fungicide immediately...</p>
         </div>
       </div>
 
@@ -401,60 +401,101 @@
             </div>
           </div>
 
-          <!-- Disease Description -->
+          <!-- Disease Description & Regional Name Badge -->
           <div class="description-box" id="res-description-box">
+            <div class="regional-name-badge d-none" id="res-regional-name-badge">
+              <i class="fa-solid fa-tag text-emerald"></i>
+              <span class="regional-name-text" id="res-regional-name-text"></span>
+            </div>
             <p id="res-disease-description">Produces olive-green to black velvety spots on leaves...</p>
           </div>
 
-          <!-- Treatment Section Tabs -->
-          <div class="treatment-tabs-bar">
-            <button class="ttab-btn active" data-treatment-tab="tab-cultural">
-              <i class="fa-solid fa-scissors"></i> Cultural
-            </button>
-            <button class="ttab-btn" data-treatment-tab="tab-chemical">
-              <i class="fa-solid fa-spray-can"></i> Chemical Sprays
-            </button>
-            <button class="ttab-btn" data-treatment-tab="tab-biological">
-              <i class="fa-solid fa-bug"></i> Bio-Controls
-            </button>
-            <button class="ttab-btn" data-treatment-tab="tab-preventive">
-              <i class="fa-solid fa-shield-halved"></i> Prevention
-            </button>
+          <!-- Single Unified Treatment Bar & Quick Filter Pills -->
+          <div class="treatment-single-bar">
+            <div class="single-tab-title">
+              <span class="title-main"><i class="fa-solid fa-wheat-awn text-emerald"></i> Farmer Care &amp; Treatment Plan</span>
+              <span class="tamil-subtitle">விவசாயிகள் சிகிச்சை மற்றும் பயிர் ஊட்டச்சத்து திட்டம்</span>
+            </div>
+            <div class="treatment-filter-pills">
+              <button type="button" class="tfilter-pill active" data-filter="cure">
+                <i class="fa-solid fa-spray-can text-cyan"></i> Cures &amp; Sprays <span class="pill-count" id="count-cure"></span>
+              </button>
+              <button type="button" class="tfilter-pill" data-filter="fertilizer">
+                <i class="fa-solid fa-seedling text-emerald"></i> Nutrition &amp; Tonics <span class="pill-count" id="count-fertilizer"></span>
+              </button>
+              <button type="button" class="tfilter-pill" data-filter="prevention">
+                <i class="fa-solid fa-shield-halved text-purple"></i> Bio &amp; Organic Remedies <span class="pill-count" id="count-prevention"></span>
+              </button>
+              <button type="button" class="tfilter-pill" data-filter="all">
+                <i class="fa-solid fa-layer-group"></i> All Solutions <span class="pill-count" id="count-all"></span>
+              </button>
+            </div>
           </div>
 
-          <!-- Tab Content Panels -->
-          <div class="treatment-tab-contents">
-            <!-- Cultural Controls -->
-            <div class="treatment-panel active" id="tab-cultural">
-              <h4 class="tpanel-title"><i class="fa-solid fa-trowel text-emerald"></i> Sanitation &amp; Cultural Field Practices</h4>
-              <ul class="treatment-list" id="res-cultural-list">
-                <!-- Dynamically generated -->
-              </ul>
+          <!-- Unified Single Treatment Container (All in One View) -->
+          <div class="treatment-unified-container">
+            
+            <!-- Immediate Severity Step Banner -->
+            <div class="immediate-action-banner" id="res-immediate-banner">
+              <div class="immediate-action-badge">
+                <i class="fa-solid fa-bolt text-amber"></i>
+                <span id="res-immediate-severity-label">IMMEDIATE FIRST STEP &bull; உடனடி முதல் நடவடிக்கை</span>
+              </div>
+              <p class="immediate-action-text" id="res-immediate-action-text">
+                Spray systemic curative SAAF (30g per 15L pump) immediately; remove yellowing lower leaves.
+              </p>
             </div>
 
-            <!-- Chemical Controls -->
-            <div class="treatment-panel d-none" id="tab-chemical">
-              <h4 class="tpanel-title"><i class="fa-solid fa-flask text-emerald"></i> Approved Fungicides &amp; Chemical Treatments</h4>
+            <!-- Section 1: Cures & Chemical Sprays -->
+            <div class="treatment-section-card" id="section-cure">
+              <div class="tsection-header">
+                <div class="tsection-icon-badge icon-cyan"><i class="fa-solid fa-spray-can"></i></div>
+                <div class="tsection-title-wrap">
+                  <h4 class="tsection-title">1. Cure &amp; Chemical Sprays <span class="tamil-tag">மருந்து &amp; பூச்சிக்கொல்லி தெளிப்பு</span></h4>
+                  <span class="tsection-subtitle">Recommended farmer-approved brands &amp; exact 15-Liter knapsack pump doses (15 லிட்டர் தெளிப்பான் பம்ப்)</span>
+                </div>
+              </div>
               <ul class="treatment-list" id="res-chemical-list">
-                <!-- Dynamically generated -->
+                <!-- Dynamically populated -->
               </ul>
             </div>
 
-            <!-- Biological Controls -->
-            <div class="treatment-panel d-none" id="tab-biological">
-              <h4 class="tpanel-title"><i class="fa-solid fa-leaf text-emerald"></i> Organic &amp; Biological Remedies</h4>
-              <ul class="treatment-list" id="res-biological-list">
-                <!-- Dynamically generated -->
+            <!-- Section 2: Fertilizers & Plant Nutrition -->
+            <div class="treatment-section-card" id="section-fertilizer">
+              <div class="tsection-header">
+                <div class="tsection-icon-badge icon-emerald"><i class="fa-solid fa-seedling"></i></div>
+                <div class="tsection-title-wrap">
+                  <h4 class="tsection-title">2. Fertilizers &amp; Plant Nutrition <span class="tamil-tag">உரங்கள் &amp; பயிர் ஊட்டச்சத்து</span></h4>
+                  <span class="tsection-subtitle">Foliar recovery tonics (NPK 19:19:19, Micronutrients) &amp; root soil health (தொழு உரம் &amp; மண்புழு உரம்)</span>
+                </div>
+              </div>
+              <ul class="treatment-list" id="res-fertilizer-list">
+                <!-- Dynamically populated -->
               </ul>
             </div>
 
-            <!-- Preventive Measures -->
-            <div class="treatment-panel d-none" id="tab-preventive">
-              <h4 class="tpanel-title"><i class="fa-solid fa-shield-virus text-emerald"></i> Long-Term Crop Protection &amp; Cultivar Selection</h4>
-              <ul class="treatment-list" id="res-preventive-list">
-                <!-- Dynamically generated -->
+            <!-- Section 3: Easy Preventions & Organic Remedies -->
+            <div class="treatment-section-card" id="section-prevention">
+              <div class="tsection-header">
+                <div class="tsection-icon-badge icon-purple"><i class="fa-solid fa-shield-halved"></i></div>
+                <div class="tsection-title-wrap">
+                  <h4 class="tsection-title">3. Easy Preventions &amp; Organic Remedies <span class="tamil-tag">தடுப்பு முறைகள் &amp; இயற்கை தீர்வுகள்</span></h4>
+                  <span class="tsection-subtitle">Pruning lower suckers (பக்கக் கிளை கிள்ளுதல்), yellow sticky traps, sour buttermilk &amp; neem oil sprays</span>
+                </div>
+              </div>
+              <ul class="treatment-list" id="res-prevention-list">
+                <!-- Dynamically populated -->
               </ul>
             </div>
+
+            <!-- Backward-compatibility fallback elements (avoids null reference in legacy code) -->
+            <ul class="treatment-list d-none" id="res-cultural-list"></ul>
+            <ul class="treatment-list d-none" id="res-biological-list"></ul>
+            <ul class="treatment-list d-none" id="res-preventive-list"></ul>
+            <div id="tab-cultural" class="d-none"></div>
+            <div id="tab-chemical" class="d-none"></div>
+            <div id="tab-biological" class="d-none"></div>
+            <div id="tab-preventive" class="d-none"></div>
           </div>
 
           <!-- Download / Action Button -->

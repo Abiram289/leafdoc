@@ -74,13 +74,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const candidateLeavesGrid = document.getElementById("candidate-leaves-grid");
   const resDetectorBadge = document.getElementById("res-detector-badge");
 
-  // Treatment Tabs
-  const treatmentTabBtns = document.querySelectorAll(".ttab-btn");
-  const treatmentPanels = document.querySelectorAll(".treatment-panel");
-  const resCulturalList = document.getElementById("res-cultural-list");
+  // Urgent and Immediate Action Banners
+  const resUrgentActionText = document.getElementById("res-urgent-action-text");
+  const resRegionalNameBadge = document.getElementById("res-regional-name-badge");
+  const resRegionalNameText = document.getElementById("res-regional-name-text");
+
+  // Treatment Elements (Unified Single Tab)
+  const resImmediateBanner = document.getElementById("res-immediate-banner");
+  const resImmediateSeverityLabel = document.getElementById("res-immediate-severity-label");
   const resChemicalList = document.getElementById("res-chemical-list");
+  const resFertilizerList = document.getElementById("res-fertilizer-list");
+  const resPreventionList = document.getElementById("res-prevention-list");
+  const resCulturalList = document.getElementById("res-cultural-list");
   const resBiologicalList = document.getElementById("res-biological-list");
   const resPreventiveList = document.getElementById("res-preventive-list");
+  const treatmentFilterPills = document.querySelectorAll(".tfilter-pill");
 
   // Classes Modal
   const btnOpenClasses = document.getElementById("btn-open-classes");
@@ -193,11 +201,130 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================================================================
   // 3. File Drag & Drop + Browse + Clipboard Paste
   // =========================================================================
+  function isImageFile(file) {
+    if (!file) return false;
+    if (file.type && file.type.startsWith("image/")) return true;
+    const name = (file.name || "").toLowerCase();
+    return /\.(jpe?g|png|webp|bmp|gif|tiff?)$/i.test(name);
+  }
+
+  function processDroppedData(dt) {
+    if (!dt) return false;
+
+    // 1. Dropped files from local system (Desktop, File Explorer)
+    if (dt.files && dt.files.length > 0) {
+      for (let i = 0; i < dt.files.length; i++) {
+        const file = dt.files[i];
+        if (isImageFile(file)) {
+          switchToFileTab();
+          handleFileSelected(file);
+          showToastNotification(`Loaded: ${file.name}`);
+          return true;
+        }
+      }
+      showError("Please drop an image file (JPEG, PNG, or WebP).");
+      return true;
+    }
+
+    // 2. Dropped items (alternative dataTransfer item API)
+    if (dt.items && dt.items.length > 0) {
+      for (let i = 0; i < dt.items.length; i++) {
+        const item = dt.items[i];
+        if (item.kind === "file") {
+          const file = item.getAsFile();
+          if (file && isImageFile(file)) {
+            switchToFileTab();
+            handleFileSelected(file);
+            showToastNotification(`Loaded: ${file.name}`);
+            return true;
+          }
+        }
+      }
+    }
+
+    // 3. Dropped image URL from web browser tab or Google Images
+    const urlData = dt.getData("text/uri-list") || dt.getData("URL") || dt.getData("text/plain");
+    if (urlData && (urlData.startsWith("http://") || urlData.startsWith("https://") || urlData.startsWith("data:image/"))) {
+      switchToUrlTab(urlData.trim());
+      showToastNotification("Remote image URL loaded! Ready to diagnose.");
+      return true;
+    }
+
+    // 4. Dropped HTML with <img> tag from external webpage
+    const htmlData = dt.getData("text/html");
+    if (htmlData) {
+      const match = htmlData.match(/<img[^>]+src=["']([^"']+)["']/i);
+      if (match && match[1]) {
+        const imgSrc = match[1].trim();
+        if (imgSrc.startsWith("http://") || imgSrc.startsWith("https://") || imgSrc.startsWith("data:image/")) {
+          switchToUrlTab(imgSrc);
+          showToastNotification("Web image loaded! Ready to diagnose.");
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  // Prevent default browser behavior (opening file in new tab)
+  ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
+    window.addEventListener(eventName, (e) => {
+      e.preventDefault();
+    }, false);
+    document.addEventListener(eventName, (e) => {
+      e.preventDefault();
+    }, false);
+  });
+
+  // Visual dragover feedback on dropzone
+  let dragDepthCounter = 0;
+  window.addEventListener("dragenter", (e) => {
+    dragDepthCounter++;
+    if (dropzone) dropzone.classList.add("dragover");
+  });
+
+  window.addEventListener("dragleave", (e) => {
+    dragDepthCounter--;
+    if (dragDepthCounter <= 0) {
+      dragDepthCounter = 0;
+      if (dropzone) dropzone.classList.remove("dragover");
+    }
+  });
+
+  // Dedicated handlers directly on dropzone
   if (dropzone) {
     dropzone.addEventListener("click", (e) => {
       if (e.target !== btnClearFile && (!btnClearFile || !btnClearFile.contains(e.target))) {
         if (fileInput) fileInput.click();
       }
+    });
+
+    dropzone.addEventListener("dragenter", (e) => {
+      e.preventDefault();
+      dropzone.classList.add("dragover");
+    });
+
+    dropzone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      if (e.dataTransfer) {
+        e.dataTransfer.dropEffect = "copy";
+      }
+      dropzone.classList.add("dragover");
+    });
+
+    dropzone.addEventListener("dragleave", (e) => {
+      if (e.target === dropzone || !dropzone.contains(e.relatedTarget)) {
+        dropzone.classList.remove("dragover");
+      }
+    });
+
+    dropzone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dragDepthCounter = 0;
+      dropzone.classList.remove("dragover");
+      processDroppedData(e.dataTransfer);
     });
   }
 
@@ -209,78 +336,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // PREVENT BROWSER DEFAULT: Prevent opening dragged files in a new tab
-  ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
-    window.addEventListener(eventName, (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-    }, false);
-    document.addEventListener(eventName, (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-    }, false);
-  });
-
-  // Visual dragover feedback on dropzone
-  let dragDepthCounter = 0;
-  window.addEventListener("dragenter", (e) => {
-    dragDepthCounter++;
-    dropzone.classList.add("dragover");
-  });
-
-  window.addEventListener("dragleave", (e) => {
-    dragDepthCounter--;
-    if (dragDepthCounter <= 0) {
-      dragDepthCounter = 0;
-      dropzone.classList.remove("dragover");
-    }
-  });
-
-  // Handle drop ANYWHERE on page or directly on dropzone
+  // Handle drop anywhere on window as well
   window.addEventListener("drop", (e) => {
     e.preventDefault();
-    e.stopPropagation();
     dragDepthCounter = 0;
-    dropzone.classList.remove("dragover");
-
-    const dt = e.dataTransfer;
-    if (!dt) return;
-
-    // 1. Dropped files from local system
-    if (dt.files && dt.files.length > 0) {
-      const file = dt.files[0];
-      if (file.type && file.type.startsWith("image/")) {
-        switchToFileTab();
-        handleFileSelected(file);
-        showToastNotification(`Loaded: ${file.name}`);
-        return;
-      } else {
-        showError("Please drop an image file (JPEG, PNG, or WebP).");
-        return;
-      }
-    }
-
-    // 2. Dropped items (alternative dataTransfer item API)
-    if (dt.items && dt.items.length > 0) {
-      for (let i = 0; i < dt.items.length; i++) {
-        if (dt.items[i].kind === "file") {
-          const file = dt.items[i].getAsFile();
-          if (file && file.type && file.type.startsWith("image/")) {
-            switchToFileTab();
-            handleFileSelected(file);
-            showToastNotification(`Loaded: ${file.name}`);
-            return;
-          }
-        }
-      }
-    }
-
-    // 3. Dropped image URL from web browser tab or Google Images
-    const urlData = dt.getData("text/uri-list") || dt.getData("URL") || dt.getData("text/plain");
-    if (urlData && (urlData.startsWith("http://") || urlData.startsWith("https://") || urlData.startsWith("data:image/"))) {
-      switchToUrlTab(urlData.trim());
-      showToastNotification("Remote image URL loaded! Ready to diagnose.");
-    }
+    if (dropzone) dropzone.classList.remove("dragover");
+    processDroppedData(e.dataTransfer);
   });
 
   // =========================================================================
@@ -316,7 +377,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. Check for image files in clipboardData.files
     if (clipboardData.files && clipboardData.files.length > 0) {
       const file = clipboardData.files[0];
-      if (file.type && file.type.startsWith("image/")) {
+      if (isImageFile(file)) {
         e.preventDefault();
         switchToFileTab();
         handleFileSelected(file);
@@ -340,7 +401,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function handleFileSelected(file, autoScroll = true) {
-    if (!file.type || !file.type.startsWith("image/")) {
+    if (!isImageFile(file)) {
       showError("Please select a valid image file (JPEG, PNG, WebP).");
       return;
     }
@@ -645,7 +706,12 @@ document.addEventListener("DOMContentLoaded", () => {
     resOverallStatusBadge.className = `badge ${isHealthy ? "badge-healthy" : "badge-diseased"}`;
 
     resSpeciesBadge.innerText = s2.species;
-    resDiseaseName.innerText = s2.condition_name;
+    const tamilDiseaseName = s4.tamil_name || "";
+    if (tamilDiseaseName) {
+      resDiseaseName.innerHTML = `${s2.condition_name} <span class="treatment-tamil-chip" style="margin-left: 8px; font-size: 13px; font-weight: 600; vertical-align: middle;"><i class="fa-solid fa-seedling"></i> ${tamilDiseaseName}</span>`;
+    } else {
+      resDiseaseName.innerText = s2.condition_name;
+    }
     resPathogenName.innerText = s4.pathogen_type || "None / Physiological";
 
     // Confidence
@@ -667,22 +733,41 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     resAffectedPct.innerText = `${s3.affected_area_pct.toFixed(1)}% Surface Affected`;
 
-    // Urgent Action Banner
-    resImmediateActionText.innerText = s4.immediate_action || "Continue routine preventative care.";
-    if (isHealthy) {
-      resUrgentBanner.style.borderColor = "rgba(16, 185, 129, 0.3)";
-      resUrgentBanner.style.background = "rgba(16, 185, 129, 0.1)";
-      const bell = resUrgentBanner.querySelector(".urgent-icon-col");
-      if (bell) bell.style.color = "var(--mint-light)";
-    } else {
-      resUrgentBanner.style.borderColor = "rgba(245, 158, 11, 0.3)";
-      resUrgentBanner.style.background = "rgba(245, 158, 11, 0.1)";
-      const bell = resUrgentBanner.querySelector(".urgent-icon-col");
-      if (bell) bell.style.color = "var(--amber-warning)";
+    // Urgent Action Banner (Top Level)
+    if (resImmediateActionText) {
+      resImmediateActionText.innerText = s4.immediate_action || "Continue routine preventative care.";
+    }
+    if (resUrgentActionText) {
+      resUrgentActionText.innerText = s4.immediate_action || "Continue routine preventative care.";
+    }
+    if (resUrgentBanner) {
+      if (isHealthy) {
+        resUrgentBanner.style.borderColor = "rgba(16, 185, 129, 0.35)";
+        resUrgentBanner.style.background = "rgba(16, 185, 129, 0.1)";
+        const bell = resUrgentBanner.querySelector(".urgent-icon-col");
+        if (bell) bell.style.color = "var(--mint-light)";
+      } else {
+        resUrgentBanner.style.borderColor = "rgba(245, 158, 11, 0.35)";
+        resUrgentBanner.style.background = "rgba(245, 158, 11, 0.1)";
+        const bell = resUrgentBanner.querySelector(".urgent-icon-col");
+        if (bell) bell.style.color = "var(--amber-warning)";
+      }
     }
 
-    // Disease Description
-    resDescription.innerText = s4.description || "No specific pathogen notes recorded.";
+    // Disease Description & Regional Desi Name Badge
+    if (resDescription) {
+      const fullDesc = s4.description || "No specific pathogen notes recorded.";
+      const regionalMatch = fullDesc.match(/\((?:Commonly known in Indian farming as|Popularly called in India as|Known locally as)\s*([^)]+)\)/i);
+      
+      if (regionalMatch && resRegionalNameBadge && resRegionalNameText) {
+        resRegionalNameText.innerText = regionalMatch[1].trim();
+        resRegionalNameBadge.classList.remove("d-none");
+        resDescription.innerText = fullDesc.replace(regionalMatch[0], "").trim();
+      } else {
+        if (resRegionalNameBadge) resRegionalNameBadge.classList.add("d-none");
+        resDescription.innerText = fullDesc;
+      }
+    }
 
     // 2. Explainability Visualizer
     updateVisualizerView("composite_panel");
@@ -692,79 +777,289 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Severity Progress Bar
     const affPctClamped = Math.min(100, Math.max(0, s3.affected_area_pct));
-    meterProgressBar.style.width = `${affPctClamped}%`;
-    meterAffectedPctBadge.innerText = `${s3.affected_area_pct.toFixed(1)}%`;
+    if (meterProgressBar) meterProgressBar.style.width = `${affPctClamped}%`;
+    if (meterAffectedPctBadge) meterAffectedPctBadge.innerText = `${s3.affected_area_pct.toFixed(1)}%`;
 
     // Top-5 Candidates
-    resTopkList.innerHTML = "";
-    if (data.target_species) {
-      const lockNote = document.createElement("div");
-      lockNote.className = "topk-lock-note";
-      lockNote.style.cssText = "font-size: 12px; color: var(--teal-accent); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; background: rgba(20, 184, 166, 0.1); border-radius: var(--radius-sm); border: 1px solid rgba(20, 184, 166, 0.2);";
-      lockNote.innerHTML = `
-        <span><i class="fa-solid fa-filter"></i> Filter locked to <strong>${data.target_species}</strong></span>
-        <button type="button" id="btn-reset-crop-filter" style="background: none; border: none; color: var(--mint-light); cursor: pointer; text-decoration: underline; font-size: 11px; font-weight: 600;">Clear Lock</button>
-      `;
-      resTopkList.appendChild(lockNote);
+    if (resTopkList) {
+      resTopkList.innerHTML = "";
+      if (data.target_species) {
+        const lockNote = document.createElement("div");
+        lockNote.className = "topk-lock-note";
+        lockNote.style.cssText = "font-size: 12px; color: var(--teal-accent); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; background: rgba(20, 184, 166, 0.1); border-radius: var(--radius-sm); border: 1px solid rgba(20, 184, 166, 0.2);";
+        lockNote.innerHTML = `
+          <span><i class="fa-solid fa-filter"></i> Filter locked to <strong>${data.target_species}</strong></span>
+          <button type="button" id="btn-reset-crop-filter" style="background: none; border: none; color: var(--mint-light); cursor: pointer; text-decoration: underline; font-size: 11px; font-weight: 600;">Clear Lock</button>
+        `;
+        resTopkList.appendChild(lockNote);
 
-      const btnReset = lockNote.querySelector("#btn-reset-crop-filter");
-      if (btnReset) {
-        btnReset.addEventListener("click", () => {
-          if (cropSelector) cropSelector.value = "";
-          showToastNotification("Crop filter cleared to Auto-Detect (All 38 Classes)");
-          if (lastDiagnosedSource) {
-            if (lastDiagnosedSource.type === "file") {
-              runDiagnosisWithFile(lastDiagnosedSource.data);
-            } else if (lastDiagnosedSource.type === "url") {
-              runDiagnosisWithUrl(lastDiagnosedSource.data);
+        const btnReset = lockNote.querySelector("#btn-reset-crop-filter");
+        if (btnReset) {
+          btnReset.addEventListener("click", () => {
+            if (cropSelector) cropSelector.value = "";
+            showToastNotification("Crop filter cleared to Auto-Detect (All 38 Classes)");
+            if (lastDiagnosedSource) {
+              if (lastDiagnosedSource.type === "file") {
+                runDiagnosisWithFile(lastDiagnosedSource.data);
+              } else if (lastDiagnosedSource.type === "url") {
+                runDiagnosisWithUrl(lastDiagnosedSource.data);
+              }
             }
-          }
+          });
+        }
+      }
+
+      if (s2.top_predictions && s2.top_predictions.length > 0) {
+        s2.top_predictions.forEach((cand) => {
+          const item = document.createElement("div");
+          item.className = "topk-item";
+          const labelClean = cand.label.replace("___", " &bull; ").replaceAll("_", " ");
+          const candConf = (cand.confidence * 100).toFixed(1);
+          item.innerHTML = `
+            <span class="topk-label">${labelClean}</span>
+            <span class="topk-prob">${candConf}%</span>
+          `;
+          resTopkList.appendChild(item);
         });
       }
     }
 
-    if (s2.top_predictions && s2.top_predictions.length > 0) {
-      s2.top_predictions.forEach((cand) => {
-        const item = document.createElement("div");
-        item.className = "topk-item";
-        const labelClean = cand.label.replace("___", " &bull; ").replaceAll("_", " ");
-        const candConf = (cand.confidence * 100).toFixed(1);
-        item.innerHTML = `
-          <span class="topk-label">${labelClean}</span>
-          <span class="topk-prob">${candConf}%</span>
-        `;
-        resTopkList.appendChild(item);
-      });
+    // 3. Populate Unified Indian Agronomic Treatment Guide
+    if (resImmediateActionText && s4.immediate_action) {
+      resImmediateActionText.innerText = s4.immediate_action;
+    }
+    if (resImmediateSeverityLabel) {
+      if (isHealthy) {
+        resImmediateSeverityLabel.innerHTML = `<i class="fa-solid fa-circle-check text-emerald"></i> ALL CLEAR &bull; REGULAR FIELD CARE (வழக்கமான பயிர் பராமரிப்பு)`;
+        if (resImmediateBanner) {
+          resImmediateBanner.style.background = "linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(5, 150, 105, 0.1) 100%)";
+          resImmediateBanner.style.borderColor = "rgba(16, 185, 129, 0.4)";
+          resImmediateBanner.style.borderLeftColor = "#10b981";
+        }
+      } else {
+        const sev = s4.severity_level || (s3 ? s3.severity : "") || "ACTION";
+        resImmediateSeverityLabel.innerHTML = `<i class="fa-solid fa-bolt text-amber"></i> SEVERITY: <strong>${sev.toUpperCase()}</strong> &bull; TODAY'S PRIORITY ACTION (உடனடி முதல் நடவடிக்கை)`;
+        if (resImmediateBanner) {
+          resImmediateBanner.style.background = "linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(180, 83, 9, 0.12) 100%)";
+          resImmediateBanner.style.borderColor = "rgba(245, 158, 11, 0.45)";
+          resImmediateBanner.style.borderLeftColor = "#f59e0b";
+        }
+      }
     }
 
-    // 3. Populate Agronomic Treatment Lists
-    populateList(resCulturalList, s4.cultural_controls, "fa-scissors");
-    populateList(resChemicalList, s4.chemical_controls, "fa-spray-can");
-    populateList(resBiologicalList, s4.biological_controls, "fa-bug");
-    populateList(resPreventiveList, s4.preventive_measures, "fa-shield-halved");
+    // Populate Section 1: Cures & Sprays
+    let cureCount = 0;
+    if (isHealthy) {
+      if (resChemicalList) {
+        resChemicalList.innerHTML = `
+          <li class="treatment-item healthy-item cure-item">
+            <i class="fa-solid fa-circle-check text-emerald treatment-bullet-icon"></i>
+            <div class="treatment-item-wrap">
+              <div class="treatment-item-title-row">
+                <span class="treatment-item-title text-healthy">No Chemical Sprays Required</span>
+              </div>
+              <p class="treatment-item-desc">The leaf displays healthy vegetative tissue. Avoid unnecessary fungicide application to protect beneficial microbial balance and save input costs.</p>
+            </div>
+          </li>
+        `;
+      }
+      cureCount = 0;
+    } else {
+      populateList(resChemicalList, s4.chemical_controls, "fa-spray-can", "cure-item");
+      cureCount = (s4.chemical_controls && s4.chemical_controls.length) ? s4.chemical_controls.length : 0;
+    }
+
+    // Populate Section 2: Fertilizers & Tonics
+    const fertItems = (s4.fertilizers_and_nutrition && s4.fertilizers_and_nutrition.length > 0)
+      ? s4.fertilizers_and_nutrition
+      : [
+          "Foliar NPK 19:19:19 (Water-Soluble): Mix 75 grams in a 15-liter pump (5 g/L). Spray every 10–12 days to stimulate fresh green foliage recovery.",
+          "Calcium Nitrate + Boron: Spray 15g Calcium Nitrate + 5g Boron per 15L pump to strengthen leaf cell walls and stop blossom-end rot.",
+          "Chelated Micronutrients (Zinc, Iron, Boron): Spray 20g per 15L pump to correct leaf yellowing chlorosis.",
+          "Soil Health & Root Booster: Apply well-rotted Gobar ki khad (FYM) or Vermicompost with Trichoderma viride around root base."
+        ];
+    populateList(resFertilizerList, fertItems, "fa-seedling", "fert-item");
+    const fertCount = fertItems.length;
+
+    // Populate Section 3: Preventions & Desi Upay
+    const combinedPreventions = [];
+    if (s4.biological_controls && s4.biological_controls.length > 0) {
+      s4.biological_controls.forEach((item) => {
+        if (!item.toLowerCase().includes("no specific") && !combinedPreventions.includes(item)) {
+          combinedPreventions.push(item);
+        }
+      });
+    }
+    if (s4.preventive_measures && s4.preventive_measures.length > 0) {
+      s4.preventive_measures.forEach((item) => {
+        if (!item.toLowerCase().includes("no specific") && !combinedPreventions.includes(item)) {
+          combinedPreventions.push(item);
+        }
+      });
+    }
+    if (s4.cultural_controls && s4.cultural_controls.length > 0) {
+      s4.cultural_controls.forEach((item) => {
+        if (!item.toLowerCase().includes("no specific") && !combinedPreventions.includes(item)) {
+          combinedPreventions.push(item);
+        }
+      });
+    }
+    populateList(resPreventionList, combinedPreventions, "fa-shield-halved", "prev-item");
+    const prevCount = combinedPreventions.length;
+    const totalSolutionsCount = cureCount + fertCount + prevCount;
+
+    // Backward compatibility lists
+    if (resCulturalList) populateList(resCulturalList, s4.cultural_controls, "fa-scissors");
+    if (resBiologicalList) populateList(resBiologicalList, s4.biological_controls, "fa-bug");
+    if (resPreventiveList && resPreventiveList !== resPreventionList) {
+      populateList(resPreventiveList, s4.preventive_measures, "fa-shield-halved");
+    }
+
+    // Update pill count badges
+    const badgeCure = document.getElementById("count-cure");
+    const badgeFert = document.getElementById("count-fertilizer");
+    const badgePrev = document.getElementById("count-prevention");
+    const badgeAll = document.getElementById("count-all");
+    if (badgeCure) badgeCure.innerText = cureCount > 0 ? cureCount : "";
+    if (badgeFert) badgeFert.innerText = fertCount > 0 ? fertCount : "";
+    if (badgePrev) badgePrev.innerText = prevCount > 0 ? prevCount : "";
+    if (badgeAll) badgeAll.innerText = totalSolutionsCount > 0 ? totalSolutionsCount : "";
+
+    // Set default tab: "cure" for diseased, "fertilizer" for healthy
+    const defaultFilter = (isHealthy || cureCount === 0) ? "fertilizer" : "cure";
+    if (treatmentFilterPills && treatmentFilterPills.length > 0) {
+      treatmentFilterPills.forEach(p => {
+        p.classList.toggle("active", p.getAttribute("data-filter") === defaultFilter);
+      });
+      const secCure = document.getElementById("section-cure");
+      const secFert = document.getElementById("section-fertilizer");
+      const secPrev = document.getElementById("section-prevention");
+      if (secCure) secCure.classList.toggle("d-none", defaultFilter !== "cure" && defaultFilter !== "all");
+      if (secFert) secFert.classList.toggle("d-none", defaultFilter !== "fertilizer" && defaultFilter !== "all");
+      if (secPrev) secPrev.classList.toggle("d-none", defaultFilter !== "prevention" && defaultFilter !== "all");
+    }
 
     // Scroll smoothly to results
     resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  function populateList(container, items, iconClass) {
+  function formatTreatmentItem(txt, defaultIcon) {
+    if (!txt) return "";
+    let trimmed = txt.trim();
+    if (/^(none required|no specific|not required)/i.test(trimmed)) {
+      return `
+        <div class="treatment-item-wrap healthy-tip">
+          <div class="treatment-item-title-row">
+            <span class="treatment-item-title text-healthy"><i class="fa-solid fa-circle-check"></i> No Intervention Needed</span>
+          </div>
+          <p class="treatment-item-desc">${trimmed}</p>
+        </div>
+      `;
+    }
+
+    // Find colon separating Title from Details, IGNORED inside brackets [ ] or parentheses ( )
+    let colonIdx = -1;
+    let bracketDepth = 0;
+    for (let i = 0; i < trimmed.length; i++) {
+      const ch = trimmed[i];
+      if (ch === '[' || ch === '(') {
+        bracketDepth++;
+      } else if (ch === ']' || ch === ')') {
+        if (bracketDepth > 0) bracketDepth--;
+      } else if (ch === ':' && bracketDepth === 0) {
+        if (i < 130) {
+          colonIdx = i;
+          break;
+        }
+      }
+    }
+
+    let title = "";
+    let body = trimmed;
+    if (colonIdx > 0) {
+      title = trimmed.substring(0, colonIdx).trim();
+      body = trimmed.substring(colonIdx + 1).trim();
+    }
+
+    // Extract [Active: ...] or [Chemical: ...]
+    let activeTag = "";
+    const activeRegex = /\[(?:Active|Chemical|Active Ingredient):\s*([^\]]+)\]/i;
+    const activeMatch = title.match(activeRegex) || body.match(activeRegex);
+    if (activeMatch) {
+      activeTag = `<span class="treatment-active-chip"><i class="fa-solid fa-flask"></i> ${activeMatch[1].trim()}</span>`;
+      title = title.replace(activeRegex, "").trim();
+      body = body.replace(activeRegex, "").trim();
+    }
+
+    // Extract [Tamil: ...] or [Common: ...]
+    let tamilTag = "";
+    const tamilRegex = /\[(?:Tamil|Local|Common|தமிழ்):\s*([^\]]+)\]/i;
+    const tamilMatch = title.match(tamilRegex) || body.match(tamilRegex);
+    if (tamilMatch) {
+      tamilTag = `<span class="treatment-tamil-chip"><i class="fa-solid fa-seedling"></i> ${tamilMatch[1].trim()}</span>`;
+      title = title.replace(tamilRegex, "").trim();
+      body = body.replace(tamilRegex, "").trim();
+    }
+
+    // Defensive cleanup of stray bracket characters or leading colons
+    title = title.replace(/^[\]):,\s-]+/, "").replace(/[\[:(,\s-]+$/, "").trim();
+    body = body.replace(/^[\]):,\s-]+/, "").trim();
+
+    // Check for knapsack pump dose regex (e.g. 35-40 grams per 15-liter pump, 8-10 ml per 15L pump, etc.)
+    const doseRegex = /(?:take|mix|apply|spray)?\s*([0-9]+(?:\s*[-–]\s*[0-9]+)?\s*(?:grams?|g|ml|liters?|L|kg|tablespoons?)(?:\s*(?:to\s*[0-9]+\s*(?:ml|L|g))?)?\s*(?:per|\/|in\s*a?)\s*(?:15\s*[-–]?\s*(?:liter|l|L)|knapsack|pump|10L|barrel)[^.,;)]*)/i;
+    let doseChip = "";
+    const doseMatch = (body + " " + title).match(doseRegex);
+    if (doseMatch) {
+      doseChip = `<span class="treatment-dose-chip"><i class="fa-solid fa-prescription-bottle"></i> ${doseMatch[1].trim()}</span>`;
+    }
+
+    // Also detect Tamil dose phrase if present (e.g. 15 லிட்டர் தெளிப்பான் பம்பிற்கு 35 கிராம்)
+    const tamilDoseRegex = /(15\s*லிட்டர்\s*(?:தெளிப்பான்\s*)?பம்பிற்கு\s*[0-9]+(?:\s*[-–]\s*[0-9]+)?\s*(?:கிராம்|மி\.லி))/i;
+    const tamilDoseMatch = (body + " " + title).match(tamilDoseRegex);
+    if (tamilDoseMatch && !doseChip) {
+      doseChip = `<span class="treatment-dose-chip"><i class="fa-solid fa-prescription-bottle"></i> ${tamilDoseMatch[1].trim()}</span>`;
+    }
+
+    const displayTitle = title || body;
+    const displayBody = title ? body : "";
+
+    return `
+      <div class="treatment-item-wrap">
+        <div class="treatment-item-title-row">
+          <span class="treatment-item-title">${displayTitle}</span>
+          ${tamilTag}
+          ${activeTag}
+          ${doseChip}
+        </div>
+        ${displayBody ? `<p class="treatment-item-desc">${displayBody}</p>` : ""}
+      </div>
+    `;
+  }
+
+  function populateList(container, items, iconClass, categoryClass = "") {
+    if (!container) return;
     container.innerHTML = "";
     if (!items || items.length === 0) {
-      container.innerHTML = `<li class="treatment-item"><i class="fa-solid fa-check text-emerald"></i> No specific actions required.</li>`;
+      container.innerHTML = `
+        <li class="treatment-item empty ${categoryClass}">
+          <i class="fa-solid fa-check text-emerald treatment-bullet-icon"></i>
+          <div class="treatment-item-wrap"><span class="treatment-item-desc">No specific actions required.</span></div>
+        </li>
+      `;
       return;
     }
     items.forEach((txt) => {
       const li = document.createElement("li");
-      li.className = "treatment-item";
+      li.className = `treatment-item ${categoryClass}`.trim();
       li.innerHTML = `
         <i class="fa-solid ${iconClass} treatment-bullet-icon"></i>
-        <span>${txt}</span>
+        ${formatTreatmentItem(txt, iconClass)}
       `;
       container.appendChild(li);
     });
   }
 
-  // Visualizer Tab Switching
+    // Visualizer Tab Switching
   viewerTabs.forEach((btn) => {
     btn.addEventListener("click", () => {
       viewerTabs.forEach((b) => b.classList.remove("active"));
@@ -782,16 +1077,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Treatment Tab Switching
-  treatmentTabBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      treatmentTabBtns.forEach((b) => b.classList.remove("active"));
-      treatmentPanels.forEach((p) => p.classList.add("d-none"));
+  // Single Tab & Filter Pill Switching
+  treatmentFilterPills.forEach((pill) => {
+    pill.addEventListener("click", () => {
+      treatmentFilterPills.forEach((p) => p.classList.remove("active"));
+      pill.classList.add("active");
+      const filter = pill.getAttribute("data-filter");
+      const secCure = document.getElementById("section-cure");
+      const secFert = document.getElementById("section-fertilizer");
+      const secPrev = document.getElementById("section-prevention");
 
-      btn.classList.add("active");
-      const targetPanelId = btn.getAttribute("data-treatment-tab");
-      const targetPanel = document.getElementById(targetPanelId);
-      if (targetPanel) targetPanel.classList.remove("d-none");
+      if (filter === "all") {
+        if (secCure) secCure.classList.remove("d-none");
+        if (secFert) secFert.classList.remove("d-none");
+        if (secPrev) secPrev.classList.remove("d-none");
+      } else if (filter === "cure") {
+        if (secCure) secCure.classList.remove("d-none");
+        if (secFert) secFert.classList.add("d-none");
+        if (secPrev) secPrev.classList.add("d-none");
+      } else if (filter === "fertilizer") {
+        if (secCure) secCure.classList.add("d-none");
+        if (secFert) secFert.classList.remove("d-none");
+        if (secPrev) secPrev.classList.add("d-none");
+      } else if (filter === "prevention") {
+        if (secCure) secCure.classList.add("d-none");
+        if (secFert) secFert.classList.add("d-none");
+        if (secPrev) secPrev.classList.remove("d-none");
+      }
     });
   });
 

@@ -14,7 +14,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from pytorch_grad_cam import GradCAM
+from pytorch_grad_cam import GradCAM, LayerCAM
 from pytorch_grad_cam.utils.model_targets import ClassifierOutputTarget
 
 from src.data.augmentations import get_val_transforms
@@ -24,7 +24,9 @@ from src.utils.config import load_config
 
 def get_target_layers(model: nn.Module, backbone_name: str = "efficientnet_b0") -> List[nn.Module]:
     """
-    Identifies the appropriate target convolutional layer for Grad-CAM.
+    Identifies the appropriate target convolutional layer for Grad-CAM / LayerCAM.
+    For fine-grained multi-spot lesion localization, selects feature stages with
+    sufficient spatial resolution (e.g. 14x14) to resolve individual spot lesions.
     
     Args:
         model: PyTorch model instance.
@@ -33,20 +35,29 @@ def get_target_layers(model: nn.Module, backbone_name: str = "efficientnet_b0") 
     Returns:
         List containing the target layer module.
     """
-    # 1. Check for timm EfficientNet conv_head
+    # 1. timm EfficientNet intermediate block with 14x14 spatial resolution (spot-level resolution)
+    if hasattr(model, "blocks") and len(model.blocks) > 4:
+        return [model.blocks[4]]
+
+    # 2. timm EfficientNet conv_head
     if hasattr(model, "conv_head") and isinstance(model.conv_head, nn.Module):
         return [model.conv_head]
 
-    # 2. Check for ResNet layer4
+    # 3. timm EfficientNet bn2
+    if hasattr(model, "bn2") and isinstance(model.bn2, nn.Module):
+        return [model.bn2]
+
+    # 4. ResNet layer3 / layer4
+    if hasattr(model, "layer3") and len(model.layer3) > 0:
+        return [model.layer3[-1]]
     if hasattr(model, "layer4") and len(model.layer4) > 0:
         return [model.layer4[-1]]
 
-    # 3. Check for features[-1] (common in many timm architectures)
+    # 5. Generic features
     if hasattr(model, "features") and len(model.features) > 0:
-        last_block = model.features[-1]
-        return [last_block]
+        return [model.features[-1]]
 
-    # 4. Fallback: find the last nn.Conv2d module in the network
+    # 6. Fallback: find the last Conv2d
     last_conv = None
     for module in model.modules():
         if isinstance(module, nn.Conv2d):
@@ -61,6 +72,7 @@ def get_target_layers(model: nn.Module, backbone_name: str = "efficientnet_b0") 
 class GradCAMExplainer:
     """
     Wrapper around pytorch-grad-cam for computing normalized saliency heatmaps.
+    Uses LayerCAM for fine-grained multi-spot lesion localization.
     """
 
     def __init__(self, model: nn.Module, backbone_name: str = "efficientnet_b0", device: Optional[torch.device] = None):
@@ -68,7 +80,8 @@ class GradCAMExplainer:
         self.model = model.to(self.device).eval()
         self.backbone_name = backbone_name
         self.target_layers = get_target_layers(self.model, backbone_name)
-        self.cam = GradCAM(model=self.model, target_layers=self.target_layers)
+        # LayerCAM weights element-wise positive gradients, resolving multiple individual lesion spots
+        self.cam = LayerCAM(model=self.model, target_layers=self.target_layers)
 
     def generate_heatmap(
         self,
@@ -89,12 +102,19 @@ class GradCAMExplainer:
         grayscale_cam = self.cam(input_tensor=tensor, targets=targets)
         # grayscale_cam has shape (1, H, W)
         heatmap = grayscale_cam[0, :]
-        return np.clip(heatmap, 0.0, 1.0)
+        heatmap = np.clip(heatmap, 0.0, 1.0)
+        # Multi-focal dynamic range expansion (gamma=0.5):
+        # Prevents a single dominant hotspot from suppressing secondary lesion clusters
+        if np.max(heatmap) > 0.0:
+            heatmap = np.power(heatmap, 0.5)
+        return heatmap.astype(np.float32)
 
 
 def segment_leaf_mask(image_rgb: np.ndarray) -> np.ndarray:
     """
-    Segments the leaf region from neutral/white/gray/dark backgrounds.
+    Robust foliar blade segmentation:
+    Accurately isolates the complete leaf blade (healthy green, chlorotic, and necrotic areas)
+    across both outdoor field clutter and laboratory backdrops (gray, white, black, purple).
     
     Args:
         image_rgb: Input RGB image (H, W, 3) in uint8 [0, 255].
@@ -102,75 +122,135 @@ def segment_leaf_mask(image_rgb: np.ndarray) -> np.ndarray:
     Returns:
         Binary mask (H, W) uint8 where 255 is leaf tissue and 0 is background.
     """
+    h, w = image_rgb.shape[:2]
+    img_f = image_rgb.astype(np.float32)
+    R, G, B = img_f[:, :, 0], img_f[:, :, 1], img_f[:, :, 2]
+    
     hsv = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2HSV)
-    lab = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2LAB)
-    
-    # 1. Saturation channel in HSV (leaves have color saturation, neutral gray/white backgrounds have very low S)
-    s_channel = hsv[:, :, 1]
-    
-    # 2. Chromatic distance in LAB space: |a - 128| + |b - 128|
-    a_diff = np.abs(lab[:, :, 1].astype(np.float32) - 128.0)
-    b_diff = np.abs(lab[:, :, 2].astype(np.float32) - 128.0)
-    chroma_dist = cv2.normalize(a_diff + b_diff, None, 0, 255, cv2.NORM_MINMAX).astype(np.uint8)
+    H, S, V = hsv[:, :, 0], hsv[:, :, 1], hsv[:, :, 2]
+    exg = 2 * G - R - B
 
-    # 3. Combined color saliency
-    combined_saliency = cv2.addWeighted(s_channel, 0.5, chroma_dist, 0.5, 0)
-    
-    # Otsu thresholding on combined saliency
-    _, binary_mask = cv2.threshold(combined_saliency, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    
-    # Exclude extreme specular highlights / pure white edges and pitch-black border pixels
-    v_channel = hsv[:, :, 2]
-    valid_lum = (v_channel > 20) & (v_channel < 250)
-    binary_mask = binary_mask & (valid_lum.astype(np.uint8) * 255)
+    # Analyze corner regions to detect whether the image is an outdoor field photo
+    # (surrounded by vegetation/foliage) or a laboratory bench backdrop.
+    cw = max(2, min(20, w // 8))
+    ch = max(2, min(20, h // 8))
+    corner_pixels = np.concatenate([
+        img_f[:ch, :cw].reshape(-1, 3),
+        img_f[:ch, -cw:].reshape(-1, 3),
+        img_f[-ch:, :cw].reshape(-1, 3),
+        img_f[-ch:, -cw:].reshape(-1, 3),
+    ], axis=0)
+    corner_exg = 2 * corner_pixels[:, 1] - corner_pixels[:, 0] - corner_pixels[:, 2]
+    green_corner_pct = float(np.mean(corner_exg > 5.0) * 100.0)
 
-    # Morphological cleaning
-    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
-    binary_mask = cv2.morphologyEx(binary_mask, cv2.MORPH_OPEN, kernel, iterations=1)
-    binary_mask = cv2.morphologyEx(binary_mask, cv2.MORPH_CLOSE, kernel, iterations=2)
-
-    # Fill small holes inside connected components
-    contours, _ = cv2.findContours(binary_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    mask_cleaned = np.zeros_like(binary_mask)
-    if contours:
-        # Keep contours that are at least 1% of the image area
-        min_area = 0.01 * (image_rgb.shape[0] * image_rgb.shape[1])
-        valid_contours = [c for c in contours if cv2.contourArea(c) > min_area]
-        if valid_contours:
-            cv2.drawContours(mask_cleaned, valid_contours, -1, 255, thickness=cv2.FILLED)
-        else:
-            # If no large contour, use the largest single contour
+    # 1. Outdoor / Cluttered Scene: Corners contain green foliage
+    if green_corner_pct > 15.0:
+        # Fast downsampled GrabCut to isolate the primary foreground leaf blade
+        sw, sh = min(256, w), min(256, h)
+        small = cv2.resize(image_rgb, (sw, sh), interpolation=cv2.INTER_AREA)
+        mx, my = max(2, int(sw * 0.04)), max(2, int(sh * 0.04))
+        rect = (mx, my, sw - 2 * mx, sh - 2 * my)
+        
+        gc_mask = np.zeros((sh, sw), np.uint8)
+        bgd_model = np.zeros((1, 65), np.float64)
+        fgd_model = np.zeros((1, 65), np.float64)
+        try:
+            cv2.grabCut(small, gc_mask, rect, bgd_model, fgd_model, 2, cv2.GC_INIT_WITH_RECT)
+            fg = np.where((gc_mask == cv2.GC_FGD) | (gc_mask == cv2.GC_PR_FGD), 255, 0).astype(np.uint8)
+        except Exception:
+            fg = np.ones((sh, sw), np.uint8) * 255
+            
+        k_close = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+        fg = cv2.morphologyEx(fg, cv2.MORPH_CLOSE, k_close, iterations=1)
+        
+        contours, _ = cv2.findContours(fg, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        small_mask = np.zeros((sh, sw), dtype=np.uint8)
+        if contours:
             largest = max(contours, key=cv2.contourArea)
-            cv2.drawContours(mask_cleaned, [largest], -1, 255, thickness=cv2.FILLED)
+            cv2.drawContours(small_mask, [largest], -1, 255, thickness=cv2.FILLED)
+        else:
+            small_mask = fg
+            
+        full_mask = cv2.resize(small_mask, (w, h), interpolation=cv2.INTER_NEAREST)
+        full_mask = full_mask & ((V >= 25).astype(np.uint8) * 255)
+        if np.count_nonzero(full_mask) > 0.05 * (h * w):
+            return full_mask
+
+    # 2. Laboratory Backdrop / Standard Bench Scene (PlantVillage standard)
+    green_foliar = (exg > 5) | ((H >= 24) & (H <= 95) & (S >= 25) & (V >= 25))
+    brown_foliar = (
+        (R > B + 10) & (G >= B - 8) & (S >= 18) & (V >= 20) & (V <= 215)
+        & ((H <= 25) | (H >= 165))
+    )
+    foliar_seeds = green_foliar | brown_foliar
+    
+    neutral_bg = (S < 16) | ((S < 25) & (V > 210)) | (V < 18)
+    purple_blue_bg = (H >= 100) & (H <= 160) & (B >= G - 10)
+    foliar_mask = foliar_seeds & (~neutral_bg) & (~purple_blue_bg)
+    
+    k_close = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 7))
+    closed = cv2.morphologyEx(foliar_mask.astype(np.uint8) * 255, cv2.MORPH_CLOSE, k_close, iterations=2)
+    k_open = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
+    opened = cv2.morphologyEx(closed, cv2.MORPH_OPEN, k_open, iterations=1)
+    
+    contours, _ = cv2.findContours(opened, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    leaf_mask = np.zeros((h, w), dtype=np.uint8)
+    if contours:
+        min_area = 0.02 * (h * w)
+        valid_c = [c for c in contours if cv2.contourArea(c) >= min_area]
+        if valid_c:
+            cv2.drawContours(leaf_mask, valid_c, -1, 255, thickness=cv2.FILLED)
+        else:
+            largest = max(contours, key=cv2.contourArea)
+            cv2.drawContours(leaf_mask, [largest], -1, 255, thickness=cv2.FILLED)
     else:
-        mask_cleaned = binary_mask
+        leaf_mask = opened
+        
+    k_smooth = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+    leaf_mask = cv2.morphologyEx(leaf_mask, cv2.MORPH_CLOSE, k_smooth, iterations=1)
+    
+    # Fill internal holes (e.g. pale necrotic centers enclosed inside the leaf)
+    inv = cv2.bitwise_not(leaf_mask)
+    flood = np.zeros((h + 2, w + 2), dtype=np.uint8)
+    cv2.floodFill(inv, flood, (0, 0), 0)
+    leaf_mask = leaf_mask | inv
 
-    # Fallback sanity check: If mask is degenerate (< 5% of image area), assume the whole image is leaf
-    leaf_ratio = np.count_nonzero(mask_cleaned) / (image_rgb.shape[0] * image_rgb.shape[1])
-    if leaf_ratio < 0.05 or leaf_ratio > 0.98:
-        mask_cleaned = np.ones((image_rgb.shape[0], image_rgb.shape[1]), dtype=np.uint8) * 255
-
-    return mask_cleaned
+    # Fallback sanity check: If mask is degenerate (< 10% of image), try relaxed foliar
+    if np.count_nonzero(leaf_mask) < 0.10 * (h * w):
+        relaxed = (exg > 0) & (~neutral_bg) & (V > 20)
+        if np.count_nonzero(relaxed) > 0.10 * (h * w):
+            leaf_mask = (relaxed.astype(np.uint8) * 255)
+        else:
+            leaf_mask = np.ones((h, w), dtype=np.uint8) * 255
+        
+    return leaf_mask
 
 
 def compute_severity(
     cam_heatmap: np.ndarray,
     leaf_mask: np.ndarray,
     is_healthy: bool = False,
-    activation_threshold: float = 0.50,
+    activation_threshold: float = 0.40,
     mild_max_pct: float = 15.0,
     moderate_max_pct: float = 40.0,
+    image_rgb: Optional[np.ndarray] = None,
 ) -> Dict[str, Any]:
     """
-    Computes disease severity and affected leaf surface percentage.
+    Computes disease severity and affected leaf surface percentage using dual-stream
+    hybrid analysis: Grad-CAM / LayerCAM attention saliency + foliar chromatic lesion segmentation.
+    
+    Accurately detects both chlorotic spots (Leaf Mold, Mosaic, Spider Mites) and necrotic
+    lesions (Early/Late Blight, Scab, Spots), strictly protects healthy green foliage, and
+    eliminates shadow, vein, and background false positives.
     
     Args:
         cam_heatmap: 2D float32 Grad-CAM heatmap in [0.0, 1.0].
         leaf_mask: Binary mask of leaf area (255 for leaf, 0 for background).
         is_healthy: True if the diagnostic stage concluded the leaf is healthy.
-        activation_threshold: Threshold above which heatmap activation indicates disease lesion.
+        activation_threshold: Fallback threshold when image_rgb is not supplied.
         mild_max_pct: Threshold for Mild severity (< mild_max_pct).
         moderate_max_pct: Threshold for Moderate severity (mild_max_pct to moderate_max_pct).
+        image_rgb: Optional RGB image array to enable chromatic lesion color segmentation.
         
     Returns:
         Dict with affected area %, severity label, counts, and disease mask.
@@ -195,11 +275,92 @@ def compute_severity(
         total_leaf_count = leaf_mask.size
         leaf_pixels = np.ones_like(leaf_mask, dtype=bool)
 
-    # Disease lesion region: high activation within segmented leaf
-    disease_pixels = (cam_heatmap >= activation_threshold) & leaf_pixels
-    disease_count = int(np.count_nonzero(disease_pixels))
+    # Stream 2: Chromatic Foliar Lesion Analysis (when image RGB is provided)
+    if image_rgb is not None:
+        if image_rgb.shape[:2] != leaf_mask.shape[:2]:
+            image_rgb = cv2.resize(image_rgb, (leaf_mask.shape[1], leaf_mask.shape[0]), interpolation=cv2.INTER_LINEAR)
 
+        img_f = image_rgb.astype(np.float32)
+        R, G, B = img_f[:, :, 0], img_f[:, :, 1], img_f[:, :, 2]
+        hsv = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2HSV)
+        lab = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2LAB)
+        H, S, V = hsv[:, :, 0], hsv[:, :, 1], hsv[:, :, 2]
+        b_lab = lab[:, :, 2]
+        exg = 2 * G - R - B
+
+        foliar_v = V[leaf_pixels]
+        foliar_exg = exg[leaf_pixels]
+        med_v = float(np.median(foliar_v)) if len(foliar_v) > 0 else 128.0
+        med_exg = float(np.median(foliar_exg)) if len(foliar_exg) > 0 else 40.0
+
+        # 1. Definitive Healthy Green Foliage:
+        # High green excess index (ExG > 35 or above median), or standard foliar green with
+        # strong green-over-red dominance (G > R + 18, H in [42, 98]).
+        # Yellow chlorotic spots (Leaf Mold) have low G-R (G - R <= 18) and warm tone (R > B + 6).
+        healthy_green = (
+            leaf_pixels
+            & (
+                (exg > max(35.0, med_exg + 10.0))
+                | ((G > R + 18) & (H >= 42) & (H <= 98) & (exg >= max(0.0, med_exg - 15.0)))
+            )
+        )
+
+        # 2. Definite Physical Disease Symptoms:
+        # a) Chlorosis / Leaf Mold / Pale Yellow Patches:
+        # Yellowish discoloration with elevated lightness or warm chromaticity
+        chlorosis_spots = (
+            leaf_pixels
+            & (~healthy_green)
+            & (V >= 75)
+            & (G - R <= 18)
+            & (R > B + 6)
+            & (H >= 18) & (H <= 68)
+        )
+
+        # b) Necrosis / Dark Brown / Black Spots (Early Blight, Scab, Bacterial Spot):
+        # Brown/reddish dead tissue or localized dark spots
+        necrosis_spots = (
+            leaf_pixels
+            & (~healthy_green)
+            & (
+                ((R > B + 10) & (R > G - 10) & ((H <= 26) | (H >= 165)) & (V >= 25) & (V <= 170))
+                | ((V < med_v - 22) & (exg < med_exg - 15) & (V >= 25))
+            )
+        )
+
+        # c) Powdery Mildew / Pale Mold:
+        mildew_spots = (
+            leaf_pixels
+            & (~healthy_green)
+            & (S < 35) & (V > 135) & (exg < 8) & (exg > -25)
+        )
+
+        candidate_lesions = chlorosis_spots | necrosis_spots | mildew_spots
+
+        # Physical lesion candidates confirmed by model attention (cam >= 0.08)
+        # or prominent physical lesions on the leaf blade with high chromatic contrast
+        strong_color_lesions = (
+            ((b_lab >= 136) & (V >= 75) & (G - R <= 16))
+            | ((R > B + 14) & ((H <= 26) | (H >= 165)) & (V <= 165))
+        ) & leaf_pixels & (~healthy_green)
+
+        confirmed_lesions = (candidate_lesions & (cam_heatmap >= 0.08)) | strong_color_lesions
+
+        # Morphological clean: remove single-pixel noise
+        k_clean = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
+        cleaned = cv2.morphologyEx(confirmed_lesions.astype(np.uint8) * 255, cv2.MORPH_OPEN, k_clean)
+        cleaned[~leaf_pixels] = 0
+        disease_pixels = cleaned > 0
+    else:
+        # Stream 1 Fallback (when image_rgb not provided, e.g. synthetic test arrays)
+        disease_pixels = (cam_heatmap >= activation_threshold) & leaf_pixels
+
+    disease_count = int(np.count_nonzero(disease_pixels))
     affected_pct = (disease_count / max(total_leaf_count, 1)) * 100.0
+
+    # Guarantee plausible minimum for confirmed diseased specimens
+    if not is_healthy and disease_count > 0:
+        affected_pct = max(0.1, affected_pct)
 
     if affected_pct < mild_max_pct:
         severity = "Mild"
@@ -225,27 +386,54 @@ def generate_gradcam_overlay(
     cam_heatmap: np.ndarray,
     alpha: float = 0.55,
     colormap: int = cv2.COLORMAP_JET,
+    leaf_mask: Optional[np.ndarray] = None,
+    activation_floor: float = 0.15,
 ) -> np.ndarray:
     """
-    Overlays a Grad-CAM heatmap onto an RGB image.
+    Overlays a Grad-CAM heatmap onto an RGB image with adaptive transparency
+    and leaf blade masking so unaffected regions and background remain natural.
     
     Args:
         image_rgb: (H, W, 3) uint8 RGB image.
         cam_heatmap: (H, W) float32 array in [0.0, 1.0].
-        alpha: Weight for heatmap overlay.
+        alpha: Maximum weight for heatmap overlay at peak activation.
         colormap: OpenCV colormap constant.
+        leaf_mask: Optional binary mask of leaf area (255 for leaf, 0 for background).
+                   If provided, background outside leaf is kept 100% natural.
+        activation_floor: Minimum activation threshold below which overlay is transparent,
+                          ensuring unaffected leaf tissue remains natural green.
         
     Returns:
         (H, W, 3) uint8 blended RGB image.
     """
-    if cam_heatmap.shape[:2] != image_rgb.shape[:2]:
-        cam_heatmap = cv2.resize(cam_heatmap, (image_rgb.shape[1], image_rgb.shape[0]), interpolation=cv2.INTER_LINEAR)
+    h, w = image_rgb.shape[:2]
+    if cam_heatmap.shape[:2] != (h, w):
+        cam_heatmap = cv2.resize(cam_heatmap, (w, h), interpolation=cv2.INTER_LINEAR)
 
-    heatmap_uint8 = np.uint8(255 * np.clip(cam_heatmap, 0.0, 1.0))
+    heatmap_norm = np.clip(cam_heatmap, 0.0, 1.0)
+    # Ensure multi-focal dynamic range so satellite lesions are prominently displayed
+    non_zero = heatmap_norm[heatmap_norm > 0.0]
+    if len(non_zero) > 0 and np.mean(non_zero) < 0.35:
+        heatmap_norm = np.power(heatmap_norm, 0.5)
+
+    # Cleanly restrict heatmap to the leaf blade
+    if leaf_mask is not None:
+        if leaf_mask.shape[:2] != (h, w):
+            leaf_mask = cv2.resize(leaf_mask, (w, h), interpolation=cv2.INTER_NEAREST)
+        leaf_binary = (leaf_mask > 0).astype(np.float32)
+        heatmap_norm = heatmap_norm * leaf_binary
+
+    # Adaptive alpha: Sub-threshold activations are transparent, keeping healthy green leaf natural.
+    # Higher activations smoothly ramp up to alpha weight.
+    alpha_map = np.clip((heatmap_norm - activation_floor) / max(1.0 - activation_floor, 1e-6), 0.0, 1.0) * alpha
+    alpha_3ch = np.repeat(alpha_map[:, :, np.newaxis], 3, axis=2)
+
+    heatmap_uint8 = np.uint8(255 * heatmap_norm)
     heatmap_colored = cv2.applyColorMap(heatmap_uint8, colormap)
-    heatmap_colored_rgb = cv2.cvtColor(heatmap_colored, cv2.COLOR_BGR2RGB)
+    heatmap_colored_rgb = cv2.cvtColor(heatmap_colored, cv2.COLOR_BGR2RGB).astype(np.float32)
+    img_f = image_rgb.astype(np.float32)
 
-    overlay = np.uint8(alpha * heatmap_colored_rgb + (1.0 - alpha) * image_rgb.astype(np.float32))
+    overlay = alpha_3ch * heatmap_colored_rgb + (1.0 - alpha_3ch) * img_f
     return np.clip(overlay, 0, 255).astype(np.uint8)
 
 
@@ -403,9 +591,11 @@ def main():
             is_healthy=is_healthy,
             mild_max_pct=cfg.get("severity", {}).get("mild_max_pct", 15.0),
             moderate_max_pct=cfg.get("severity", {}).get("moderate_max_pct", 40.0),
+            image_rgb=img_rgb,
         )
 
-        overlay = generate_gradcam_overlay(img_rgb, heatmap)
+        heatmap_bounded = np.clip(heatmap * (leaf_mask > 0).astype(np.float32), 0.0, 1.0)
+        overlay = generate_gradcam_overlay(img_rgb, heatmap_bounded, leaf_mask=leaf_mask)
 
         species = predicted_label.split("___")[0].replace("_", " ") if "___" in predicted_label else "Plant"
         disease = predicted_label.split("___")[1].replace("_", " ") if "___" in predicted_label else predicted_label

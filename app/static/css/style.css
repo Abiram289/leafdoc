@@ -437,7 +437,11 @@ body {
   width: 100%;
   height: 100%;
   opacity: 0;
-  cursor: pointer;
+  pointer-events: none;
+}
+
+.dropzone-content {
+  pointer-events: none;
 }
 
 .upload-icon-circle {
@@ -478,6 +482,7 @@ body {
   color: var(--mint-light);
   text-decoration: underline;
   font-weight: 500;
+  pointer-events: auto;
 }
 
 .dropzone-hint {
@@ -1147,8 +1152,9 @@ body {
 /* Results Grid: 2 Columns */
 .results-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 20px;
+  align-items: start;
 }
 
 @media (max-width: 980px) {
@@ -1158,7 +1164,7 @@ body {
 }
 
 .grid-col {
-  padding: 24px;
+  padding: 22px;
 }
 
 .card-header {
@@ -1340,16 +1346,17 @@ body {
 
 .visualizer-img-wrapper {
   width: 100%;
-  aspect-ratio: 16/10;
+  min-height: 240px;
+  max-height: 360px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #000;
+  background: #090d16;
 }
 
 .visualizer-img-wrapper img {
   max-width: 100%;
-  max-height: 100%;
+  max-height: 360px;
   object-fit: contain;
   display: block;
 }
@@ -1484,15 +1491,413 @@ body {
 /* Column 2: Prescription Card */
 .description-box {
   background: rgba(30, 41, 59, 0.4);
-  padding: 14px 16px;
+  padding: 10px 14px;
   border-radius: var(--radius-md);
   border-left: 3px solid var(--emerald-primary);
-  margin-bottom: 20px;
-  font-size: 14px;
-  line-height: 1.5;
+  margin-bottom: 12px;
+  font-size: 13px;
+  line-height: 1.45;
   color: #e2e8f0;
 }
 
+/* =========================================================================
+   Unified Single-Tab Indian Farm Treatment & Recovery Layout
+   ========================================================================= */
+.regional-name-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6ee7b7;
+  margin-bottom: 6px;
+}
+
+.treatment-single-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(15, 23, 42, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  margin-bottom: 12px;
+}
+
+.single-tab-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.single-tab-title .title-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hindi-subtitle {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--mint-light);
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.28);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.treatment-filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tfilter-pill {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tfilter-pill:hover {
+  background: rgba(51, 65, 85, 0.85);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.tfilter-pill.active {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(20, 184, 166, 0.22) 100%);
+  border-color: var(--mint-light);
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.35);
+}
+
+.pill-count {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+  margin-left: 2px;
+}
+
+.tfilter-pill.active .pill-count {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.immediate-action-banner {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(180, 83, 9, 0.12) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  border-left: 4px solid #f59e0b;
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 18px rgba(245, 158, 11, 0.12);
+  transition: all 0.25s ease;
+}
+
+.immediate-action-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #fbbf24;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.immediate-action-text {
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #fef3c7;
+  margin: 0;
+}
+
+.treatment-unified-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.treatment-unified-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.treatment-unified-container::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: 4px;
+}
+
+.treatment-unified-container::-webkit-scrollbar-thumb {
+  background: rgba(52, 211, 153, 0.35);
+  border-radius: 4px;
+}
+
+.treatment-unified-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(52, 211, 153, 0.6);
+}
+
+.treatment-section-card {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin-bottom: 2px;
+  transition: all 0.25s ease;
+}
+
+.treatment-section-card:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
+}
+
+.tsection-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.tsection-icon-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.tsection-icon-badge.icon-cyan {
+  background: rgba(6, 182, 212, 0.16);
+  color: #22d3ee;
+  border: 1px solid rgba(6, 182, 212, 0.35);
+}
+
+.tsection-icon-badge.icon-emerald {
+  background: rgba(16, 185, 129, 0.16);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.tsection-icon-badge.icon-purple {
+  background: rgba(168, 85, 247, 0.16);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.35);
+}
+
+.tsection-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tsection-title {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tamil-tag, .hindi-tag {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.tamil-subtitle, .hindi-subtitle {
+  font-size: 12px;
+  color: #34d399;
+  font-weight: 600;
+}
+
+.tsection-subtitle {
+  font-size: 11.5px;
+  color: #94a3b8;
+  line-height: 1.35;
+}
+
+.treatment-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.treatment-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(30, 41, 59, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
+}
+
+.treatment-item:hover {
+  background: rgba(30, 41, 59, 0.72);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateX(2px);
+}
+
+.treatment-item.cure-item {
+  border-left: 3px solid #06b6d4;
+}
+
+.treatment-item.cure-item:hover {
+  border-left-color: #22d3ee;
+  box-shadow: 0 4px 14px rgba(6, 182, 212, 0.15);
+}
+
+.treatment-item.fert-item {
+  border-left: 3px solid #10b981;
+}
+
+.treatment-item.fert-item:hover {
+  border-left-color: #34d399;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.15);
+}
+
+.treatment-item.prev-item {
+  border-left: 3px solid #a855f7;
+}
+
+.treatment-item.prev-item:hover {
+  border-left-color: #c084fc;
+  box-shadow: 0 4px 14px rgba(168, 85, 247, 0.15);
+}
+
+.treatment-bullet-icon {
+  font-size: 13px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  color: var(--mint-light);
+}
+
+.treatment-item.cure-item .treatment-bullet-icon {
+  color: #22d3ee;
+}
+
+.treatment-item.fert-item .treatment-bullet-icon {
+  color: #34d399;
+}
+
+.treatment-item.prev-item .treatment-bullet-icon {
+  color: #c084fc;
+}
+
+.treatment-item-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.treatment-item-title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.treatment-item-title {
+  font-weight: 700;
+  font-size: 13px;
+  color: #f1f5f9;
+}
+
+.treatment-item-title.text-healthy {
+  color: #34d399;
+}
+
+.treatment-active-chip {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 1px 7px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.treatment-tamil-chip {
+  font-size: 11px;
+  font-weight: 700;
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.14);
+  border: 1px solid rgba(16, 185, 129, 0.32);
+  padding: 1px 8px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.treatment-dose-chip {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #fbbf24;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  padding: 1px 7px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.treatment-item-desc {
+  font-size: 12px;
+  line-height: 1.45;
+  color: #94a3b8;
+  margin: 0;
+}
+
+/* Fallback for legacy classes */
 .treatment-tabs-bar {
   display: flex;
   gap: 8px;
@@ -1539,36 +1944,9 @@ body {
   gap: 8px;
 }
 
-.treatment-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.treatment-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #cbd5e1;
-  background: rgba(15, 23, 42, 0.4);
-  padding: 12px 14px;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-.treatment-bullet-icon {
-  color: var(--mint-light);
-  margin-top: 3px;
-  font-size: 12px;
-  flex-shrink: 0;
-}
-
 .prescription-actions {
-  margin-top: 24px;
-  padding-top: 18px;
+  margin-top: 14px;
+  padding-top: 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -1837,9 +2215,40 @@ body {
     margin-bottom: 16px;
   }
 
+  .treatment-filter-pills {
+    display: none !important;
+  }
+
+  .treatment-section-card {
+    background: #ffffff !important;
+    border: 1px solid #dddddd !important;
+    margin-bottom: 14px !important;
+    page-break-inside: avoid;
+  }
+
+  .tsection-title {
+    color: #000000 !important;
+  }
+
+  .tamil-tag, .tamil-subtitle, .hindi-tag, .hindi-subtitle {
+    color: #047857 !important;
+    background: #ecfdf5 !important;
+    border: 1px solid #a7f3d0 !important;
+  }
+
+  .immediate-action-banner {
+    background: #fffbeb !important;
+    border: 2px solid #f59e0b !important;
+    color: #78350f !important;
+  }
+
+  .immediate-action-text {
+    color: #92400e !important;
+  }
+
   .treatment-item {
     color: #222222 !important;
-    background: #f1f5f9 !important;
+    background: #f8fafc !important;
     border: 1px solid #e2e8f0 !important;
   }
 }
